@@ -1,7 +1,7 @@
 // ============== BOARD =============
 // remote board type
 export interface Board {
-    id: string
+    id: string | null
     title: string
     description: string | null
     lists: List[]
@@ -9,17 +9,6 @@ export interface Board {
     isPublic: boolean
     backgrounsColors: Color[]
     created_at: string
-    last_visit: string
-}
-
-// local board type
-export interface Board {
-    title: string
-    description: string | null
-    lists: List[]
-    isFavorite: boolean
-    backgrounsColors: Color[]
-    created_at: string,
     last_visit: string
 }
 
@@ -32,14 +21,7 @@ export interface Color {
 // ============= LIST =============
 // remote list type
 export interface List {
-    id: string
-    name: string
-    collapse: boolean
-    color: Color
-    created_at: string
-}
-
-export interface List {
+    id: string | null
     name: string
     collapse: boolean
     color: Color
@@ -49,25 +31,14 @@ export interface List {
 // ============ CARD =============
 // remote
 export interface Card {
-    id: string
+    id: string | null
     title: string
     description: string | null
     labels: Label[]
     checklists: CheckList[]
     comments: Comment[]
     created_at: string
-    maturity: string
-}
-
-// local
-export interface Card {
-    title: string
-    description: string | null
-    labels: Label[]
-    checklists: CheckList[]
-    comments: Comment[]
-    created_at: string
-    maturity: string
+    maturity: string | null
 }
 
 // ============ LABEL =============
