@@ -11,6 +11,7 @@ export interface Board {
     updated_at: string
     last_visit: string
     synced: boolean
+    edited: boolean
 }
 
 // ============= LIST =============
@@ -24,6 +25,7 @@ export interface List {
     created_at: string
     updated_at: string
     synced: boolean
+    edited: boolean
 }
 
 // ============ CARD =============
@@ -37,6 +39,7 @@ export interface Card {
     created_at: string
     updated_at: string
     synced: boolean
+    edited: boolean
 }
 
 // ============ LABEL =============
@@ -47,6 +50,7 @@ export interface Label {
     color: Color
     created_at: string
     synced: boolean
+    edited: boolean
 }
 
 // ============ CHECKLIST =============
@@ -58,6 +62,7 @@ export interface CheckList {
     created_at: string
     updated_at: string
     synced: boolean
+    edited: boolean
 }
 
 export interface CheckListItem {
@@ -70,17 +75,19 @@ export interface CheckListItem {
     created_at: string
     updated_at: string
     synced: boolean
+    edited: boolean
 }
 
 // ============ COMMENT =============
 export interface Comment {
     id: string
     card_id: string
-    user: string
+    user: string | null
     content: string
     created_at: string
-    updated_at: string
+    updated_at: string | null
     synced: boolean
+    edited: boolean
 }
 
 // ============ COLOR =============
