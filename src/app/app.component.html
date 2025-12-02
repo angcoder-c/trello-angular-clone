@@ -1,9 +1,14 @@
 <main class="main">
   <div class="content">
-    <h1 class="text-red-500">Hello</h1>
-    <div class="text-amber-100 w-50 h-50 bg-red-800" cdkDrag>
-      Card
-    </div>
+    <!--
+      <h1 class="text-red-500">Cards</h1>
+    @for (card of cardStore.cards(); track card.id) {
+      <app-card [data]="card"/>
+    }
+
+    <button (click)="addCard()">add card</button>
+    -->
+    <app-list/>
   </div>
 </main>
 

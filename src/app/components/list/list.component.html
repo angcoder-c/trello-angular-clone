@@ -1,0 +1,24 @@
+<div class="bg-blue-400 h-screen p-6">
+    <div class="flex flex-col w-[272px] max-h-full bg-[#101204] text-white rounded-lg">
+        <div class="p-4 pb-0 h-12 cursor-pointer content-center">
+            <div>
+                <h2 class="font-bold">Titulo</h2>
+            </div>
+        </div>
+        @if (cardStore.cards().length!==0) {
+            <div class="overflow-y-scroll p-2">
+                @for (card of cardStore.cards(); track card.id) {
+                    <app-card [data]="card"/>
+                }
+            </div>
+        }
+        <div class="flex flex-row p-3">
+            <button 
+            class="flex content-center gap-2 p-2 w-full rounded-md cursor-pointer justify-start duration-200 hover:bg-[rgba(55,71,31,0.50)] active:bg-[#37471f]"
+            (click)="addCard()">
+                <mat-icon>add</mat-icon>
+                <span class=""> Add a card </span>
+        </button>
+        </div>
+    </div>
+</div>

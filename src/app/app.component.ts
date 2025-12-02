@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CdkDrag } from '@angular/cdk/drag-drop'
+import { ListComponent } from './components/list/list.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    CdkDrag
+    ListComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

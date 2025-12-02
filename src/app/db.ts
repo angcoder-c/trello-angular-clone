@@ -128,6 +128,7 @@ export class AppDB extends Dexie {
             'id' | 
             'created_at' | 
             'updated_at' | 
+            'completed' |
             'synced' | 
             'edited'
         )
@@ -138,6 +139,7 @@ export class AppDB extends Dexie {
             ...data,
             created_at: now,
             updated_at: now,
+            completed: false,
             synced: false,
             edited: false
         };

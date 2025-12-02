@@ -38,6 +38,7 @@ export interface Card {
     maturity: string | null
     created_at: string
     updated_at: string
+    completed: boolean
     synced: boolean
     edited: boolean
 }
