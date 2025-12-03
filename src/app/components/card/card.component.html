@@ -1,7 +1,11 @@
-<div class="border-2 border-red-950 p-1.5">
-    <p>Card</p>
-    <p>title: {{ cardData()?.title }}</p>
-    <p>position: {{ cardData()?.position }}</p>
-    <p>Description: {{ cardData()?.description }}</p>
-    <button (click)="deleteCard()">Eliminar</button>
+<div class="flex flex-row border-2  gap-2 border-transparent bg-[#242528] rounded-xl py-2 px-4 cursor-pointer hover:border-white justify-start items-center">
+    <input 
+        type="checkbox" 
+        id="complete-task"
+        class="appearance-none flex rounded-full bg-transparent border-2 
+        cursor-pointer border-white h-4 aspect-square items-center justify-center text-sm py-2
+        duration-200
+        checked:bg-[#B3DF72] checked:border-[#B3DF72]
+        checked:before:content-['✔'] checked:before:text-[#242528]">
+    <span>{{ cardData()?.title }}</span>
 </div>

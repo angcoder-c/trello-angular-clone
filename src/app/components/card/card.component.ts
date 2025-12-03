@@ -2,6 +2,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { CardStore } from '../../stores/card/card-store.service';
 import { FormsModule } from '@angular/forms'
 import { Card } from '../../types';
+
 @Component({
   selector: 'app-card',
   imports: [],
