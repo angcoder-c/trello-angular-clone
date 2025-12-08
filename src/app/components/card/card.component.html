@@ -1,7 +1,9 @@
 <div class="group flex flex-row border-2  gap-2 border-transparent bg-[#242528] rounded-xl py-2 px-4 cursor-pointer hover:border-white justify-start items-center">
-    <div [class]="cardData()?.completed 
-            ? 'overflow-hidden transition-all duration-500 max-w-6 opacity-100'
-            : 'overflow-hidden transition-all duration-500 max-w-0 opacity-0 group-hover:max-w-6 group-hover:opacity-100'">
+    <div 
+    (click)="checkCard()"
+    [class]="cardData()?.completed 
+            ? 'overflow-hidden transition-all duration-300 max-w-6 opacity-100'
+            : 'overflow-hidden transition-all duration-300 max-w-0 opacity-0 group-hover:max-w-6 group-hover:opacity-100'">
     
         <input 
         type="checkbox"

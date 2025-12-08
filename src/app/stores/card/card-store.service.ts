@@ -78,4 +78,13 @@ export class CardStore {
       })
     }
   }
+
+  // completed task
+  async completeCard(card_id: string) {
+    const card = await db.getCard(card_id)
+    await db.updateCard(card_id, {
+        ...card, 
+        completed: !card?.completed 
+    })
+  }
 }

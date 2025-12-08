@@ -22,12 +22,26 @@
             </div>
         }
         <div class="flex flex-row p-3">
-            <button 
-            class="flex content-center gap-2 p-2 w-full rounded-md cursor-pointer justify-start duration-200 hover:bg-[rgba(55,71,31,0.50)] active:bg-[#37471f]"
-            (click)="addCard()">
-                <mat-icon>add</mat-icon>
-                <span class=""> Add a card </span>
-        </button>
+            @if (!insertCard()) {
+                <button 
+                class="flex content-center gap-2 p-2 w-full rounded-md cursor-pointer justify-start duration-200 hover:bg-[rgba(55,71,31,0.50)] active:bg-[#37471f]"
+                (click)="changeInsertCard()">
+                    <mat-icon>add</mat-icon>
+                    <span class=""> Add a card </span>
+                </button>
+            } @else {
+                <form 
+                [formGroup]="insertForm" (ngSubmit)="addCard()">
+                    <input 
+                    type="text" 
+                    placeholder="cosa"
+                    #titleInput
+                    (blur)="onInsertBlur()"
+                    (keydown)="onInsertCardKeydown($event)"
+                    formControlName="cardTitle">
+                    <button type="submit">add card</button>
+                </form>
+            }
         </div>
     </div>
 </div>

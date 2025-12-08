@@ -21,4 +21,15 @@ export class CardComponent {
   async deleteCard(){
     await this.cardStore.deleteCard(this.cardData()?.id || '')
   }
+
+  async checkCard() {
+    await this.cardStore.completeCard(this.cardData()?.id || '')
+    this.cardData.update(value => {
+      if (!value) return undefined
+      return {
+        ...value,
+        completed: !value.completed
+      }
+    })
+  }
 }

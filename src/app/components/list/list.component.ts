@@ -3,22 +3,29 @@ import { CdkDrag } from '@angular/cdk/drag-drop'
 import { CardStore } from './../../stores/card/card-store.service'; 
 import { CardComponent } from './../../components/card/card.component';
 import { MatIcon } from '@angular/material/icon'
+import { FormControl, FormGroup, FormSubmittedEvent, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
   imports: [
     MatIcon,
-    CardComponent
+    CardComponent,
+    ReactiveFormsModule
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
 export class ListComponent {
   modifyTitle = signal<boolean>(false)
+  insertCard = signal<boolean>(false)
   titleInputRef = viewChild<ElementRef>('titleInput')
   title = signal<string>('Titulo')
   tempTitle = signal<string>('')
   cardStore = inject(CardStore)
+
+  insertForm = new FormGroup({
+    cardTitle: new FormControl('', Validators.required)
+  })
 
   constructor(){
     effect(() => {
@@ -40,20 +47,31 @@ export class ListComponent {
   }
   
   async addCard () {
-    const res = await this.cardStore.createCard({
-      position: this.cardStore.cards().length,
-      list_id: '8c4fc7c8-dfdf-4c35-8503-b521ecdb137a',
-      title: 'Test'
-    })
+    if(this.insertForm.value.cardTitle) {
+      await this.cardStore.createCard({
+        position: this.cardStore.cards().length,
+        list_id: '8c4fc7c8-dfdf-4c35-8503-b521ecdb137a',
+        title: this.insertForm.value.cardTitle
+      })
+    }
+    this.insertForm.reset()
   }
 
   changeModifyState() {
     this.modifyTitle.set(true);
   }
+
+  changeInsertCard() {
+    this.insertCard.set(true);
+  }
   
   onTitleBlur() {
     this.modifyTitle.set(false);
     this.tempTitle.set('');
+  }
+
+  onInsertBlur() {
+    this.insertCard.set(false);
   }
   
   onTitleKeydown(event: KeyboardEvent) {
@@ -63,6 +81,12 @@ export class ListComponent {
       this.modifyTitle.set(false);
     } else if (event.key === 'Escape') {
       this.modifyTitle.set(false);
+    }
+  }
+
+  onInsertCardKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.insertCard.set(false);
     }
   }
 }
