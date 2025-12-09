@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, HostListener, inject, signal, viewChild } from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop'
 import { CardStore } from './../../stores/card/card-store.service'; 
 import { CardComponent } from './../../components/card/card.component';
@@ -19,6 +19,8 @@ export class ListComponent {
   modifyTitle = signal<boolean>(false)
   insertCard = signal<boolean>(false)
   titleInputRef = viewChild<ElementRef>('titleInput')
+  formElementRef=viewChild<ElementRef>('insertFormRef')
+  cardTitleInputRef = viewChild<ElementRef>('cardFormInput')
   title = signal<string>('Titulo')
   tempTitle = signal<string>('')
   cardStore = inject(CardStore)
@@ -63,6 +65,13 @@ export class ListComponent {
 
   changeInsertCard() {
     this.insertCard.set(true);
+
+    setTimeout(() => {
+      const input = this.cardTitleInputRef()?.nativeElement;
+      if (input) {
+        input.focus();
+      }
+    });
   }
   
   onTitleBlur() {
@@ -72,6 +81,7 @@ export class ListComponent {
 
   onInsertBlur() {
     this.insertCard.set(false);
+    this.insertForm.reset();
   }
   
   onTitleKeydown(event: KeyboardEvent) {
@@ -86,7 +96,16 @@ export class ListComponent {
 
   onInsertCardKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-      this.insertCard.set(false);
+      this.onInsertBlur()
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const formElement = this.formElementRef()?.nativeElement;
+    if (!formElement) return;
+    if (!formElement.contains(event.target as Node)) {
+      this.onInsertBlur();
     }
   }
 }

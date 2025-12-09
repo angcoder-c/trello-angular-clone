@@ -21,7 +21,7 @@
                 }
             </div>
         }
-        <div class="flex flex-row p-3">
+        <div class="flex flex-row p-2">
             @if (!insertCard()) {
                 <button 
                 class="flex content-center gap-2 p-2 w-full rounded-md cursor-pointer justify-start duration-200 hover:bg-[rgba(55,71,31,0.50)] active:bg-[#37471f]"
@@ -31,15 +31,41 @@
                 </button>
             } @else {
                 <form 
-                [formGroup]="insertForm" (ngSubmit)="addCard()">
+                    [formGroup]="insertForm" 
+                    (ngSubmit)="addCard()"
+                    #insertFormRef 
+                    class="w-full flex flex-col items-start gap-2">
+
                     <input 
-                    type="text" 
-                    placeholder="cosa"
-                    #titleInput
-                    (blur)="onInsertBlur()"
-                    (keydown)="onInsertCardKeydown($event)"
-                    formControlName="cardTitle">
-                    <button type="submit">add card</button>
+                        type="text" 
+                        placeholder="Enter title"
+                        #cardFormInput
+                        (keydown)="onInsertCardKeydown($event)"
+                        formControlName="cardTitle"
+                        class="appearance-none outline-0 border-2 
+                        hover:border-transparent border-[#669DF1]
+                        bg-[#242528] text-white w-full
+                        px-3 py-2 pb-6 rounded-md">
+
+                    <div class="flex flex-row gap-2 items-center">
+
+                        <button 
+                        type="submit"
+                        class="bg-[#669DF1] text-[#242528] font-medium px-2 py-1 
+                        rounded-md hover:bg-[#8FB8F6]"
+                        >
+                            Add card
+                        </button>
+
+                        <button 
+                        type="button"
+                        (click)="onInsertBlur()" 
+                        class="flex flex-col justify-center p-1 duration-200 
+                        hover:bg-[rgba(55,71,31,0.50)] active:bg-[#37471f] rounded-md">
+                        <mat-icon>close</mat-icon>
+                        </button>
+
+                    </div>
                 </form>
             }
         </div>
