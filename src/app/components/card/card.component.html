@@ -1,6 +1,8 @@
-<div class="group flex flex-row border-2  gap-2 border-transparent bg-[#242528] rounded-md py-2 px-4 cursor-pointer hover:border-white justify-start items-center">
+<div
+(click)="openDialog()" 
+class="group flex flex-row border-2  gap-2 border-transparent bg-[#242528] rounded-md py-2 px-4 cursor-pointer hover:border-white justify-start items-center">
     <div 
-    (click)="checkCard()"
+    (click)="checkCard(); $event.stopPropagation()"
     [class]="cardData()?.completed 
             ? 'overflow-hidden transition-all duration-300 max-w-6 opacity-100'
             : 'overflow-hidden transition-all duration-300 max-w-0 opacity-0 group-hover:max-w-6 group-hover:opacity-100'">

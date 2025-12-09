@@ -1,3 +1,9 @@
 @import "tailwindcss";
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-dialog-container:focus,
+.cdk-dialog-container:focus-visible,
+.cdk-focus-trap-anchor:focus {
+  outline: none !important;
+}

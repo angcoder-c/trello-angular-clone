@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, HostListener, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, HostListener, inject, signal, viewChild } from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop'
 import { CardStore } from './../../stores/card/card-store.service'; 
 import { CardComponent } from './../../components/card/card.component';
