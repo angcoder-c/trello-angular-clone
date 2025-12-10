@@ -7,3 +7,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .cdk-focus-trap-anchor:focus {
   outline: none !important;
 }
+
+.scroll-config::-webkit-scrollbar {
+  width: 8px; /* w-2 */
+}
+
+.scroll-config::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px; /* rounded-full */
+}
+
+.scroll-config::-webkit-scrollbar-thumb {
+  background: rgba(75, 76, 80, 0.6); /* bg-[#4b4c50]/60 */
+  border-radius: 9999px;
+  transition: all 0.3s;
+}
+
+.scroll-config::-webkit-scrollbar-thumb:hover {
+  background: #6a6b70;
+}

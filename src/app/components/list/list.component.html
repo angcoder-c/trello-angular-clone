@@ -16,18 +16,7 @@
         </div>
         @if (cardStore.cards().length!==0) {
             <div 
-            class="flex flex-col gap-3 overflow-y-scroll p-2
-            [&::-webkit-scrollbar]:w-2 
-
-            [&::-webkit-scrollbar-track]:bg-transparent
-            [&::-webkit-scrollbar-track]:rounded-full 
-            
-            [&::-webkit-scrollbar-thumb]:bg-[#4b4c50]/60
-            [&::-webkit-scrollbar-thumb]:rounded-full
-            [&::-webkit-scrollbar-thumb]:transition-all
-            [&::-webkit-scrollbar-thumb]:duration-300
-            
-            [&::-webkit-scrollbar-thumb:hover]:bg-[#6a6b70]">
+            class="flex flex-col gap-3 overflow-y-scroll p-2 scroll-config">
                 @for (card of cardStore.cards(); track card.id) {
                     <app-card [data]="card"/>
                 }
@@ -48,7 +37,7 @@
                     #insertFormRef 
                     class="w-full flex flex-col items-start gap-2">
 
-                    <input 
+                    <textarea 
                         type="text" 
                         placeholder="Enter title"
                         #cardFormInput
@@ -57,7 +46,7 @@
                         class="appearance-none outline-0 border-2 
                         hover:border-transparent border-[#669DF1]
                         bg-[#242528] text-white w-full
-                        px-3 py-2 pb-6 rounded-md">
+                        px-3 py-2 pb-6 rounded-md resize-none scroll-config"></textarea>
 
                     <div class="flex flex-row gap-2 items-center">
 

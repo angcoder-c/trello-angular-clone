@@ -49,11 +49,16 @@ export class ListComponent {
   }
   
   async addCard () {
-    if(this.insertForm.value.cardTitle) {
+    let title!: string | undefined
+    if(this.insertForm.valid) {
+      title = this.insertForm.value.cardTitle?.replaceAll('\n', '')
+    }
+
+    if(title) {
       await this.cardStore.createCard({
         position: this.cardStore.cards().length,
         list_id: '8c4fc7c8-dfdf-4c35-8503-b521ecdb137a',
-        title: this.insertForm.value.cardTitle
+        title: title
       })
     }
     this.insertForm.reset()
@@ -95,7 +100,11 @@ export class ListComponent {
   }
 
   onInsertCardKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
+    console.log(event.key)
+    if (event.key === 'Enter') {
+      if (this.insertForm.valid) this.addCard()
+      this.insertForm.reset();
+    } else if (event.key === 'Escape') {
       this.onInsertBlur()
     }
   }

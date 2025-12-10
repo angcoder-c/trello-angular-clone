@@ -1,11 +1,11 @@
 <div
 (click)="openDialog()" 
-class="group flex flex-row border-2  gap-2 border-transparent bg-[#242528] rounded-md py-2 px-4 cursor-pointer hover:border-white justify-start items-center">
+class="group flex flex-row border-2  gap-2 border-transparent bg-[#242528] rounded-md py-2 px-4 cursor-pointer hover:border-white justify-start items-start">
     <div 
     (click)="checkCard(); $event.stopPropagation()"
     [class]="cardData()?.completed 
-            ? 'overflow-hidden transition-all duration-300 max-w-6 opacity-100'
-            : 'overflow-hidden transition-all duration-300 max-w-0 opacity-0 group-hover:max-w-6 group-hover:opacity-100'">
+            ? 'overflow-hidden transition-all pt-1 duration-300 max-w-[20%] opacity-100'
+            : 'overflow-hidden transition-all pt-1 duration-300 max-w-0 opacity-0 group-hover:max-w-6 group-hover:opacity-100'">
     
         <input 
         type="checkbox"
@@ -15,5 +15,7 @@ class="group flex flex-row border-2  gap-2 border-transparent bg-[#242528] round
                 checked:before:content-['✔'] checked:before:text-[#242528]"
         [checked]="cardData()?.completed">
     </div>
-    <span>{{ cardData()?.title }}</span>
+    <div class="flex flex-wrap overflow-hidden max-w-[80%]">
+        <span class="whitespace-normal overflow-hidden text-ellipsis w-full">{{ cardData()?.title }}</span>
+    </div>
 </div>
