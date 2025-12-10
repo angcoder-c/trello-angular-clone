@@ -63,6 +63,13 @@ export class CardStore {
     return newCard
   }
 
+
+  // crear una nueva card
+  async getCard(id: string): Promise<Card | undefined> {
+    const card = await db.getCard(id)
+    return card
+  }
+
   // eliminar una card
   async deleteCard(cardId: string) {
     await db.deleteCard(cardId)

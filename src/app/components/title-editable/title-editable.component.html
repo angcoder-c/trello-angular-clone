@@ -1,0 +1,18 @@
+<div class="text-7xl text-white">
+    @if (editable()) {
+        <input
+        type="text"
+        [value]="modifyTitle()"
+        #title
+        (blur)="onTitleBlur()"
+        (keydown)="onTitleKeydown($event)"
+        class="appearance-none w-full p-2 resize-none rounded-md 
+        bg-[#242528]
+        font-medium leading-snug
+        outline-none border-2 border-[#669DF1]
+        ring-2 ring-[#669DF1]/40 h-[5.3rem]"
+        />
+    } @else {
+        <h2 (click)="edit()" class="font-medium p-2 w-full m-0 bg-amber-500">{{ modifyTitle() }}</h2>
+    }
+</div>

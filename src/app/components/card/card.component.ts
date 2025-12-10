@@ -19,15 +19,19 @@ export class CardComponent {
   dialog = inject(Dialog)
   cardStore = inject(CardStore)
   cardData = signal<Card | undefined>(undefined)
-  readonly data = input<Card>()
+  readonly cardId = input<string>()
 
-  ngOnInit() {
-    this.cardData.set(this.data())
+  async ngOnInit() {
+    const card = await this.cardStore.getCard(this.cardId() || '')
+    if (card) this.cardData.set(card)
   }
 
   openDialog () {
     this.dialog.open(CardModalComponent, {
-      autoFocus: false
+      autoFocus: false,
+      data: {
+        id: this.cardData()?.id
+      }
     })
   }
 

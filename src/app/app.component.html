@@ -7,8 +7,9 @@
     }
 
     <button (click)="addCard()">add card</button>
-    -->
     <app-list/>
+    -->
+    <app-title-editable title="titulo" (modifyTitleEvent)="changeTitle($event)"/>
   </div>
 </main>
 
