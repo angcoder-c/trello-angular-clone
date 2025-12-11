@@ -1,18 +1,31 @@
-<div class="text-7xl text-white">
+<div class="relative w-full max-h-20">
+    <div
+    #ghost
+    class="invisible whitespace-pre-wrap break-words p-2 font-medium leading-snug max-h-20"
+    [style.width.px]="width()"
+    >
+        {{ modifyTitle() || ' ' }}
+    </div>
     @if (editable()) {
-        <input
+        <textarea
         type="text"
-        [value]="modifyTitle()"
         #title
         (blur)="onTitleBlur()"
         (keydown)="onTitleKeydown($event)"
-        class="appearance-none w-full p-2 resize-none rounded-md 
-        bg-[#242528]
+        (input)="autoResize($event)"
+        class="appearance-none absolute top-0 left-0 w-full p-2 resize-none rounded-md max-h-20
+        bg-[#242528] scroll-config
         font-medium leading-snug
         outline-none border-2 border-[#669DF1]
-        ring-2 ring-[#669DF1]/40 h-[5.3rem]"
-        />
+        h-[-webkit-fill-available]:"
+        [rows]="1"
+        >{{ modifyTitle() }}</textarea>
     } @else {
-        <h2 (click)="edit()" class="font-medium p-2 w-full m-0 bg-amber-500">{{ modifyTitle() }}</h2>
+        <h2 
+        (click)="edit()" 
+        class="absolute top-0 left-0 w-full m-0 p-2 font-medium leading-snug max-h-20
+        overflow-hidden text-ellipsis text-nowrap
+        border-2 border-transparent whitespace-pre-wrap break-words"
+        >{{ modifyTitle() }}</h2>
     }
 </div>

@@ -4,45 +4,31 @@ import { CardStore } from './../../stores/card/card-store.service';
 import { CardComponent } from './../../components/card/card.component';
 import { MatIcon } from '@angular/material/icon'
 import { FormControl, FormGroup, FormSubmittedEvent, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TitleEditableComponent } from '../title-editable/title-editable.component';
 
 @Component({
   selector: 'app-list',
   imports: [
     MatIcon,
     CardComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TitleEditableComponent
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
 export class ListComponent {
-  modifyTitle = signal<boolean>(false)
   insertCard = signal<boolean>(false)
-  titleInputRef = viewChild<ElementRef>('titleInput')
   formElementRef=viewChild<ElementRef>('insertFormRef')
   cardTitleInputRef = viewChild<ElementRef>('cardFormInput')
   title = signal<string>('Titulo')
-  tempTitle = signal<string>('')
   cardStore = inject(CardStore)
 
   insertForm = new FormGroup({
     cardTitle: new FormControl('', Validators.required)
   })
 
-  constructor(){
-    effect(() => {
-      if (this.modifyTitle() && this.titleInputRef()) {
-        setTimeout(() => {
-          const input = this.titleInputRef()?.nativeElement;
-          if (input) {
-            input.focus();
-            input.value = this.title();
-            this.tempTitle.set(this.title());
-          }
-        });
-      }
-    });
-  }
+  constructor(){}
 
   async ngOnInit() {
     await this.cardStore.loadCardsByList('8c4fc7c8-dfdf-4c35-8503-b521ecdb137a')
@@ -64,10 +50,6 @@ export class ListComponent {
     this.insertForm.reset()
   }
 
-  changeModifyState() {
-    this.modifyTitle.set(true);
-  }
-
   changeInsertCard() {
     this.insertCard.set(true);
 
@@ -79,24 +61,9 @@ export class ListComponent {
     });
   }
   
-  onTitleBlur() {
-    this.modifyTitle.set(false);
-    this.tempTitle.set('');
-  }
-
   onInsertBlur() {
     this.insertCard.set(false);
     this.insertForm.reset();
-  }
-  
-  onTitleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      const input = event.target as HTMLInputElement;
-      this.title.set(input.value);
-      this.modifyTitle.set(false);
-    } else if (event.key === 'Escape') {
-      this.modifyTitle.set(false);
-    }
   }
 
   onInsertCardKeydown(event: KeyboardEvent) {

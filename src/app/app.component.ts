@@ -8,15 +8,10 @@ import { TitleEditableComponent } from './components/title-editable/title-editab
   imports: [
     RouterOutlet,
     ListComponent,
-    TitleEditableComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'trello-angular-clone';
-
-  changeTitle(title: string){
-    console.log(`DESDE APP: ${title}`)
-  }
 }

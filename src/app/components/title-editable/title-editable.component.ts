@@ -16,6 +16,11 @@ export class TitleEditableComponent {
   modifyTitle = signal<string>('')
   editable = signal<boolean>(false)
 
+  ghostRef = viewChild<ElementRef>('ghost')
+  containerRef = viewChild<ElementRef>('container')
+
+  width = signal<number>(0)
+  
   ngOnInit() {
     this.modifyTitle.set(this.title() || '')
   }
@@ -25,7 +30,10 @@ export class TitleEditableComponent {
 
     setTimeout(() => {
       const input = this.inputElementRef()?.nativeElement;
-      if (input) input.focus();
+      if (input) {
+        input.focus()
+        this.autoResize({ target: input } as any)
+      } 
     });
   }
 
@@ -51,5 +59,16 @@ export class TitleEditableComponent {
     if (!form.contains(event.target as Node)) {
       this.onTitleBlur();
     }
+  }
+
+  autoResize(e: Event) {
+    const t = e.target as HTMLTextAreaElement;
+    t.style.height = 'auto';
+    t.style.height = `${t.scrollHeight}px`;
+  }
+
+  ngAfterViewInit() {
+    console.log(this.containerRef()?.nativeElement.offsetWidth)
+    this.width.set(this.containerRef()?.nativeElement.offsetWidth)
   }
 }
