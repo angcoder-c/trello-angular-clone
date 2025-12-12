@@ -10,13 +10,30 @@ flex flex-col gap-3 overflow-hidden text-white">
             <button>x</button>
         </div>
     </div>
-    <div class="flex flex-col lg:flex-row h-full">
+    <div class="flex flex-col lg:flex-row h-full px-4 pb-2 lg:p-0">
         <!--CONTENT-->
-        <div class="w-full">
-            <h2 class="text-3xl font-bold">{{ card()?.title }}</h2>
+        <div class="w-full lg:w-[70%] lg:px-4 lg:pb-2">
+            <div class="flex flex-row box-content gap-2">
+                <div 
+                (click)="checkCard()"
+                class="overflow-hidden transition-all pt-3 duration-300 max-w-[20%] opacity-100"
+                >
+                    <input 
+                    type="checkbox"
+                    class="appearance-none w-4 h-4 rounded-full border-2 border-white duration-400
+                    bg-transparent cursor-pointer flex items-center justify-center
+                    checked:bg-[#B3DF72] checked:border-[#B3DF72]
+                    checked:before:content-['✔'] checked:before:text-[#242528]"
+                    [checked]="card()?.completed">
+                </div>
+                <app-title-editable 
+                [title]="card()?.title" 
+                (modifyTitleEvent)="getNewTitle($event)"
+                class="max-w-[80%] w-full"/>
+            </div>
         </div>
         <!--COMMENTS-->
-        <div class="w-full">
+        <div class="w-full lg:w-[30%]">
             rigth
         </div>
     </div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { Card } from '../../types';
 import { Dialog, DialogModule } from '@angular/cdk/dialog'
 import { CardModalComponent } from '../card/card-modal/card-modal.component';
+import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -27,11 +28,41 @@ export class CardComponent {
   }
 
   openDialog () {
-    this.dialog.open(CardModalComponent, {
+    const dialogRef = this.dialog.open(CardModalComponent, {
       autoFocus: false,
       data: {
         id: this.cardData()?.id
       }
+    })
+
+    const subscriptions: any[] = [];
+    subscriptions.push(
+      dialogRef.componentInstance?.changeCheckEvent.subscribe((completed: boolean) => {
+        this.cardData.update(value => {
+          if (!value) return undefined
+          return {
+            ...value,
+            completed: completed
+          }
+        })
+      })
+    )
+
+    subscriptions.push(
+      dialogRef.componentInstance?.changeTitleEvent.subscribe((newTitle: string) => {
+        this.cardData.update(value => {
+          if (!value) return undefined
+          return {
+            ...value,
+            title: newTitle
+          }
+        })
+      })
+    )
+
+
+    dialogRef.closed.subscribe(() => {
+      subscriptions.forEach(sub => sub?.unsubscribe());
     })
   }
 

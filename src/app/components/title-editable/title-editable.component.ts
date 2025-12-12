@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, input, output, signal, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, HostListener, input, output, signal, viewChild } from '@angular/core';
 
 // componente para titulo editable de una lista o card
 
@@ -20,6 +20,15 @@ export class TitleEditableComponent {
   containerRef = viewChild<ElementRef>('container')
 
   width = signal<number>(0)
+
+  constructor () {
+    effect(() => {
+      const currentTitle = this.title();
+      if (currentTitle) {
+        this.modifyTitle.set(currentTitle);
+      }
+    });
+  }
   
   ngOnInit() {
     this.modifyTitle.set(this.title() || '')
@@ -68,7 +77,6 @@ export class TitleEditableComponent {
   }
 
   ngAfterViewInit() {
-    console.log(this.containerRef()?.nativeElement.offsetWidth)
     this.width.set(this.containerRef()?.nativeElement.offsetWidth)
   }
 }

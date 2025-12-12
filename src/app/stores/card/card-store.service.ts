@@ -94,4 +94,13 @@ export class CardStore {
         completed: !card?.completed 
     })
   }
+
+  // completed task
+  async updateTitle(card_id: string, title: string) {
+    const card = await db.getCard(card_id)
+    await db.updateCard(card_id, {
+        ...card, 
+        title: title
+    })
+  }
 }
