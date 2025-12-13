@@ -1,8 +1,8 @@
 import { Component, inject, input, output, signal } from '@angular/core';
-import { Card } from '../../../types';
-import { CardStore } from '../../../stores/card/card-store.service';
+import { Card } from '../../types';
+import { CardStore } from '../../stores/card/card-store.service';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
-import { TitleEditableComponent } from '../../title-editable/title-editable.component';
+import { TitleEditableComponent } from '../title-editable/title-editable.component';
 
 @Component({
   selector: 'app-card-modal',

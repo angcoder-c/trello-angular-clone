@@ -3,7 +3,7 @@ import { CardStore } from '../../stores/card/card-store.service';
 import { FormsModule } from '@angular/forms'
 import { Card } from '../../types';
 import { Dialog, DialogModule } from '@angular/cdk/dialog'
-import { CardModalComponent } from '../card/card-modal/card-modal.component';
+import { CardModalComponent } from '../card-modal/card-modal.component';
 import { Subject, takeUntil } from 'rxjs';
 
 
