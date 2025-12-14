@@ -16,7 +16,7 @@ flex flex-col gap-3 overflow-hidden text-white">
             <div class="flex flex-row box-content gap-2">
                 <div 
                 (click)="checkCard()"
-                class="overflow-hidden transition-all pt-3 duration-300 max-w-[20%] opacity-100"
+                class="overflow-hidden transition-all pt-3 duration-300 max-w-[15%] opacity-100"
                 >
                     <input 
                     type="checkbox"
@@ -29,8 +29,11 @@ flex flex-col gap-3 overflow-hidden text-white">
                 <app-title-editable 
                 [title]="card()?.title" 
                 (modifyTitleEvent)="getNewTitle($event)"
-                class="max-w-[80%] w-full"/>
+                class="max-w-[85%] w-full"/>
             </div>
+            <app-description-form 
+            [description]="card()?.description" 
+            (changeDescriptionEvent)="changeDescription($event)" />
         </div>
         <!--COMMENTS-->
         <div class="w-full lg:w-[30%]">

@@ -8,7 +8,6 @@
     </div>
     @if (editable()) {
         <textarea
-        type="text"
         #title
         (blur)="onTitleBlur()"
         (keydown)="onTitleKeydown($event)"

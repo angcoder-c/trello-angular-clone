@@ -3,11 +3,13 @@ import { Card } from '../../types';
 import { CardStore } from '../../stores/card/card-store.service';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
+import { DescriptionFormComponent } from '../description-form/description-form.component';
 
 @Component({
   selector: 'app-card-modal',
   imports: [
-    TitleEditableComponent
+    TitleEditableComponent,
+    DescriptionFormComponent
   ],
   templateUrl: './card-modal.component.html',
   styleUrl: './card-modal.component.css'
@@ -38,13 +40,25 @@ export class CardModalComponent {
 
   async getNewTitle (title: string) {
     if (!title) return undefined
-    await this.cardStore.updateTitle(this.card()?.id || '', title)
+    await this.cardStore.updateTitle(this.card()?.id as string, title)
     this.card.update(value => {
       if (!value) return undefined
       this.changeTitleEvent.emit(title)
       return {
         ...value, 
         title: title
+      }
+    })
+  }
+
+  async changeDescription (description: string) {
+    if (!description) return undefined
+    await this.cardStore.updateDescription(this.card()?.id as string, description)
+    this.card.update(value=>{
+      if (!value) return undefined
+      return {
+        ...value, 
+        description
       }
     })
   }

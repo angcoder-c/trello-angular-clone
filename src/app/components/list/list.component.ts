@@ -10,7 +10,6 @@ import { CreateCardFormComponent } from '../create-card-form/create-card-form.co
 @Component({
   selector: 'app-list',
   imports: [
-    MatIcon,
     CardComponent,
     CreateCardFormComponent,
     TitleEditableComponent

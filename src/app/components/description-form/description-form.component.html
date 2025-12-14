@@ -1,1 +1,17 @@
-<p>description-form works!</p>
+<form
+[formGroup]="descriptionForm"
+(ngSubmit)="save()">
+    <textarea
+    formControlName="description"
+    placeholder="Write description for card...">
+    </textarea>
+    <button 
+    type="submit" 
+    [disabled]="!descriptionForm.valid"
+    class="bg-blue-500 disabled:bg-amber-400">
+        Save
+    </button>
+    <button type="button">
+        <mat-icon>close</mat-icon>
+    </button>
+</form>
