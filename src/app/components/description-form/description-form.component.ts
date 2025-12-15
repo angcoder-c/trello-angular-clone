@@ -53,4 +53,8 @@ export class DescriptionFormComponent {
       this.changeDescriptionEvent.emit(description)
     }
   }
+
+  cancel() {
+    this.descriptionForm.reset()
+  }
 }

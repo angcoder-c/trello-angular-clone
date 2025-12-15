@@ -1,17 +1,30 @@
 <form
 [formGroup]="descriptionForm"
-(ngSubmit)="save()">
-    <textarea
-    formControlName="description"
-    placeholder="Write description for card...">
-    </textarea>
-    <button 
-    type="submit" 
-    [disabled]="!descriptionForm.valid"
-    class="bg-blue-500 disabled:bg-amber-400">
-        Save
-    </button>
-    <button type="button">
-        <mat-icon>close</mat-icon>
-    </button>
+(ngSubmit)="save()"
+class="flex flex-col gap-1 w-full">
+    <div class="w-full">
+        <textarea
+        formControlName="description"
+        placeholder="Write description for card..."
+        class="w-full outline-0 resize-none min-h-30 border-2 border-gray-500 
+        focus:border-[#669DF1] rounded-md py-3 px-4 scroll-config">
+        </textarea>
+    </div>
+    <div class="flex flex-row gap-2">
+        <button 
+        type="submit" 
+        [disabled]="!descriptionForm.valid"
+        class="bg-[#669DF1] text-[#242528] font-medium px-2 py-1 
+        rounded-md hover:bg-[#8FB8F6] disabled:bg-[#669ef1b8] min-w-15">
+            Save
+        </button>
+        <button 
+        type="button" 
+        (click)="cancel()"
+        [disabled]="!descriptionForm.valid"
+        class="ont-medium px-2 py-1 
+        rounded-md hover:bg-[#E3E4F21F] min-w-15 disabled:opacity-45">
+            Cancel
+        </button>
+    </div>
 </form>

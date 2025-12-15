@@ -4,10 +4,12 @@ import { CardStore } from '../../stores/card/card-store.service';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
 import { DescriptionFormComponent } from '../description-form/description-form.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-card-modal',
   imports: [
+    MatIconModule,
     TitleEditableComponent,
     DescriptionFormComponent
   ],

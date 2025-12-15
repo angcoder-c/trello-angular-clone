@@ -21,6 +21,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background: rgba(75, 76, 80, 0.6); /* bg-[#4b4c50]/60 */
   border-radius: 9999px;
   transition: all 0.3s;
+  cursor: default;
 }
 
 .scroll-config::-webkit-scrollbar-thumb:hover {
