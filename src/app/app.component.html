@@ -1,5 +1,5 @@
 <main class="main">
-  <div class="content">
+  <div class="content flex flex-row">
     <!--
       <h1 class="text-red-500">Cards</h1>
     @for (card of cardStore.cards(); track card.id) {
@@ -8,7 +8,9 @@
 
     <button (click)="addCard()">add card</button>
     -->
-    <app-list/>
+    <app-list [listId]="'8c4fc7c8-dfdf-4c35-8503-b521ecdb137a'"/>
+    <app-list [listId]="'8c4fc7c8-dfdf-4c35-8503-b521ecdb137b'"/>
+    <app-list [listId]="'8c4fc7c8-dfdf-4c35-8503-b521ecdb137c'"/>
   </div>
 </main>
 

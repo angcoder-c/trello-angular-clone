@@ -334,9 +334,18 @@ export class AppDB extends Dexie {
         return await this.comment.where('card_id').equals(card_id).sortBy('created_at');
     }
 
-    async updateComment(id: string, content: string): Promise<number> {
+    async updateCommentContent(id: string, content: string): Promise<number> {
         return await this.comment.update(id, {
             content,
+            updated_at: new Date().toISOString().replace('Z', ''),
+            edited: true,
+            synced: false
+        });
+    }
+
+    async updateComment(id: string, changes: Partial<Comment>): Promise<number> {
+        return await this.comment.update(id, {
+            ...changes,
             updated_at: new Date().toISOString().replace('Z', ''),
             edited: true,
             synced: false

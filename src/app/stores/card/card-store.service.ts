@@ -16,7 +16,6 @@ export class CardStore {
   labels = signal<Label[]>([]);
   checklists = signal<CheckList[]>([]);
   checklistItems = signal<CheckListItem[]>([]);
-  comments = signal<Comment[]>([]);
   
   // ui
   selectedCardId = signal<string | null>(null);
@@ -26,8 +25,8 @@ export class CardStore {
   constructor() { }
 
   async loadCardsByList(list_id: string) {
-    const cards = await db.getCardsByList(list_id)
-    this.cards.set(cards)
+    const cardsByList = await db.getCardsByList(list_id)
+    this.cards.update(cards => [...cards, ...cardsByList])
   }
 
   // crear una nueva card
