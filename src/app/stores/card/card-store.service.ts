@@ -79,28 +79,114 @@ export class CardStore {
   // colocar descripcion
   async updateDescription(card_id: string, description: string) {
     const card = await db.getCard(card_id)
-    if (description) {
-      await db.updateCard(card_id, {
-        ...card, description: description 
-      })
+    if (!card) return undefined 
+    const updatedCard = {
+      ...card,
+      description: description
     }
+    if (description) {
+      await db.updateCard(card_id, updatedCard)
+    }
+    this.cards.update(cards => cards.map(card =>
+      card.id === card_id 
+      ? updatedCard 
+      : card
+    ))
   }
 
   // completed task
   async completeCard(card_id: string) {
     const card = await db.getCard(card_id)
-    await db.updateCard(card_id, {
-        ...card, 
-        completed: !card?.completed 
-    })
+    if (!card) return undefined
+
+    const updatedCard = {
+      ...card,
+      completed: !card?.completed 
+    }
+    await db.updateCard(card_id, updatedCard)
+    this.cards.update(cards => cards.map(card =>
+      card.id === card_id 
+      ? updatedCard 
+      : card
+    ))
   }
 
   // completed task
   async updateTitle(card_id: string, title: string) {
     const card = await db.getCard(card_id)
-    await db.updateCard(card_id, {
-        ...card, 
-        title: title
-    })
+    if (!card) return undefined
+
+    const updatedCard = {
+      ...card,
+      title: title
+    }
+    await db.updateCard(card_id, updatedCard)
+    this.cards.update(cards => cards.map(card =>
+      card.id === card_id 
+      ? updatedCard 
+      : card
+    ))
+  }
+
+  async moveUp (card_id: string) {
+    const card = await db.getCard(card_id)
+    
+    if (!card || !card?.id) return undefined
+
+    const newPosition = card.position - 1
+    if (newPosition < 0) return undefined
+
+    const updatedCard = {
+      ...card,
+      position: newPosition 
+    }
+
+    await db.updateCard(card.id, updatedCard)
+
+    this.cards.update(cards => cards.map(card =>
+      card.id === card_id 
+      ? updatedCard 
+      : card
+    ))
+  }
+
+  async moveDown (card_id: string) {
+    const card = await db.getCard(card_id)
+    
+    if (!card || !card?.id) return undefined
+
+    const newPosition = card.position + 1
+    if (newPosition < 0) return undefined
+
+    const updatedCard = {
+      ...card,
+      position: newPosition 
+    }
+
+    await db.updateCard(card.id, updatedCard)
+
+    this.cards.update(cards => cards.map(card =>
+      card.id === card_id 
+      ? updatedCard 
+      : card
+    ))
+  }
+
+  async setMaturity (card_id: string, maturity: string) {
+    const card = await db.getCard(card_id)
+    
+    if (!card || !card?.id || !card.maturity) return undefined
+
+    const updatedCard = {
+      ...card,
+      maturity: maturity.replace('Z', '')
+    }
+
+    await db.updateCard(card.id, updatedCard)
+    this.cards.update(cards => cards.map(card =>
+      card.id === card_id 
+      ? updatedCard 
+      : card
+    ))
   }
 }
