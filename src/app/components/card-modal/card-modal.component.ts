@@ -1,23 +1,27 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
-import { Card } from '../../types';
+import { Card, Comment } from '../../types';
 import { CardStore } from '../../stores/card/card-store.service';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
 import { DescriptionFormComponent } from '../description-form/description-form.component';
 import { MatIconModule } from '@angular/material/icon';
+import { CommentComponent } from '../comment/comment.component';
+import { CommentStore } from '../../stores/comment/comment-store.service';
 
 @Component({
   selector: 'app-card-modal',
   imports: [
     MatIconModule,
     TitleEditableComponent,
-    DescriptionFormComponent
+    DescriptionFormComponent,
+    CommentComponent
   ],
   templateUrl: './card-modal.component.html',
   styleUrl: './card-modal.component.css'
 })
 export class CardModalComponent {
   private cardStore = inject(CardStore)
+  private commentStore = inject(CommentStore)
   readonly data = inject(DIALOG_DATA)
 
   card = computed<Card | undefined>(()=>{
@@ -26,6 +30,17 @@ export class CardModalComponent {
       card => card.id === this.data.id
     )[0]
   })
+
+  comments = computed<Comment[]>(()=>{
+    return this.commentStore.comments()
+    .filter(
+      comment => comment.card_id === this.data.id
+    )
+  })
+
+  async ngOnInit () {
+    await this.commentStore.loadCommentsByCard(this.data.id)
+  }
 
   async checkCard() {
     await this.cardStore.completeCard(this.card()?.id || '')
@@ -39,5 +54,15 @@ export class CardModalComponent {
   async changeDescription (description: string) {
     if (!description) return undefined
     await this.cardStore.updateDescription(this.card()?.id as string, description)
+  }
+
+  async createComment (content: string) {
+    if (!this.card() || !content) return undefined
+
+    await this.commentStore.createComment({
+      card_id: this.card()?.id as string,
+      content: content,
+      user: null
+    })
   }
 }

@@ -1,18 +1,18 @@
 <div class="bg-[#242528] w-[80vw] h-[80vh] 
 max-w-screen max-h-screen rounded-xl
-flex flex-col gap-3 overflow-hidden text-white">
+flex flex-col overflow-hidden text-white">
     <div class="p-5 text-white 
     flex flex-row justify-between
     border-b-2 border-[#E3E4F21F]">
-        <span>header</span>
+        <span class="bg-[#4B4D51] px-2 py-0.5 font-medium rounded-md cursor-pointer hover:bg-[#63666B]">List title</span>
         <div class="flex flex-row gap-5">
             <button>...</button>
             <button>x</button>
         </div>
     </div>
-    <div class="flex flex-col lg:flex-row h-full px-4 pb-2 lg:p-0">
+    <div class="flex flex-col lg:flex-row h-full px-4 pb-2 lg:p-0 lg:overflow-hidden overflow-y-scroll scroll-config">
         <!--CONTENT-->
-        <div class="flex flex-col gap-5 w-full lg:w-[70%] lg:px-4 lg:pb-2 overflow-y-scroll scroll-config">
+        <div class="flex flex-col gap-5 w-full lg:w-[50%] pt-3 lg:px-4 lg:pb-2 lg:overflow-y-scroll scroll-config">
             <div class="flex flex-row box-content gap-2">
                 <div 
                 (click)="checkCard()"
@@ -47,13 +47,31 @@ flex flex-col gap-3 overflow-hidden text-white">
                     <span class="font-medium">Description</span>
                     <app-description-form 
                     [description]="card()?.description" 
+                    [placeholder]="'Write description for card...'"
                     (changeDescriptionEvent)="changeDescription($event)" />
                 </div>
             </div>
         </div>
         <!--COMMENTS-->
-        <div class="w-full lg:w-[30%]">
-            rigth
+        <div class="w-full lg:w-[50%] bg-transparent lg:bg-[#18191A]
+        pt-3 lg:px-4 lg:pb-2 flex flex-col gap-3 lg:overflow-y-scroll scroll-config">
+            <div class="w-full flex flex-row items-center gap-2 text-lg">
+                <mat-icon>comment</mat-icon>
+                <span class="font-medium">Comments</span>
+            </div>
+            <app-description-form 
+            [description]="null" 
+            [placeholder]="'Write a comment...'"
+            [destroyAfterSave]="true"
+            (changeDescriptionEvent)="createComment($event)"
+            />
+            @if (comments().length > 0) {
+                @for (comment of comments(); track comment.id) {
+                    <app-comment
+                    [id]="comment.id"
+                    />
+                }
+            }
         </div>
     </div>
 </div>

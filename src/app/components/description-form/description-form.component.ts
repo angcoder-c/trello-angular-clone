@@ -16,6 +16,8 @@ import { CleanTextValidator } from '../../validators/clean-text.validator';
 export class DescriptionFormComponent {
   currentDescription = signal<string>('')
   readonly description = input<string | null>()
+  readonly placeholder = input<string | undefined>()
+  readonly destroyAfterSave = input<boolean | undefined>()
   readonly changeDescriptionEvent = output<string>()
 
   descriptionForm = new FormGroup({
@@ -51,6 +53,10 @@ export class DescriptionFormComponent {
     if (filteredDescription > 0) {
       this.currentDescription.set(description);
       this.changeDescriptionEvent.emit(description)
+    }
+    
+    if(this.destroyAfterSave()){
+      this.descriptionForm.reset()
     }
   }
 

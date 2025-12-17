@@ -42,14 +42,5 @@ export class CardComponent {
 
   async checkCard() {
     await this.cardStore.completeCard(this.cardData()?.id || '')
-    this.cardStore.cards.update(cards => cards.map(card => {
-      if (card.id===this.cardData()?.id) {
-        return  {
-          ...card,
-          completed: !card.completed
-        }
-      } 
-      return card
-    })) 
   }
 }

@@ -5,7 +5,7 @@ import { Comment } from '../../types';
 @Injectable({
   providedIn: 'root'
 })
-export class CommentStoreService {
+export class CommentStore {
   comments = signal<Comment[]>([])
 
   // ui
@@ -26,6 +26,9 @@ export class CommentStoreService {
   }): Promise<Comment | undefined> {
     const commentId = await db.addComment(comment)
     const newComment = await db.getComment(commentId)
+    if (newComment) {
+      this.comments.update(comments => [...comments, newComment])
+    }
     return newComment
   }
 
