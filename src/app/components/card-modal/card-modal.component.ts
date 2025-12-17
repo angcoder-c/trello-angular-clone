@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { Card, Comment } from '../../types';
 import { CardStore } from '../../stores/card/card-store.service';
-import { DIALOG_DATA } from '@angular/cdk/dialog';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
 import { DescriptionFormComponent } from '../description-form/description-form.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +23,7 @@ export class CardModalComponent {
   private cardStore = inject(CardStore)
   private commentStore = inject(CommentStore)
   readonly data = inject(DIALOG_DATA)
+  private dialogRef = inject(DialogRef)
 
   card = computed<Card | undefined>(()=>{
     return this.cardStore.cards()
@@ -42,8 +43,17 @@ export class CardModalComponent {
     await this.commentStore.loadCommentsByCard(this.data.id)
   }
 
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
   async checkCard() {
     await this.cardStore.completeCard(this.card()?.id || '')
+  }
+
+  async deleteCard() {
+    await this.cardStore.deleteCard(this.card()?.id || '')
+    this.dialogRef.close()
   }
 
   async getNewTitle (title: string) {

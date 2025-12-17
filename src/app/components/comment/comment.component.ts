@@ -1,19 +1,20 @@
-import { Component, computed, inject, input } from '@angular/core';
-import { CardStore } from '../../stores/card/card-store.service';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { CommentStore } from '../../stores/comment/comment-store.service';
-import { DialogModule } from "@angular/cdk/dialog";
 import { Comment } from '../../types';
+import { DescriptionFormComponent } from '../description-form/description-form.component';
 
 @Component({
   selector: 'app-comment',
-  imports: [DialogModule],
+  imports: [
+    DescriptionFormComponent
+  ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css'
 })
 export class CommentComponent {
   readonly id = input<string>() // comment_id
-  private cardStore = inject(CardStore)
   private commentStore = inject(CommentStore)
+  edit = signal<boolean>(false)
 
   comment = computed<Comment | undefined>(()=>{
     return this.commentStore
@@ -36,5 +37,18 @@ export class CommentComponent {
     if (!this.comment()?.id) return undefined
 
     await this.commentStore.deleteComment(this.comment()?.id as string)
+  }
+
+  enabledEdit () {
+    this.edit.set(true)
+  }
+
+  async changeContent(content: string) {
+    if (!this.id()) return undefined
+    this.commentStore.updateContent(this.id() as string, content)
+  }
+
+  disabledEdit (save: boolean) {
+    this.edit.set(!save)
   }
 }

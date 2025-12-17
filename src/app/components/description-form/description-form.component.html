@@ -18,13 +18,23 @@ class="flex flex-col gap-1 w-full">
         rounded-md hover:bg-[#8FB8F6] disabled:bg-[#669ef1b8] min-w-15">
             Save
         </button>
-        <button 
-        type="button" 
-        (click)="cancel()"
-        [disabled]="!descriptionForm.valid"
-        class="ont-medium px-2 py-1 
-        rounded-md hover:bg-[#E3E4F21F] min-w-15 disabled:opacity-45">
-            Cancel
-        </button>
+        @if (!discardChanges()) {
+            <button 
+            type="button" 
+            (click)="cancel()"
+            [disabled]="!descriptionForm.valid"
+            class="ont-medium px-2 py-1 bg-[#CECED912]
+            rounded-md hover:bg-[#E3E4F21F] min-w-15 disabled:opacity-45">
+                Cancel
+            </button>
+        } @else {
+            <button 
+            type="button" 
+            (click)="cancel()"
+            class="ont-medium px-2 py-1 bg-[#CECED912]
+            rounded-md hover:bg-[#E3E4F21F] min-w-15 disabled:opacity-45">
+                Discard changes
+            </button>
+        }
     </div>
 </form>

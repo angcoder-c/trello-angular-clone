@@ -1,27 +1,39 @@
-<div class="flex flex-col">
+<div class="flex flex-col w-full">
     <div class="flex flex-row gap-2 items-center">
         <span class="font-medium pl-2">
-             {{ comment()?.user || 'anonymous' }}
+            {{ comment()?.user || 'anonymous' }}
         </span>
         <span class="text-sm text-gray-500">
             {{ dateFormat() }}
         </span>
     </div>
-   <p class="bg-[#242528] shadow-[0px_1px_0px_0px] shadow-black px-2 py-1 rounded-md">
-        {{ comment()?.content }}
-    </p>
-   <div class="flex flex-row text-gray-300 gap-2 pl-2">
-        <button 
-        type="button"
-        class="text-sm hover:underline cursor-pointer">
-            Edit
-        </button>
-        <span>•</span>
-        <button 
-        type="button"
-        class="text-sm hover:underline cursor-pointer"
-        (click)="deleteComment()">
-            Delete
-        </button>
-   </div>
+
+    @if (edit()) {
+        <app-description-form 
+        [description]="comment()?.content"
+        [destroyAfterSave]="true"
+        (changeDescriptionEvent)="changeContent($event)"
+        [discardChanges]="true"
+        (saveEvent)="disabledEdit($event)"
+        />
+    } @else {
+            <p class="bg-[#242528] shadow-[0px_1px_0px_0px] shadow-black px-2 py-1 rounded-md">
+                {{ comment()?.content }}
+            </p>
+        <div class="flex flex-row text-gray-300 gap-2 pl-2">
+            <button 
+            type="button"
+            class="text-sm hover:underline cursor-pointer"
+            (click)="enabledEdit()">
+                Edit
+            </button>
+            <span>•</span>
+            <button 
+            type="button"
+            class="text-sm hover:underline cursor-pointer"
+            (click)="deleteComment()">
+                Delete
+            </button>
+        </div>
+    }
 </div>
