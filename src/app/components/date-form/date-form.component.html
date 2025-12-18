@@ -1,0 +1,15 @@
+<div class="flex flex-col max-w-[40dvh] max-h-screen bg-[#2B2C2F] gap-1">
+    <mat-calendar [(selected)]="selected"></mat-calendar>
+    <div class="grid grid-cols-2 text-white px-2 py-4">
+        <input type="text" [value]="date()" readonly /> 
+        <input type="text" [value]="time()" />       
+    </div>
+    <div>
+        <button>
+            Save
+        </button>
+        <button>
+            Remove
+        </button>
+    </div>
+</div>

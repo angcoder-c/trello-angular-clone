@@ -27,3 +27,41 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .scroll-config::-webkit-scrollbar-thumb:hover {
   background: #6a6b70;
 }
+
+/*Calendar*/
+
+.mat-calendar {
+    border-radius: 0px;
+    min-width: 40dvh;
+    background-color: #2B2C2F;
+}
+
+.mat-calendar-period-button,
+.mat-calendar-previous-button,
+.mat-calendar-next-button,
+.mat-calendar-table-header > tr > th > span,
+.mat-calendar-controls > button > svg,
+.mat-calendar-controls > button > span,
+.mat-calendar-body > tr > td,
+.mat-calendar-body-cell > span {
+  color: white;
+}
+
+.mat-calendar-body-cell-container,
+.mat-calendar-body-active > span,
+.mat-calendar-body-cell > span,
+.mat-mdc-button-base
+ {
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.mat-calendar-body-cell-container:hover {
+  background-color: #E3E4F21F;
+}
+
+.mat-calendar-body-selected {
+  background-color: #669DF1 !important;
+  color: #2B2C2F !important;
+  font-weight: 600;
+}
