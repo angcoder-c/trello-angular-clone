@@ -13,7 +13,6 @@ import { db } from '../../db';
 })
 export class CardStore {
   cards = signal<Card[]>([]);
-  labels = signal<Label[]>([]);
   checklists = signal<CheckList[]>([]);
   checklistItems = signal<CheckListItem[]>([]);
   
