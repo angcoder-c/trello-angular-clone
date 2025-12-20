@@ -7,14 +7,17 @@ import { DescriptionFormComponent } from '../description-form/description-form.c
 import { MatIconModule } from '@angular/material/icon';
 import { CommentComponent } from '../comment/comment.component';
 import { CommentStore } from '../../stores/comment/comment-store.service';
-
+import { OpenFormButtonComponent } from '../open-form-button/open-form-button.component';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-card-modal',
   imports: [
     MatIconModule,
     TitleEditableComponent,
     DescriptionFormComponent,
-    CommentComponent
+    CommentComponent,
+    OpenFormButtonComponent,
+    DatePipe
   ],
   templateUrl: './card-modal.component.html',
   styleUrl: './card-modal.component.css'
@@ -74,5 +77,14 @@ export class CardModalComponent {
       content: content,
       user: null
     })
+  }
+
+  async setMaturity(datetime: string | undefined) {
+    if (!datetime || !this.card()) return;
+    await this.cardStore.setMaturity(this.card()?.id as string, datetime);
+  }
+
+  async removeMaturity() {
+    await this.cardStore.setMaturity(this.card()?.id as string, null);
   }
 }

@@ -1,5 +1,5 @@
 <main class="main">
-  <div class="content flex flex-row">
+  <div class="content flex flex-row justify-center min-h-screen w-full items-center">
     <!--
       <h1 class="text-red-500">Cards</h1>
     @for (card of cardStore.cards(); track card.id) {
@@ -7,11 +7,12 @@
     }
 
     <button (click)="addCard()">add card</button>
+    <app-open-form-button buttonText="Date" type="datetime"/>
+    <app-date-form (datetimeEvent)="handleDatetime($event)"/>
+    -->
     <app-list [listId]="'8c4fc7c8-dfdf-4c35-8503-b521ecdb137a'"/>
     <app-list [listId]="'8c4fc7c8-dfdf-4c35-8503-b521ecdb137b'"/>
     <app-list [listId]="'8c4fc7c8-dfdf-4c35-8503-b521ecdb137c'"/>
-    -->
-    <app-date-form/>
   </div>
 </main>
 

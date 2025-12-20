@@ -1,12 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, HostListener, model, output, signal, viewChild } from '@angular/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
+import { FormControl, FormGroup, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-date-form',
   imports: [
-    MatDatepickerModule
-  ],
+    MatDatepickerModule,
+    ɵInternalFormsSharedModule,
+    ReactiveFormsModule
+],
   providers: [
     provideNativeDateAdapter()
   ],
@@ -16,7 +19,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 })
 export class DateFormComponent {
   selected = model<Date | null>(new Date());
-  datetime = signal<string>(this.selected()?.toISOString() ?? '');
+  datetimeEvent = output<string | undefined>();
 
   date = computed(() => {
     const sel = this.selected();
@@ -24,11 +27,35 @@ export class DateFormComponent {
     const year = sel.getFullYear();
     const month = (sel.getMonth() + 1).toString().padStart(2, '0');
     const day = sel.getDate().toString().padStart(2, '0');
-    return `${year}/${month}/${day}`;
+    return `${year}-${month}-${day}`;
   });
 
   time = signal<string>(
     this.selected()?.getHours().toString().padStart(2, '0') + ':' +
     this.selected()?.getMinutes().toString().padStart(2, '0')
   )
+
+  dateForm = new FormGroup({
+    time: new FormControl(this.time(), Validators.required)
+  });
+
+  submit() {
+    const date = this.date().replaceAll('/', '-');
+    const time = this.time()
+    if (!date || !time) return;
+    this.datetimeEvent.emit(new Date(`${date}T${time}:00.000Z`).toISOString());
+  }
+
+  remove() {
+    this.selected.set(new Date());
+    this.dateForm.reset({
+      time: this.dateForm.get('time')?.value
+    });
+    this.datetimeEvent.emit(undefined)
+  }
+
+  changeTime(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.time.set(input.value);
+  }
 }

@@ -1,0 +1,28 @@
+<div class="relative w-auto">
+  <button
+    #button
+    type="button"
+    (click)="openForm()"
+    class="z-10 border-2 border-gray-500 px-3 py-1 
+    rounded-md hover:bg-[#E3E4F21F] min-w-15"
+    [class.bg-[#E3E4F21F]]="open()"
+  >
+    {{ buttonText() }}
+  </button>
+
+  @if (type() === 'datetime') {
+    <div
+      #form
+      class="fixed left-1/2 -translate-x-1/2 -translate-y-1/2
+      z-20 origin-top transition-all duration-300 ease-out"
+      [class.scale-100]="open()"
+      [class.scale-0]="!open()"
+      (click)="$event.stopPropagation()"
+    >
+      <app-date-form
+        (datetimeEvent)="handleDatetimeEvent($event)"
+      />
+    </div>
+  }
+
+</div>

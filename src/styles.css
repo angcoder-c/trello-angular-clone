@@ -33,7 +33,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-calendar {
     border-radius: 0px;
     min-width: 40dvh;
-    background-color: #2B2C2F;
+    background-color: #242528;
 }
 
 .mat-calendar-period-button,

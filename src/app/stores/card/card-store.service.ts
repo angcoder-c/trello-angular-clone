@@ -171,16 +171,15 @@ export class CardStore {
     ))
   }
 
-  async setMaturity (card_id: string, maturity: string) {
+  async setMaturity (card_id: string, maturity: string | null) {
     const card = await db.getCard(card_id)
     
-    if (!card || !card?.id || !card.maturity) return undefined
+    if (!card || !card?.id || (!maturity && maturity !== null)) return undefined
 
     const updatedCard = {
       ...card,
-      maturity: maturity.replace('Z', '')
+      maturity: maturity
     }
-
     await db.updateCard(card.id, updatedCard)
     this.cards.update(cards => cards.map(card =>
       card.id === card_id 

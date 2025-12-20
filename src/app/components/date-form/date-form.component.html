@@ -1,15 +1,43 @@
-<div class="flex flex-col max-w-[40dvh] max-h-screen bg-[#2B2C2F] gap-1">
+<form 
+[formGroup]="dateForm" 
+(ngSubmit)="submit()" 
+class="flex z-10 flex-col gap-3 max-h-screen bg-[#242528] pb-3 rounded-md overflow-hidden shadow-sm shadow-black">
     <mat-calendar [(selected)]="selected"></mat-calendar>
-    <div class="grid grid-cols-2 text-white px-2 py-4">
-        <input type="text" [value]="date()" readonly /> 
-        <input type="text" [value]="time()" />       
+    <div class="flex flex-row justify-start gap-2 text-white px-2">
+        <input 
+        type="date" 
+        [value]="date()" 
+        readonly 
+        class="appearance-none bg-[#242528] text-white
+        px-3 py-2 rounded-md border border-[#3a3b3f] text-sm
+        leading-none w-auto max-w-full cursor-pointer outline-2 outline-transparent
+        focus:outline-[#669DF1] focus:border-transparent"
+        /> 
+        
+        <input 
+        type="time" 
+        formControlName="time"
+        (change)="changeTime($event)"
+        class="appearance-none bg-[#242528] text-white
+        px-3 py-2 rounded-md border border-[#3a3b3f] text-sm
+        leading-none w-auto max-w-full cursor-pointer outline-2 outline-transparent 
+        focus:outline-[#669DF1] focus:border-transparent
+        [&::-webkit-calendar-picker-indicator]:hidden"
+        />       
     </div>
-    <div>
-        <button>
+    <div class="grid grid-rows-2 w-full px-2 gap-3">
+        <button 
+        type="submit"
+        class="bg-[#669DF1] px-3 p-1 rounded-md font-medium text-sm text-[#242528]
+         hover:bg-[#83acee] transition-colors">
             Save
         </button>
-        <button>
+        <button
+        type="button"
+        (click)="remove()" 
+        class="bg-[#3a3b3f] border border-[#3a3b3f] px-3 p-1 rounded-md font-medium text-sm
+         text-white hover:bg-[#535458] active:bg-[#4a4b4f] transition-colors">
             Remove
         </button>
     </div>
-</div>
+</form>

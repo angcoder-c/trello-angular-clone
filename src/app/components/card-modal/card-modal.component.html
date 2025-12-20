@@ -1,6 +1,6 @@
 <div class="bg-[#242528] w-[80vw] h-[80vh] 
 max-w-screen max-h-screen rounded-xl
-flex flex-col overflow-hidden text-white">
+flex flex-col overflow-hidden text-white z-1">
     <div class="p-5 text-white 
     flex flex-row justify-between items-center
     border-b-2 border-[#E3E4F21F]">
@@ -11,15 +11,15 @@ flex flex-col overflow-hidden text-white">
         <div class="flex flex-row gap-5">
             <button
             (click)="deleteCard()"
-            class="px-3 py-1.5 rounded-md
-            bg-red-500 text-white text-sm font-medium
-            hover:bg-red-600 active:bg-red-700 focus:outline-none 
-            focus:ring-2 focus:ring-red-400 focus:ring-offset-1 transition">
+            class="px-3 py-1.5 rounded-md cursor-pointer
+            bg-[#28000069] text-white text-sm font-medium
+            hover:bg-[#400000] active:bg-[#500000] focus:outline-none 
+            focus:ring-2 focus:ring-[#800000] focus:ring-offset-1 transition">
             Delete card
             </button>
             <button 
             (click)="closeDialog()"
-            class="p-1 rounded-md flex items-center justify-center hover:bg-[#3A3B3E]">
+            class="p-1 rounded-md cursor-pointer flex items-center justify-center hover:bg-[#3A3B3E]">
                 <mat-icon>close</mat-icon>
             </button>
         </div>
@@ -49,10 +49,39 @@ flex flex-col overflow-hidden text-white">
                 <span class="text-[#A9ABAF]">Add elements</span>
                 <div class="flex flex-row gap-2">
                     <button class="border-2 border-gray-500 px-3 py-1 rounded-md hover:bg-[#E3E4F21F] min-w-15">Labels</button>
-                    <button class="border-2 border-gray-500 px-3 py-1 rounded-md hover:bg-[#E3E4F21F] min-w-15">Date</button>
                     <button class="border-2 border-gray-500 px-3 py-1 rounded-md hover:bg-[#E3E4F21F] min-w-15">Checklist</button>
+                    <app-open-form-button 
+                    type="datetime"
+                    buttonText="Date"
+                    (datetimeEvent)="setMaturity($event)"
+                    />
                 </div>
             </div>
+            @if (card()?.maturity) {
+                <div>
+                    <span class="font-medium">Due Date</span>
+                    <div 
+                    class="flex flex-row items-center gap-2 cursor-pointer 
+                    hover:bg-[#3A3B3E] p-2 rounded-md w-max">
+                        <mat-icon>calendar_today</mat-icon>
+                        <span>
+                            {{ card()?.maturity | date:'mediumDate' }} 
+                            {{ card()?.maturity | date:'shortTime' }}
+                        </span>
+                        <button class="flex flex-col justify-center
+                        p-1 rounded-md cursor-pointer
+                        bg-[#28000069] text-white text-sm font-medium
+                        hover:bg-[#400000] active:bg-[#500000] focus:outline-none 
+                        focus:ring-2 focus:ring-[#800000] focus:ring-offset-1 transition">
+                            <mat-icon
+                            (click)="removeMaturity()">
+                                close
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
+            }
+
             <div class="flex flex-row gap-2">
                 <div class="max-w-[15%]">
                     <mat-icon>menu</mat-icon>
