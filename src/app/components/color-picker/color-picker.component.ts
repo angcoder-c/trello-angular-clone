@@ -1,14 +1,16 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, output, signal } from '@angular/core';
 import { colors } from '../../colors';
 import { Color } from '../../types';
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-color-picker',
-  imports: [],
+  imports: [MatIcon],
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.css'
 })
 export class ColorPickerComponent {
+  selectColorEvent = output<Color>();
   colors = signal<Color[]>(colors)
   currentColor = signal<Color | null>(null)
   defaultColor = computed<Color>(()=>{
@@ -23,10 +25,12 @@ export class ColorPickerComponent {
 
   selectColor(color: Color) {
     this.currentColor.set(color)
+    this.selectColorEvent.emit(this.defaultColor())
   }
 
   removeColor() {
     this.currentColor.set(null)
+    this.selectColorEvent.emit(this.defaultColor())
   }
 
   toRgba(color: Color): string {

@@ -1,17 +1,27 @@
-<div class="grid grid-cols-5 gap-1">
-    @for (color of colors(); track color.hex) {
-        <div
-        class="bg-transparent p-1 flex flex-col justify-center items-center rounded-sm"
-        [style.outline]="
-        currentColor() && currentColor()!.hex === color.hex
-        ? '3px solid #669DF1'
-        : 'none'">
-            <button 
-            type="button" 
-            (click)="selectColor(color)"
-            class="min-w-10 aspect-video rounded-sm hover:!brightness-200 duration-150"
-            [style.backgroundColor]="toRgba(color)">
-            </button>
-        </div>
-    }
+<div class="w-full flex flex-col gap-2">
+    <div class="grid grid-cols-5 gap-1 w-full">
+        @for (color of colors(); track color.hex) {
+            <div
+            class="bg-transparent p-1 flex flex-col justify-center items-center rounded-sm"
+            [style.outline]="
+            defaultColor() && defaultColor()!.hex === color.hex
+            ? '3px solid #669DF1'
+            : 'none'">
+                <button 
+                type="button" 
+                (click)="selectColor(color)"
+                class="min-w-10 aspect-video rounded-sm hover:!brightness-200 duration-150"
+                [style.backgroundColor]="toRgba(color)">
+                </button>
+            </div>
+        }
+    </div>
+    <button 
+    type="button"
+    (click)="removeColor()"
+    [disabled]="!!!currentColor()"
+    class="flex flex-row justify-center items-center gap-2 px-4 py-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150 w-full disabled:opacity-50">
+        <mat-icon>close</mat-icon>
+        Remove color
+    </button>
 </div>
