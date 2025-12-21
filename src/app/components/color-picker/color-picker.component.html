@@ -1,0 +1,17 @@
+<div class="grid grid-cols-5 gap-1">
+    @for (color of colors(); track color.hex) {
+        <div
+        class="bg-transparent p-1 flex flex-col justify-center items-center rounded-sm"
+        [style.outline]="
+        currentColor() && currentColor()!.hex === color.hex
+        ? '3px solid #669DF1'
+        : 'none'">
+            <button 
+            type="button" 
+            (click)="selectColor(color)"
+            class="min-w-10 aspect-video rounded-sm hover:!brightness-200 duration-150"
+            [style.backgroundColor]="toRgba(color)">
+            </button>
+        </div>
+    }
+</div>
