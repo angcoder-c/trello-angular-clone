@@ -1,7 +1,7 @@
 <form 
 [formGroup]="dateForm" 
 (ngSubmit)="submit()" 
-class="flex z-10 flex-col gap-3 max-h-screen bg-[#242528] pb-3 rounded-md overflow-hidden shadow-sm shadow-black">
+class="flex z-10 flex-col gap-3 max-h-screen bg-[#242528] pb-3 rounded-md overflow-hidden shadow-lg shadow-black/25">
     <mat-calendar [(selected)]="selected"></mat-calendar>
     <div class="flex flex-row justify-start gap-2 text-white px-2">
         <input 

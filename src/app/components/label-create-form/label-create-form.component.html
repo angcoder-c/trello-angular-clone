@@ -1,13 +1,13 @@
-<div class="bg-[#242528] text-white rounded-md max-h-screen overflow-y-auto w-auto scroll-config">
+<div class="bg-[#242528] text-white rounded-md max-h-screen overflow-y-auto w-auto scroll-config shadow-lg shadow-black/25">
     <header class="p-2 border-b border-gray-700 flex flex-row justify-between items-center">
-        <button class="flex flex-col justify-center items-center p-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150">
+        <button type="button" (click)="handleBack()" class="flex flex-col justify-center items-center p-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150">
             <mat-icon 
             [style.fontSize]="'20px'">
                 arrow_back
             </mat-icon>
         </button>
-        <h2 class="font-medium">Create label</h2>
-        <button class="flex flex-col justify-center items-center p-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150">
+        <h2 class="font-medium">{{ editMode() ? 'Edit label' : 'Create label' }}</h2>
+        <button type="button" (click)="handleClose()" class="flex flex-col justify-center items-center p-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150">
             <mat-icon 
             [style.fontSize]="'20px'">
                 close
@@ -28,12 +28,14 @@
             type="text" 
             formControlName="title"
             class="appearance-none px-3 py-2 rounded-md focus:outline-2 focus:outline-[#669DF1] bg-[#18191A] border-1 border-gray-400 focus:border-[#669DF1]"
-            required
             />
         </div>
         <app-color-picker (selectColorEvent)="setColor($event)"/>
-        <button type="submit" [disabled]="formTitle.invalid" class="flex flex-row justify-center items-center gap-2 px-4 py-2 rounded-md bg-[#669DF1] hover:bg-[#8cb7f6] duration-150 w-full disabled:opacity-50 text-[#242528] font-medium">
-            <span>Create</span>
+        <button 
+        type="submit"
+        [disabled]="!formTitle.valid" 
+        class="flex flex-row justify-center items-center gap-2 px-4 py-2 rounded-md bg-[#669DF1] hover:bg-[#8cb7f6] duration-150 w-full disabled:opacity-50 text-[#242528] font-medium">
+            <span>{{ editMode() ? 'Save' : 'Create' }}</span>
         </button>
     </form>
 </div>

@@ -25,4 +25,22 @@
     </div>
   }
 
+  @if (type() === 'label') {
+    <div
+      #form
+      class="fixed left-1/2 -translate-x-1/2 -translate-y-1/2
+      z-20 origin-top transition-all duration-300 ease-out"
+      [class.scale-100]="open()"
+      [class.scale-0]="!open()"
+      (click)="$event.stopPropagation()"
+    >
+      <app-set-label-form-component
+        [cardId]="cardId()"
+        (labelToggleEvent)="handleLabelToggle($event)"
+        (labelSaveEvent)="handleLabelSave($event)"
+        (labelCloseEvent)="handleLabelClose()"
+      />
+    </div>
+  }
+
 </div>

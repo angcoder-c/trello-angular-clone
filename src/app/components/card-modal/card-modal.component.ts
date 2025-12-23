@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
-import { Card, Comment } from '../../types';
+import { Card, Color, Comment, Label } from '../../types';
 import { CardStore } from '../../stores/card/card-store.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
@@ -9,6 +9,7 @@ import { CommentComponent } from '../comment/comment.component';
 import { CommentStore } from '../../stores/comment/comment-store.service';
 import { OpenFormButtonComponent } from '../open-form-button/open-form-button.component';
 import { DatePipe } from '@angular/common';
+import { LabelStore } from '../../stores/label/label-store.service';
 @Component({
   selector: 'app-card-modal',
   imports: [
@@ -25,8 +26,11 @@ import { DatePipe } from '@angular/common';
 export class CardModalComponent {
   private cardStore = inject(CardStore)
   private commentStore = inject(CommentStore)
+  private labelStore = inject(LabelStore)
   readonly data = inject(DIALOG_DATA)
   private dialogRef = inject(DialogRef)
+
+  labelAssignments = signal<Map<number, string>>(new Map())
 
   card = computed<Card | undefined>(()=>{
     return this.cardStore.cards()
@@ -42,8 +46,16 @@ export class CardModalComponent {
     )
   })
 
+  labels = computed<Label[]>(()=>{
+    return this.labelStore.labels()
+    .filter(
+      label => label.card_id === this.data.id
+    )
+  })
+
   async ngOnInit () {
     await this.commentStore.loadCommentsByCard(this.data.id)
+    await this.labelStore.loadLabelsForCard(this.data.id)
   }
 
   closeDialog() {
@@ -87,4 +99,33 @@ export class CardModalComponent {
   async removeMaturity() {
     await this.cardStore.setMaturity(this.card()?.id as string, null);
   }
+
+  async handleLabelToggle(event: { index: number; checked: boolean; option: Partial<Label> }) {
+    if (!this.card()) return
+
+    const currentMap = new Map(this.labelAssignments())
+
+    if (event.checked) {
+      const created = await this.labelStore.createLabel({
+        card_id: this.card()?.id as string,
+        name: event.option.name ?? null,
+        color: event.option.color ?? { hex: '#000000', opacity: null }
+      })
+      if (created?.id) {
+        currentMap.set(event.index, created.id)
+      }
+    } else {
+      const labelId = currentMap.get(event.index)
+      if (labelId) {
+        await this.labelStore.deleteLabel(labelId)
+        currentMap.delete(event.index)
+      }
+    }
+
+    this.labelAssignments.set(currentMap)
+  }
+
+  handleLabelSave(_event: { index: number | null; name: string | null; color: Color }) {}
+
+  handleLabelClose() {}
 }

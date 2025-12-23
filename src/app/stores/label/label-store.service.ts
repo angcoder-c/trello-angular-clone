@@ -7,8 +7,65 @@ import { Color, Label } from '../../types';
 })
 export class LabelStore {
   labels = signal<Label[]>([]);
+  labelOptions = signal<Partial<Label>[]>([
+    {
+      name: null,
+      color: { 
+        hex: '#216e4e', 
+        opacity: null 
+      }
+    },
+    {
+      name: null,
+      color: { 
+        hex: '#7f5f01', 
+        opacity: null 
+      }
+    },
+    {
+      name: null,
+      color: { 
+        hex: '#803fa5', 
+        opacity: null 
+      }
+    },
+    {
+      name: null,
+      color: { 
+        hex: '#1558bc', 
+        opacity: null 
+      }
+    }
+  ]);
 
   constructor() { }
+
+  async loadLabelsForCard(cardId: string) {
+    const newLabels = await db.getLabelsByCard(cardId)
+    this.labels.update((labels) => [...labels, ...newLabels])
+  }
+
+  createLabelOption(name: string | null, color: Color) {
+    const newOption: Partial<Label> = {
+      name,
+      color
+    }
+    this.labelOptions.update(options => [...options, newOption])
+  }
+
+  updateLabelOption(index: number, name: string | null, color: Color) {
+    this.labelOptions.update(options => {
+      const updated = [...options]
+      if (index >= 0 && index < updated.length) {
+        updated[index] = {
+          ...updated[index],
+          name,
+          color
+        }
+      }
+      return updated
+    })
+  }
 
   async createLabel(label: Omit<
     Label, 

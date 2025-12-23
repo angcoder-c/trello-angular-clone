@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -10,5 +10,20 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './label-form-option.component.css'
 })
 export class LabelFormOptionComponent {
-  title = signal<string | null>(null)
+  title = input<string | null>()
+  colorHex = input<string>()
+  index = input.required<number>()
+  isChecked = input<boolean | undefined>(false)
+  
+  onEdit = output<number>()
+  onCheckboxChange = output<{index: number, checked: boolean}>()
+
+  handleEdit() {
+    this.onEdit.emit(this.index())
+  }
+
+  handleCheckboxChange(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked
+    this.onCheckboxChange.emit({ index: this.index(), checked })
+  }
 }

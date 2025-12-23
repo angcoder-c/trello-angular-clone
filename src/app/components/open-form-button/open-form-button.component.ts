@@ -1,10 +1,13 @@
 import { Component, input, signal, viewChild, ElementRef, HostListener, output } from '@angular/core';
 import { DateFormComponent } from '../date-form/date-form.component';
+import { SetLabelFormComponentComponent } from '../set-label-form-component/set-label-form-component.component';
+import { Color, Label } from '../../types';
 
 @Component({
   selector: 'app-open-form-button',
   imports: [
-    DateFormComponent
+    DateFormComponent, 
+    SetLabelFormComponentComponent
   ],
   templateUrl: './open-form-button.component.html',
   styleUrls: ['./open-form-button.component.css']
@@ -12,10 +15,14 @@ import { DateFormComponent } from '../date-form/date-form.component';
 export class OpenFormButtonComponent {
   type = input<'datetime' | 'label' | 'checklist'>()
   buttonText = input<string>()
+  cardId = input<string>()
   open = signal<boolean>(false)
   buttonRef = viewChild<ElementRef>('button')
   formRef = viewChild<ElementRef>('form')
   datetimeEvent = output<string | undefined>();
+  labelToggleEvent = output<{ index: number; checked: boolean; option: Partial<Label> }>();
+  labelSaveEvent = output<{ index: number | null; name: string | null; color: Color }>();
+  labelCloseEvent = output<void>();
 
   openForm() {
     this.open.set(true)
@@ -23,6 +30,19 @@ export class OpenFormButtonComponent {
 
   handleDatetimeEvent(datetime: string | undefined) {
     this.datetimeEvent.emit(datetime);
+    this.open.set(false)
+  }
+
+  handleLabelToggle(event: { index: number; checked: boolean; option: Partial<Label> }) {
+    this.labelToggleEvent.emit(event)
+  }
+
+  handleLabelSave(event: { index: number | null; name: string | null; color: Color }) {
+    this.labelSaveEvent.emit(event)
+  }
+
+  handleLabelClose() {
+    this.labelCloseEvent.emit()
     this.open.set(false)
   }
 
