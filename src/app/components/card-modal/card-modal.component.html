@@ -90,12 +90,12 @@ flex flex-col overflow-hidden text-white z-1">
             }
 
             @if (labels().length > 0) {
-                <div class="flex flex-col gap-2 w-full">
+                <div class="flex flex-col gap-2 w-auto">
                     <span class="font-medium text-[#A9ABAF]">Labels</span>
-                    <div class="flex flex-row flex-wrap gap-2">
+                    <div class="grid grid-cols-[repeat(auto-fit,minmax(50px,1fr))] gap-2">
                         @for (label of labels(); track label.id) {
                             <div 
-                            class="px-2 py-1 rounded-md text-sm font-medium min-w-10 max-w-50 overflow-hidden text-ellipsis whitespace-nowrap
+                            class="content-center px-2 py-1 rounded-md text-sm font-medium min-w-10 max-w-50 min-h-8 overflow-hidden text-ellipsis whitespace-nowrap
                             hover:opacity-80 cursor-default"
                             [style.backgroundColor]="label.color.hex">
                                 {{ label.name }}

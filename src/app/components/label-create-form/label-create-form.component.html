@@ -61,9 +61,10 @@ w-auto scroll-config shadow-lg shadow-black/25 min-w-xs">
         
         <button 
             type="submit"
+            [disabled]="!formTitle.valid"
             class="flex flex-row justify-center items-center gap-2 px-4 py-2 
             rounded-md bg-[#669DF1] hover:bg-[#8cb7f6] duration-150 
-            w-full text-[#242528] font-medium"
+            w-full text-[#242528] font-medium disabled:opacity-50"
         >
             <span>{{ editMode() ? 'Save' : 'Create' }}</span>
         </button>
