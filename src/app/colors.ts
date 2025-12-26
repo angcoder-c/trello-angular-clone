@@ -141,3 +141,34 @@ export const colors: Color[] = [
     },
 
 ]
+
+export const defaultLabelOptions = [
+    {
+        name: null,
+        color: { 
+            hex: '#216e4e', 
+            opacity: null 
+        }
+    },
+    {
+        name: null,
+        color: { 
+            hex: '#7f5f01', 
+            opacity: null 
+        }
+    },
+    {
+        name: null,
+        color: { 
+            hex: '#803fa5', 
+            opacity: null 
+        }
+    },
+    {
+        name: null,
+        color: { 
+            hex: '#1558bc', 
+            opacity: null 
+        }
+    }
+]

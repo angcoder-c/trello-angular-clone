@@ -12,7 +12,7 @@
     <div 
     class="flex-1 h-full rounded-md px-2 flex items-center" 
     [style.backgroundColor]="colorHex()">
-        <span>{{ title() ? title() : '' }}</span>
+        <span>{{ title() || '' }}</span>
     </div>
     
     <button

@@ -100,6 +100,7 @@ export class CardModalComponent {
     await this.cardStore.setMaturity(this.card()?.id as string, null);
   }
 
+  /*
   async handleLabelToggle(event: { index: number; checked: boolean; option: Partial<Label> }) {
     if (!this.card()) return
 
@@ -124,6 +125,7 @@ export class CardModalComponent {
 
     this.labelAssignments.set(currentMap)
   }
+  */
 
   handleLabelSave(_event: { index: number | null; name: string | null; color: Color }) {}
 

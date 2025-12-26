@@ -35,9 +35,8 @@
       (click)="$event.stopPropagation()"
     >
       <app-set-label-form-component
-        [cardId]="cardId()"
-        (labelToggleEvent)="handleLabelToggle($event)"
-        (labelSaveEvent)="handleLabelSave($event)"
+        [cardId]="cardId() || ''"
+        [listId]="listId() || ''"
         (labelCloseEvent)="handleLabelClose()"
       />
     </div>

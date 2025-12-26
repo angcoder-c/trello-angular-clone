@@ -15,13 +15,14 @@ import { Color, Label } from '../../types';
   styleUrl: './label-create-form.component.css'
 })
 export class LabelCreateFormComponent {
+  defaultColor: Color = { hex: '#CECED912', opacity: null }
   editMode = input<boolean>(false)
   labelData = input<Partial<Label>>()
   
-  currentColor = signal<Color>({ hex: '#CECED912', opacity: null });
+  currentColor = signal<Color>(this.defaultColor)
   formTitle = new FormGroup({
     title: new FormControl('', Validators.required)
-  });
+  })
 
   onBack = output<void>()
   onClose = output<void>()
@@ -35,16 +36,24 @@ export class LabelCreateFormComponent {
         if (data.color) {
           this.currentColor.set(data.color)
         }
+      } else {
+        this.formTitle.reset()
+        this.currentColor.set(this.defaultColor)
       }
     })
   }
 
   onSubmit() {
+    if (!this.formTitle.valid) return
+    
     const titleValue = this.formTitle.value.title?.trim()
     this.onSave.emit({
       name: titleValue || null,
       color: this.currentColor()
     })
+    
+    this.formTitle.reset()
+    this.currentColor.set(this.defaultColor)
   }
 
   setColor(color: Color) {

@@ -1,11 +1,12 @@
 import { Dexie, Table } from 'dexie'
-import { Board, Card, CheckList, CheckListItem, Label, List, Comment, Color } from './types';
+import { Board, Card, CheckList, CheckListItem, Label, List, Comment, Color, LabelOption } from './types';
 
 export class AppDB extends Dexie {
     board!: Table<Board>
     list!: Table<List>
     card!: Table<Card>
     label!: Table<Label>
+    labelOption!: Table<LabelOption>
     checklist!: Table<CheckList>
     checklistItem!: Table<CheckListItem>
     comment!: Table<Comment>
@@ -16,7 +17,8 @@ export class AppDB extends Dexie {
             board: 'id, title, isFavorite, isPublic, position, last_visit, edited, synced',
             list: 'id, board_id, name, position, edited, synced',
             card: 'id, list_id, title, position, maturity, edited, synced',
-            label: 'id, card_id, name, edited, synced',
+            label: 'id, card_id, name, label_option_id, edited, synced',
+            labelOption: 'id, list_id, name, edited, synced',
             checklist: 'id, card_id, title, position, edited, synced',
             checklistItem: 'id, checklist_id, title, completed, maturity, position, edited, synced',
             comment: 'id, card_id, created_at, updated_at, edited, synced'
@@ -207,6 +209,47 @@ export class AppDB extends Dexie {
 
     async deleteLabel(id: string): Promise<void> {
         await this.label.delete(id);
+    }
+
+    // label option crud
+    async addLabelOption(data: Omit<
+            LabelOption, 
+            (
+                'id' | 
+                'created_at' | 
+                'synced' | 
+                'edited'
+            )
+        >): Promise<string> {
+        const label: LabelOption = {
+            id: crypto.randomUUID(),
+            ...data,
+            created_at: new Date().toISOString().replace('Z', ''),
+            synced: false,
+            edited: false
+        };
+        await this.labelOption.add(label);
+        return label.id;
+    }
+
+    async getLabelOption(id: string): Promise<LabelOption | undefined> {
+        return await this.labelOption.get(id);
+    }
+
+    async getLabelOptionsByList(list_id: string): Promise<LabelOption[]> {
+        return await this.labelOption.where('list_id').equals(list_id).toArray();
+    }
+
+    async updateLabelOption(id: string, changes: Partial<LabelOption>): Promise<number> {
+        return await this.labelOption.update(id, {
+            ...changes,
+            edited: true,
+            synced: false
+        });
+    }
+
+    async deleteLabelOption(id: string): Promise<void> {
+        await this.labelOption.delete(id);
     }
 
     // checklist crud

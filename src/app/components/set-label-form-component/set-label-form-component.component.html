@@ -9,15 +9,15 @@
     <section class="flex flex-col gap-3 p-2">
         <h3>Labels</h3>
         <div class="w-full flex flex-col gap-2">
-            @for (option of labelStore.labelOptions(); track $index) {
-                <app-label-form-option 
-                [title]="option.name" 
-                [colorHex]="option.color?.hex"
-                [index]="$index"
-                [isChecked]="checkedLabels().has($index)"
+            @for (option of labelOptions(); track option.id) {
+               <app-label-form-option
+                [optionId]="option.id ?? ''"
+                [title]="option.name"
+                [colorHex]="option.color?.hex || 'transparent'"
+                [isChecked]="isLabelSelected(option.id ?? '')"
+                (onToggle)="handleToggleLabel($event)"
                 (onEdit)="handleEdit($event)"
-                (onCheckboxChange)="handleCheckboxChange($event)">
-                </app-label-form-option>
+                />
             }
         </div>
         <button type="button" (click)="openCreateForm()" class="flex flex-row justify-center items-center gap-2 px-4 py-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150 w-full disabled:opacity-50">
@@ -26,11 +26,11 @@
     </section>
 </div>
 } @else {
-<app-label-create-form
-    [editMode]="editingIndex() !== null"
-    [labelData]="getCurrentLabelData()"
-    (onBack)="handleBack()"
-    (onClose)="handleClose()"
-    (onSave)="handleSave($event)">
-</app-label-create-form>
+    <app-label-create-form
+        [editMode]="editMode()"
+        [labelData]="getCurrentLabelData()"
+        (onBack)="handleBack()"
+        (onClose)="handleClose()"
+        (onSave)="handleSave($event)">
+    </app-label-create-form>
 }

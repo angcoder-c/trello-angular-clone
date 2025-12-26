@@ -46,7 +46,19 @@ export interface Card {
 // ============ LABEL =============
 export interface Label {
     id: string  // UUID
+    label_option_id: string
     card_id: string
+    name: string | null
+    color: Color
+    created_at: string
+    synced: boolean
+    edited: boolean
+}
+
+// ============ LABEL OPTION =============
+export interface LabelOption {
+    id: string  // UUID
+    list_id: string
     name: string | null
     color: Color
     created_at: string

@@ -10,20 +10,20 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './label-form-option.component.css'
 })
 export class LabelFormOptionComponent {
+  optionId = input.required<string>()
   title = input<string | null>()
   colorHex = input<string>()
-  index = input.required<number>()
-  isChecked = input<boolean | undefined>(false)
+  isChecked = input<boolean>(false)
   
-  onEdit = output<number>()
-  onCheckboxChange = output<{index: number, checked: boolean}>()
+  onEdit = output<string>()
+  onToggle = output<string>() 
 
   handleEdit() {
-    this.onEdit.emit(this.index())
+    this.onEdit.emit(this.optionId());
   }
 
   handleCheckboxChange(event: Event) {
-    const checked = (event.target as HTMLInputElement).checked
-    this.onCheckboxChange.emit({ index: this.index(), checked })
+    const checked = (event.target as HTMLInputElement).checked;
+    this.onToggle.emit(this.optionId());
   }
 }

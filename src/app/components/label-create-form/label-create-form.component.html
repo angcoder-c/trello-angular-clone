@@ -1,40 +1,70 @@
-<div class="bg-[#242528] text-white rounded-md max-h-screen overflow-y-auto w-auto scroll-config shadow-lg shadow-black/25">
-    <header class="p-2 border-b border-gray-700 flex flex-row justify-between items-center">
-        <button type="button" (click)="handleBack()" class="flex flex-col justify-center items-center p-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150">
-            <mat-icon 
-            [style.fontSize]="'20px'">
+<div class="bg-[#242528] text-white rounded-md max-h-screen overflow-y-auto 
+w-auto scroll-config shadow-lg shadow-black/25 min-w-xs">
+    <header class="p-2 border-b border-gray-700 flex flex-row 
+    justify-between items-center">
+        <button 
+            type="button" 
+            (click)="handleBack()" 
+            class="flex flex-col justify-center items-center p-2 rounded-md 
+            bg-[#383a3e] hover:bg-[#5a5b5d] duration-150"
+        >
+            <mat-icon [style.fontSize]="'20px'">
                 arrow_back
             </mat-icon>
         </button>
         <h2 class="font-medium">{{ editMode() ? 'Edit label' : 'Create label' }}</h2>
-        <button type="button" (click)="handleClose()" class="flex flex-col justify-center items-center p-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150">
-            <mat-icon 
-            [style.fontSize]="'20px'">
+        <button 
+            type="button" 
+            (click)="handleClose()" 
+            class="flex flex-col justify-center items-center p-2 rounded-md 
+            bg-[#383a3e] hover:bg-[#5a5b5d] duration-150"
+        >
+            <mat-icon [style.fontSize]="'20px'">
                 close
             </mat-icon>
         </button>
     </header>
+    
     <div class="bg-[#18191A] w-full flex items-center justify-center py-7">
-        <div class="w-[70%] min-h-6 rounded-md" 
-        [style.background]="currentColor().hex"></div>
+        <div 
+            class="w-[70%] min-h-8 rounded-md flex items-center justify-center 
+            px-3 text-white font-medium" 
+            [style.background]="currentColor().hex"
+        >
+            {{ formTitle.value.title || 'Preview' }}
+        </div>
     </div>
+    
     <form 
-    [formGroup]="formTitle"
-    (ngSubmit)="onSubmit()"
-    class="w-full flex flex-col gap-3 px-4 py-3">
+        [formGroup]="formTitle"
+        (ngSubmit)="onSubmit()"
+        class="w-full flex flex-col gap-3 px-4 py-3"
+    >
         <div class="w-full flex flex-col gap-1">
-            <label for="labelName">Title</label>
+            <label for="labelName" class="text-sm text-gray-400">Title</label>
             <input 
-            type="text" 
-            formControlName="title"
-            class="appearance-none px-3 py-2 rounded-md focus:outline-2 focus:outline-[#669DF1] bg-[#18191A] border-1 border-gray-400 focus:border-[#669DF1]"
+                type="text" 
+                id="labelName"
+                formControlName="title"
+                placeholder="Enter label name (optional)"
+                maxlength="50"
+                class="appearance-none px-3 py-2 rounded-md focus:outline-2 
+                focus:outline-[#669DF1] bg-[#18191A] border border-gray-600 
+                focus:border-[#669DF1] text-white placeholder:text-gray-500"
             />
         </div>
-        <app-color-picker (selectColorEvent)="setColor($event)"/>
+        
+        <div class="w-full flex flex-col gap-1">
+            <label class="text-sm text-gray-400">Select a color</label>
+            <app-color-picker (selectColorEvent)="setColor($event)"/>
+        </div>
+        
         <button 
-        type="submit"
-        [disabled]="!formTitle.valid" 
-        class="flex flex-row justify-center items-center gap-2 px-4 py-2 rounded-md bg-[#669DF1] hover:bg-[#8cb7f6] duration-150 w-full disabled:opacity-50 text-[#242528] font-medium">
+            type="submit"
+            class="flex flex-row justify-center items-center gap-2 px-4 py-2 
+            rounded-md bg-[#669DF1] hover:bg-[#8cb7f6] duration-150 
+            w-full text-[#242528] font-medium"
+        >
             <span>{{ editMode() ? 'Save' : 'Create' }}</span>
         </button>
     </form>

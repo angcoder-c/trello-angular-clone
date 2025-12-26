@@ -16,6 +16,7 @@ export class OpenFormButtonComponent {
   type = input<'datetime' | 'label' | 'checklist'>()
   buttonText = input<string>()
   cardId = input<string>()
+  listId = input<string>()
   open = signal<boolean>(false)
   buttonRef = viewChild<ElementRef>('button')
   formRef = viewChild<ElementRef>('form')

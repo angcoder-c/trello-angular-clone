@@ -51,8 +51,8 @@ flex flex-col overflow-hidden text-white z-1">
                     <app-open-form-button 
                     type="label"
                     [cardId]="card()?.id"
+                    [listId]="card()?.list_id"
                     buttonText="Labels"
-                    (labelToggleEvent)="handleLabelToggle($event)"
                     (labelSaveEvent)="handleLabelSave($event)"
                     (labelCloseEvent)="handleLabelClose()"
                     />
