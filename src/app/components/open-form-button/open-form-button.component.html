@@ -20,6 +20,7 @@
       (click)="$event.stopPropagation()"
     >
       <app-date-form
+        [currentDatetime]="currentDatetime()"
         (datetimeEvent)="handleDatetimeEvent($event)"
       />
     </div>
@@ -39,6 +40,21 @@
         [listId]="listId() || ''"
         (labelCloseEvent)="handleLabelClose()"
       />
+    </div>
+  }
+
+  @if (type() === 'checklist') {
+    <div
+      #form
+      class="fixed left-1/2 -translate-x-1/2 -translate-y-1/2
+      z-20 origin-top transition-all duration-300 ease-out"
+      [class.scale-100]="open()"
+      [class.scale-0]="!open()"
+      (click)="$event.stopPropagation()"
+    >
+      <app-checklist-create-form
+        (labelCloseEvent)="handleLabelClose()"
+        />
     </div>
   }
 

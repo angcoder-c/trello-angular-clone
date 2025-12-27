@@ -71,7 +71,6 @@ export interface CheckList {
     id: string  // UUID
     card_id: string
     title: string
-    position: number
     created_at: string
     updated_at: string
     synced: boolean
@@ -84,7 +83,6 @@ export interface CheckListItem {
     title: string
     completed: boolean
     maturity: string | null
-    position: number
     created_at: string
     updated_at: string
     synced: boolean

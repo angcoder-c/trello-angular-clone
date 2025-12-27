@@ -19,8 +19,8 @@ export class AppDB extends Dexie {
             card: 'id, list_id, title, position, maturity, edited, synced',
             label: 'id, card_id, name, label_option_id, edited, synced',
             labelOption: 'id, list_id, name, edited, synced',
-            checklist: 'id, card_id, title, position, edited, synced',
-            checklistItem: 'id, checklist_id, title, completed, maturity, position, edited, synced',
+            checklist: 'id, card_id, title, edited, synced',
+            checklistItem: 'id, checklist_id, title, completed, maturity, edited, synced',
             comment: 'id, card_id, created_at, updated_at, edited, synced'
         });
     }

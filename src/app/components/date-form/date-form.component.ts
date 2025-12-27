@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, HostListener, model, output, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, HostListener, input, model, output, signal, viewChild } from '@angular/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormControl, FormGroup, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,8 +18,17 @@ import { FormControl, FormGroup, Validators, ɵInternalFormsSharedModule, Reacti
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateFormComponent {
+  currentDatetime = input<string | undefined | null>()
   selected = model<Date | null>(new Date());
   datetimeEvent = output<string | undefined>();
+
+  ngOnInit () {
+    this.selected.set(
+      this.currentDatetime() 
+      ? new Date(this.currentDatetime()!) 
+      : new Date()
+    )
+  }
 
   date = computed(() => {
     const sel = this.selected();

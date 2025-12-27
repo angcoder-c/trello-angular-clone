@@ -2,12 +2,14 @@ import { Component, input, signal, viewChild, ElementRef, HostListener, output }
 import { DateFormComponent } from '../date-form/date-form.component';
 import { SetLabelFormComponentComponent } from '../set-label-form-component/set-label-form-component.component';
 import { Color, Label } from '../../types';
+import { ChecklistCreateFormComponent } from '../checklist-create-form/checklist-create-form.component';
 
 @Component({
   selector: 'app-open-form-button',
   imports: [
     DateFormComponent, 
-    SetLabelFormComponentComponent
+    SetLabelFormComponentComponent,
+    ChecklistCreateFormComponent
   ],
   templateUrl: './open-form-button.component.html',
   styleUrls: ['./open-form-button.component.css']
@@ -17,6 +19,7 @@ export class OpenFormButtonComponent {
   buttonText = input<string>()
   cardId = input<string>()
   listId = input<string>()
+  currentDatetime = input<string | undefined | null>()
   open = signal<boolean>(false)
   buttonRef = viewChild<ElementRef>('button')
   formRef = viewChild<ElementRef>('form')

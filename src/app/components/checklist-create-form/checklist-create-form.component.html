@@ -1,0 +1,35 @@
+<div class="bg-[#242528] text-white rounded-md min-w-3xs shadow-lg shadow-black/25 max-h-screen overflow-y-auto w-auto scroll-config">
+    <header class="relative flex flex-row justify-center items-center text-white p-4 border-b-2 border-gray-600">
+        <h2 class="font-medium">Add checklist</h2>
+        <button type="button" (click)="handleClose()" class="absolute right-0 m-2 flex flex-col justify-center items-center p-2 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150">
+            <mat-icon>close</mat-icon>
+        </button>
+    </header>
+    <main class="flex flex-col gap-3 p-2 pt-4">
+        <form [formGroup]="formTitle"
+        class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="labelName" class="text-sm text-gray-400">Title</label>
+                <input 
+                type="text" 
+                id="labelName"
+                formControlName="title"
+                placeholder="Checklist"
+                maxlength="50"
+                class="appearance-none px-3 py-2 rounded-md focus:outline-2 
+                focus:outline-[#669DF1] bg-[#18191A] border border-gray-600 
+                focus:border-[#669DF1] text-white placeholder:text-gray-500"
+                />
+            </div>
+            <button 
+            type="submit"
+            [disabled]="!formTitle.valid"
+            class="flex flex-row justify-center items-center gap-2 px-4 py-2 
+            rounded-md bg-[#669DF1] hover:bg-[#8cb7f6] duration-150 
+            w-full text-[#242528] font-medium disabled:opacity-50"
+        >
+            Add
+        </button>
+        </form>
+    </main>
+</div>
