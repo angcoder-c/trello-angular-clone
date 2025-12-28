@@ -54,6 +54,7 @@
     >
       <app-checklist-create-form
         (labelCloseEvent)="handleLabelClose()"
+        (titleEvent)="emitNewChecklistTitle($event)"
         />
     </div>
   }

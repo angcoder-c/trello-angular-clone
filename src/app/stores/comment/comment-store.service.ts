@@ -16,6 +16,16 @@ export class CommentStore {
 
   async loadCommentsByCard (card_id: string) {
     const commentsByCard = await db.getCommentsByCard(card_id)
+
+    if (commentsByCard.length === this.comments().length) return undefined
+
+    if(
+      commentsByCard
+      .every(
+        (comment, index) => 
+          comment.id === this.comments()[index]?.id
+      )
+    ) return 
     this.comments.update(comments => [...comments, ...commentsByCard])
   }
 

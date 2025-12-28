@@ -20,13 +20,17 @@ export class OpenFormButtonComponent {
   cardId = input<string>()
   listId = input<string>()
   currentDatetime = input<string | undefined | null>()
-  open = signal<boolean>(false)
+
+  labelToggleEvent = output<{ index: number; checked: boolean; option: Partial<Label> }>()
+  labelSaveEvent = output<{ index: number | null; name: string | null; color: Color }>()
+  labelCloseEvent = output<void>()
+  datetimeEvent = output<string | undefined>()
+  newChecklistTitleEvent = output<string | undefined>()
+
   buttonRef = viewChild<ElementRef>('button')
   formRef = viewChild<ElementRef>('form')
-  datetimeEvent = output<string | undefined>();
-  labelToggleEvent = output<{ index: number; checked: boolean; option: Partial<Label> }>();
-  labelSaveEvent = output<{ index: number | null; name: string | null; color: Color }>();
-  labelCloseEvent = output<void>();
+  
+  open = signal<boolean>(false)
 
   openForm() {
     this.open.set(true)
@@ -68,5 +72,9 @@ export class OpenFormButtonComponent {
     }
 
     this.open.set(false);
+  }
+
+  emitNewChecklistTitle(title: string | undefined) {
+    this.newChecklistTitleEvent.emit(title)
   }
 }

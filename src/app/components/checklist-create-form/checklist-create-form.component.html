@@ -6,7 +6,9 @@
         </button>
     </header>
     <main class="flex flex-col gap-3 p-2 pt-4">
-        <form [formGroup]="formTitle"
+        <form 
+        [formGroup]="formTitle"
+        (ngSubmit)="onSubmit()"
         class="flex flex-col gap-4">
             <div class="flex flex-col gap-2">
                 <label for="labelName" class="text-sm text-gray-400">Title</label>

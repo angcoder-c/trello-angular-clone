@@ -100,32 +100,10 @@ export class CardModalComponent {
     await this.cardStore.setMaturity(this.card()?.id as string, null);
   }
 
-  /*
-  async handleLabelToggle(event: { index: number; checked: boolean; option: Partial<Label> }) {
-    if (!this.card()) return
-
-    const currentMap = new Map(this.labelAssignments())
-
-    if (event.checked) {
-      const created = await this.labelStore.createLabel({
-        card_id: this.card()?.id as string,
-        name: event.option.name ?? null,
-        color: event.option.color ?? { hex: '#000000', opacity: null }
-      })
-      if (created?.id) {
-        currentMap.set(event.index, created.id)
-      }
-    } else {
-      const labelId = currentMap.get(event.index)
-      if (labelId) {
-        await this.labelStore.deleteLabel(labelId)
-        currentMap.delete(event.index)
-      }
-    }
-
-    this.labelAssignments.set(currentMap)
+  async createNewChecklist(title: string | undefined) {
+    // Placeholder for creating a new checklist
+    console.log('Creating new checklist with title:', title);
   }
-  */
 
   handleLabelSave(_event: { index: number | null; name: string | null; color: Color }) {}
 
