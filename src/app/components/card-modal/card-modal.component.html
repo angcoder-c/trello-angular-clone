@@ -122,6 +122,12 @@ flex flex-col overflow-hidden text-white z-1">
                     (changeDescriptionEvent)="changeDescription($event)" />
                 </div>
             </div>
+
+            @if (checklists().length > 0) {
+                @for (checklist of checklists(); track checklist.id) {
+                    <p>{{ checklist.title }}</p>
+                }
+            }
         </div>
         <!--COMMENTS-->
         <div class="w-full lg:w-[50%] bg-transparent lg:bg-[#18191A]

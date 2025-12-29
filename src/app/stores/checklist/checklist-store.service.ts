@@ -5,7 +5,7 @@ import { db } from '../../db';
 @Injectable({
   providedIn: 'root'
 })
-export class ChecklistStoreService {
+export class ChecklistStore {
   checklists = signal<CheckList[]>([]);
   checklistItems = signal<CheckListItem[]>([]);
 

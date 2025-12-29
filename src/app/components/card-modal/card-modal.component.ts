@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
-import { Card, Color, Comment, Label } from '../../types';
+import { Card, Color, Comment, Label, CheckList, CheckListItem, CheckListExtended } from '../../types';
 import { CardStore } from '../../stores/card/card-store.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
@@ -10,6 +10,8 @@ import { CommentStore } from '../../stores/comment/comment-store.service';
 import { OpenFormButtonComponent } from '../open-form-button/open-form-button.component';
 import { DatePipe } from '@angular/common';
 import { LabelStore } from '../../stores/label/label-store.service';
+import { ChecklistStore } from '../../stores/checklist/checklist-store.service';
+
 @Component({
   selector: 'app-card-modal',
   imports: [
@@ -27,6 +29,7 @@ export class CardModalComponent {
   private cardStore = inject(CardStore)
   private commentStore = inject(CommentStore)
   private labelStore = inject(LabelStore)
+  private checklistStore = inject(ChecklistStore)
   readonly data = inject(DIALOG_DATA)
   private dialogRef = inject(DialogRef)
 
@@ -51,6 +54,15 @@ export class CardModalComponent {
     .filter(
       label => label.card_id === this.data.id
     )
+  })
+
+  checklists = computed<CheckListExtended[]>(()=>{
+    const cls = this.checklistStore.checklists()
+    return cls.map(cl => ({
+      ...cl,
+      items: this.checklistStore.checklistItems()
+      .filter(item => item.checklist_id === cl.id)
+    }))
   })
 
   async ngOnInit () {
@@ -101,8 +113,13 @@ export class CardModalComponent {
   }
 
   async createNewChecklist(title: string | undefined) {
-    // Placeholder for creating a new checklist
     console.log('Creating new checklist with title:', title);
+    if (!title || !this.card()) return undefined;
+
+    const newChecklist = await this.checklistStore.createChecklist(
+      this.card()?.id as string,
+      title
+    );
   }
 
   handleLabelSave(_event: { index: number | null; name: string | null; color: Color }) {}

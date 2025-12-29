@@ -89,6 +89,11 @@ export interface CheckListItem {
     edited: boolean
 }
 
+
+export interface CheckListExtended extends CheckList {
+    items: CheckListItem[]
+}
+
 // ============ COMMENT =============
 export interface Comment {
     id: string
