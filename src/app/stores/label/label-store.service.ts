@@ -127,17 +127,8 @@ export class LabelStore {
   // ============ LABELS ============
   
   async loadLabelsForCard(cardId: string) {
-    const newLabels = await db.getLabelsByCard(cardId)
-    if (newLabels.length === this.labels().length) return undefined
-
-    if(
-      newLabels
-      .every(
-        (label, index) => 
-          label.id === this.labels()[index]?.id
-      )
-    ) return 
-    this.labels.update((labels) => [...labels, ...newLabels])
+    const labels = await db.getLabelsByCard(cardId)
+    this.labels.set(labels)
   }
 
   async createLabel(label: Omit<

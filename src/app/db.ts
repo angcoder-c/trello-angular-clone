@@ -281,7 +281,7 @@ export class AppDB extends Dexie {
     }
 
     async getChecklistsByCard(card_id: string): Promise<CheckList[]> {
-        return await this.checklist.where('card_id').equals(card_id).sortBy('position');
+        return await this.checklist.where('card_id').equals(card_id).sortBy('created_at');
     }
 
     async updateChecklist(id: string, changes: Partial<CheckList>): Promise<number> {
@@ -326,7 +326,7 @@ export class AppDB extends Dexie {
     }
 
     async getChecklistItemsByChecklist(checklist_id: string): Promise<CheckListItem[]> {
-        return await this.checklistItem.where('checklist_id').equals(checklist_id).sortBy('position');
+        return await this.checklistItem.where('checklist_id').equals(checklist_id).sortBy('created_at');
     }
 
     async updateChecklistItem(id: string, changes: Partial<CheckListItem>): Promise<number> {
