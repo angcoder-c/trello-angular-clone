@@ -24,9 +24,9 @@ flex flex-col overflow-hidden text-white z-1">
             </button>
         </div>
     </div>
-    <div class="flex flex-col lg:flex-row h-full px-4 pb-4 lg:p-0 lg:overflow-hidden overflow-y-scroll scroll-config">
+    <div #parentContentContainer class="flex flex-col lg:flex-row h-full pb-4 lg:p-0 px-4 sm:px-15 md:px-20 lg:overflow-hidden overflow-y-scroll scroll-config">
         <!--CONTENT-->
-        <div class="flex flex-col gap-5 w-full lg:w-[50%] pt-3 lg:px-4 lg:pb-2 lg:overflow-y-scroll scroll-config">
+        <div #contentContainer class="flex flex-col gap-5 w-full lg:w-[50%] pt-3 lg:px-4 lg:pb-2 lg:overflow-y-scroll scroll-config">
             <div class="flex flex-row box-content gap-2">
                 <div 
                 (click)="checkCard()"
@@ -124,9 +124,26 @@ flex flex-col overflow-hidden text-white z-1">
             </div>
 
             @if (checklists().length > 0) {
-                @for (checklist of checklists(); track checklist.id) {
-                    <p>{{ checklist.title }}</p>
-                }
+                <div #checklistSection class="flex flex-col gap-2 w-full">
+                    @for (checklist of checklists(); track checklist.id) {
+                        <div data-checklist-item class="w-full flex flex-col gap-3">
+                            <div class="flex flex-row justify-between items-center">
+                                <div>
+                                    <mat-icon>checklist</mat-icon>
+                                    <p>{{ checklist.title }}</p>
+                                </div>
+                                <button type="button" (click)="deleteChecklist(checklist.id)">Delete</button>
+                            </div>
+                            <div>
+                                @if (checklist.items.length > 0) {
+                                    @for (item of checklist.items; track item.id) {
+                                        <p>{{ item.title }}</p>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
             }
         </div>
         <!--COMMENTS-->

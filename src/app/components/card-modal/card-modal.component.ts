@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { Component, computed, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
 import { Card, Color, Comment, Label, CheckList, CheckListItem, CheckListExtended } from '../../types';
 import { CardStore } from '../../stores/card/card-store.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
@@ -35,6 +35,11 @@ export class CardModalComponent {
 
   labelAssignments = signal<Map<number, string>>(new Map())
 
+  // checklist card scroll refs
+  checklistSectionRef = viewChild<ElementRef>('checklistSection')
+  contentContainerRef = viewChild<ElementRef>('contentContainer')
+  parentContentContainerRef = viewChild<ElementRef>('parentContentContainer')
+
   card = computed<Card | undefined>(()=>{
     return this.cardStore.cards()
     .filter(
@@ -68,6 +73,7 @@ export class CardModalComponent {
   async ngOnInit () {
     await this.commentStore.loadCommentsByCard(this.data.id)
     await this.labelStore.loadLabelsForCard(this.data.id)
+    await this.checklistStore.loadChecklistsByCard(this.data.id)
   }
 
   closeDialog() {
@@ -119,7 +125,44 @@ export class CardModalComponent {
     const newChecklist = await this.checklistStore.createChecklist(
       this.card()?.id as string,
       title
-    );
+    )
+     setTimeout(() => this.scrollToLastChecklist(), 0);
+  }
+
+  async deleteChecklist(checklistId: string) {
+    await this.checklistStore.deleteChecklist(checklistId);
+  }
+
+  scrollToLastChecklist() {
+      const checklistSection = this.checklistSectionRef()?.nativeElement;
+      if (!checklistSection) return;
+
+      const checklistItems = checklistSection.querySelectorAll('[data-checklist-item]');
+      const lastChecklist = checklistItems[checklistItems.length - 1];
+
+      if (!lastChecklist) return;
+
+      const isLargeScreen = window.innerWidth >= 1024; // lg de Tailwind
+      
+      if (isLargeScreen) {
+          const containerEl = this.contentContainerRef()?.nativeElement;
+          if (containerEl) {
+              const offsetTop = lastChecklist.offsetTop - containerEl.offsetTop;
+              containerEl.scrollTo({
+                  top: offsetTop,
+                  behavior: 'smooth'
+              });
+          }
+      } else {
+          const parentEl = this.parentContentContainerRef()?.nativeElement;
+          if (parentEl) {
+              const offsetTop = lastChecklist.offsetTop - parentEl.offsetTop;
+              parentEl.scrollTo({
+                  top: offsetTop,
+                  behavior: 'smooth'
+              });
+          }
+      }
   }
 
   handleLabelSave(_event: { index: number | null; name: string | null; color: Color }) {}
