@@ -127,4 +127,11 @@ export class ChecklistStore {
     await db.deleteChecklistItem(checklist_item_id)
     this.checklistItems.update(items => items.filter(i => i.id !== checklist_item_id))
   }
+
+  calculateChecklistCompletion(checklist_id: string): number {
+    const items = this.checklistItems().filter(item => item.checklist_id === checklist_id)
+    if (items.length === 0) return 0
+    const completedItems = items.filter(item => item.completed).length
+    return Math.round((completedItems / items.length) * 100)
+  }
 }

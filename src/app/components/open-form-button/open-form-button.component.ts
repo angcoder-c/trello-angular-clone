@@ -16,6 +16,9 @@ import { ChecklistCreateFormComponent } from '../checklist-create-form/checklist
 })
 export class OpenFormButtonComponent {
   type = input<'datetime' | 'label' | 'checklist'>()
+  // classlist for the button, is required non optional
+  classlist = input<string>()
+
   buttonText = input<string>()
   cardId = input<string>()
   listId = input<string>()

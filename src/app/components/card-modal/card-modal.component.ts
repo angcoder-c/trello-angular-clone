@@ -8,9 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommentComponent } from '../comment/comment.component';
 import { CommentStore } from '../../stores/comment/comment-store.service';
 import { OpenFormButtonComponent } from '../open-form-button/open-form-button.component';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { LabelStore } from '../../stores/label/label-store.service';
 import { ChecklistStore } from '../../stores/checklist/checklist-store.service';
+import { ChecklistItemCreateFormComponent } from '../checklist-item-create-form/checklist-item-create-form.component';
 
 @Component({
   selector: 'app-card-modal',
@@ -20,8 +21,10 @@ import { ChecklistStore } from '../../stores/checklist/checklist-store.service';
     DescriptionFormComponent,
     CommentComponent,
     OpenFormButtonComponent,
-    DatePipe
-  ],
+    DatePipe,
+    ChecklistItemCreateFormComponent,
+    NgIf
+],
   templateUrl: './card-modal.component.html',
   styleUrl: './card-modal.component.css'
 })
@@ -119,7 +122,6 @@ export class CardModalComponent {
   }
 
   async createNewChecklist(title: string | undefined) {
-    console.log('Creating new checklist with title:', title);
     if (!title || !this.card()) return undefined;
 
     const newChecklist = await this.checklistStore.createChecklist(
@@ -163,6 +165,33 @@ export class CardModalComponent {
               });
           }
       }
+  }
+
+  async addItemToChecklist(event: { 
+    checklistId: string,
+    title: string, 
+    maturity: string | undefined 
+  }) {
+    if (!event.title) return;
+    const checklist = await this.checklistStore.addChecklistItem(event.checklistId, event.title);
+    if (checklist && event.maturity) {
+      await this.checklistStore.updateChecklistItemMaturity(
+        checklist.id, 
+        event.maturity
+      );
+    }
+  }
+
+  async deleteChecklistItem(itemId: string) {
+    await this.checklistStore.deleteChecklistItem(itemId);
+  }
+
+  async toggleChecklistItemCompletion(itemId: string) {
+    await this.checklistStore.toggleChecklistItemCompletion(itemId);
+  }
+
+  calculateChecklistProgress(checklist: CheckListExtended): number {
+    return this.checklistStore.calculateChecklistCompletion(checklist.id);
   }
 
   handleLabelSave(_event: { index: number | null; name: string | null; color: Color }) {}

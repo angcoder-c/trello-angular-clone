@@ -65,3 +65,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: #2B2C2F !important;
   font-weight: 600;
 }
+
+
+
+/*Body*/
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
