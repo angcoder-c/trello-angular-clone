@@ -19,8 +19,6 @@ export interface List {
     id: string  // UUID
     board_id: string 
     name: string
-    collapse: boolean
-    color: Color
     position: number
     created_at: string
     updated_at: string
