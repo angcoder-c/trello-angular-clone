@@ -1,0 +1,45 @@
+<div class="group flex items-start justify-between gap-3 px-3 py-2 
+rounded-md transition duration-100 hover:bg-[#3A3B3E]">
+    <!-- Left -->
+    <div class="flex flex-1 items-start gap-3">
+        <input 
+        type="checkbox" 
+        [checked]="item()?.completed" 
+        [id]="item()?.id"
+        (change)="toggleCompletion()" 
+        class="mt-0.5 appearance-none w-5 h-5 
+        border-2 border-gray-400 rounded-md
+        checked:bg-blue-500 checked:border-blue-500
+        focus:outline-none focus:ring-2 focus:ring-blue-400
+        checked:before:content-['✔']
+        checked:before:text-white
+        flex items-center justify-center" />
+
+        <div class="flex flex-col gap-1 w-full">
+            <label 
+            [for]="item()?.id" 
+            class="cursor-pointer leading-snug select-none">
+                {{ item()?.title }}
+            </label>
+
+            @if (item()?.maturity) {
+            <span class="text-xs px-2 py-0.5 w-fit
+                                                    bg-[#4e500169] text-white font-medium rounded">
+                {{ item()?.maturity | date:'short' }}
+            </span>
+            }
+        </div>
+    </div>
+
+    <!-- Action -->
+    <button 
+    type="button" 
+    (click)="deleteChecklistItem()" 
+    class="p-1 rounded-md flex items-center justify-center
+    bg-[#28000069] text-white
+    hover:bg-[#400000] active:bg-[#500000]
+    opacity-0 group-hover:opacity-100
+    transition duration-100">
+        <mat-icon class="text-base">close</mat-icon>
+    </button>
+</div>

@@ -12,6 +12,7 @@ import { DatePipe, NgIf } from '@angular/common';
 import { LabelStore } from '../../stores/label/label-store.service';
 import { ChecklistStore } from '../../stores/checklist/checklist-store.service';
 import { ChecklistItemCreateFormComponent } from '../checklist-item-create-form/checklist-item-create-form.component';
+import { ChecklistComponent } from '../checklist/checklist.component'
 
 @Component({
   selector: 'app-card-modal',
@@ -22,8 +23,7 @@ import { ChecklistItemCreateFormComponent } from '../checklist-item-create-form/
     CommentComponent,
     OpenFormButtonComponent,
     DatePipe,
-    ChecklistItemCreateFormComponent,
-    NgIf
+    ChecklistComponent
 ],
   templateUrl: './card-modal.component.html',
   styleUrl: './card-modal.component.css'

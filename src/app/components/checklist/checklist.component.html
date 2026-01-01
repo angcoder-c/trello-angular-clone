@@ -1,0 +1,41 @@
+<div data-checklist-item class="w-full flex flex-col gap-3">
+    <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-row items-center gap-2">
+            <mat-icon>checklist</mat-icon>
+            <span class="font-medium">
+                {{ checklist()?.title }}
+            </span>
+        </div>
+        <button 
+        class="px-2 py-1 bg-[#E3E4F21F] text-gray-300 rounded-md hover:bg-[#E3E4F233] active:bg-[#E3E4F233]"
+        type="button" 
+        (click)="deleteChecklist()">
+            Delete
+        </button>
+    </div>
+    <div class="flex flex-row items-center gap-3">
+        <span class="text-xs text-gray-300">
+            {{ completionPercentage() }}%
+        </span>
+        <div class="w-full bg-[#3A3B3E] h-0.5 rounded-md overflow-hidden">
+            <div 
+            class="h-3 rounded-md transition-all duration-500"
+            [style.width.%]="completionPercentage()"
+            [style.backgroundColor]="completionPercentage()===100 ? '#94C748' : '#669DF1'">
+            </div>
+        </div>
+    </div>
+    <div>
+        @if (checklist()?.items?.length) {
+            @for (item of checklist()?.items; track item.id) {
+                <app-checklist-item 
+                [item]="item" 
+                (checkEvent)="toggleCompletion($event)"
+                (deleteEvent)="deleteItem($event)" />
+            }
+        }
+    </div>
+    <app-checklist-item-create-form 
+    [id]="checklist()?.id" 
+    (createItemEvent)="addItem($event)" />
+</div>
