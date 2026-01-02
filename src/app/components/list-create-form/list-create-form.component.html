@@ -1,0 +1,43 @@
+@if (!openForm()) {
+    <button 
+    #button
+    type="button"
+    class="px-2 py-1 w-[272px] text-gray-300 duration-200 
+    bg-[#E3E4F21F] hover:bg-[#ffffff32] rounded-md"
+    (click)="open()">
+        Add an another list
+    </button>
+} @else {
+    <form
+    #form
+    [formGroup]="titleGroup" 
+    (ngSubmit)="submit()"
+    class="grid grid-rows-2 gap-3 min-w-[272px]">
+        <input
+        class="appearance-none w-full px-3 py-2 border-gray-500 
+        rounded-md shadow-sm placeholder-gray-400 focus:outline-none 
+        focus:ring-[#669DF1] focus:border-[#669DF1] 
+        border-2 sm:text-sm duration-75"
+        formControlName="title"
+        type="text" 
+        placeholder="Add an item">
+
+        <div class="flex flex-row justify-between items-center">
+            <div class="flex flex-row gap-2">
+                <button 
+                type="submit" 
+                class="bg-[#669DF1] text-[#242528] font-medium 
+                px-2 py-1 rounded-md hover:bg-[#8FB8F6]">
+                    Add
+                </button>
+                <button
+                class="px-2 py-1 text-gray-300 duration-200 
+                hover:bg-[#ffffff22] rounded-md" 
+                type="button" 
+                (click)="cancel()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+}

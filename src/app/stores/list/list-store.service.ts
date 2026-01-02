@@ -6,7 +6,7 @@ import { db } from '../../db';
   providedIn: 'root'
 })
 export class ListStore {
-  private lists = signal<List[]>([]);
+  lists = signal<List[]>([]);
 
   constructor() { }
 
@@ -15,7 +15,7 @@ export class ListStore {
     this.lists.set(listsByBoard);
   }
 
-  async createList(name: string, board_id: string) {
+  async createList(board_id: string, name: string) {
     if (!name.trim() && !board_id) return undefined
     const listId: string = await db.addList({
       name,

@@ -1,12 +1,14 @@
 import { Component, ElementRef, HostListener, input, output, signal, viewChild } from '@angular/core';
 import { OpenFormButtonComponent } from "../open-form-button/open-form-button.component";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-checklist-item-create-form',
   imports: [
     ReactiveFormsModule,
-    OpenFormButtonComponent
+    OpenFormButtonComponent,
+    DatePipe
   ],
   templateUrl: './checklist-item-create-form.component.html',
   styleUrl: './checklist-item-create-form.component.css'
@@ -57,21 +59,25 @@ export class ChecklistItemCreateFormComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    if (!this.openForm()) return;
+    if (!this.openForm()) return
 
-    const formEl = this.formRef()?.nativeElement as HTMLElement | undefined;
-    const buttonEl = this.buttonRef()?.nativeElement as HTMLElement | undefined;
-    const target = event.target as Node | null;
+    const formEl = this.formRef()?.nativeElement as HTMLElement | undefined
+    const buttonEl = this.buttonRef()?.nativeElement as HTMLElement | undefined
+    const target = event.target as Node | null
 
     if (!target) {
-      this.openForm.set(false);
-      return;
+      this.openForm.set(false)
+      this.maturity.set(undefined)
+      this.titleGroup.reset()
+      return
     }
 
     if (formEl?.contains(target) || buttonEl?.contains(target)) {
-      return;
+      return
     }
 
-    this.openForm.set(false);
+    this.openForm.set(false)
+    this.maturity.set(undefined)
+    this.titleGroup.reset()
   }
 }

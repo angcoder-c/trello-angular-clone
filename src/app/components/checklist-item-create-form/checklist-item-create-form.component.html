@@ -12,15 +12,23 @@
     #form
     [formGroup]="titleGroup" 
     (ngSubmit)="submit()"
-    class="grid grid-rows-2 gap-3 w-full">
-        <input
-        class="appearance-none w-full px-3 py-2 border-gray-500 
-        rounded-md shadow-sm placeholder-gray-400 focus:outline-none 
-        focus:ring-[#669DF1] focus:border-[#669DF1] 
-        border-2 sm:text-sm duration-75"
-        formControlName="title"
-        type="text" 
-        placeholder="Add an item">
+    class="flex flex-col gap-3 w-full">
+        <div class="flex flex-col gap-2 w-full">
+            <input
+            class="appearance-none w-full px-3 py-2 border-gray-500 
+            rounded-md shadow-sm placeholder-gray-400 focus:outline-none 
+            focus:ring-[#669DF1] focus:border-[#669DF1] 
+            border-2 sm:text-sm duration-75"
+            formControlName="title"
+            type="text" 
+            placeholder="Add an item">
+
+            @if (maturity()) {
+                <div class="text-sm text-gray-400">
+                    Due date: {{ maturity() | date:'short' }}
+                </div>
+            }
+        </div>
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-row gap-2">
                 <button 

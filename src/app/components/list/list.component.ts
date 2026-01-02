@@ -7,6 +7,7 @@ import { FormControl, FormGroup, FormSubmittedEvent, ReactiveFormsModule, Valida
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
 import { CreateCardFormComponent } from '../create-card-form/create-card-form.component';
 import { Card } from '../../types';
+import { ListStore } from '../../stores/list/list-store.service';
 
 @Component({
   selector: 'app-list',
@@ -20,8 +21,15 @@ import { Card } from '../../types';
 })
 export class ListComponent {
   readonly listId = input<string>()
-  title = signal<string>('Titulo')
+  
+  listStore = inject(ListStore)
   cardStore = inject(CardStore)
+
+  listData = computed(()=>{
+    return this.listStore.lists()
+    .find(list => list.id===this.listId())
+  })
+
   cards = computed<Card[]>(()=>{
     return this.cardStore.cards()
     .filter(card => 
@@ -33,5 +41,11 @@ export class ListComponent {
 
   async ngOnInit() {
     await this.cardStore.loadCardsByList(this.listId() || '')
+  }
+
+  async onModifyListTitle(newTitle: string) {
+    const listId = this.listId()
+    if (!listId) return;
+    await this.listStore.updateListName(listId, newTitle)
   }
 }

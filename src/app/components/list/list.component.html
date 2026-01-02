@@ -1,20 +1,21 @@
-<div class="bg-blue-400 h-dvh overflow-x-scroll scroll-config p-6">
-    <div class="flex flex-col w-[272px] max-h-full bg-[#101204] text-white rounded-lg">
-        <div class="p-2 pr-4 box-content pb-0 cursor-pointer content-center max-h-20 h-auto">
-            <app-title-editable [title]="title()" />
+<div class="flex flex-col max-h-full w-[272px] bg-[#101204] text-white rounded-lg">
+    <div class="p-2 pr-4 box-content pb-0 cursor-pointer content-center max-h-20 h-auto">
+        <app-title-editable 
+        [title]="listData()?.name"
+        (modifyTitleEvent)="onModifyListTitle($event)" 
+        />
+    </div>
+    @if (cards().length!==0) {
+        <div 
+        class="flex flex-col gap-3 overflow-y-scroll p-2 scroll-config">
+            @for (card of cards(); track card.id) {
+                <app-card [cardId]="card.id"/>
+            }
         </div>
-        @if (cards().length!==0) {
-            <div 
-            class="flex flex-col gap-3 overflow-y-scroll p-2 scroll-config">
-                @for (card of cards(); track card.id) {
-                    <app-card [cardId]="card.id"/>
-                }
-            </div>
-        }
-        <div class="flex flex-row p-2 w-full">
-            <app-create-card-form 
-            [listId]="listId()"
-            class="w-full"/>
-        </div>
+    }
+    <div class="flex flex-row p-2 w-full">
+        <app-create-card-form 
+        [listId]="listId()"
+        class="w-full"/>
     </div>
 </div>
