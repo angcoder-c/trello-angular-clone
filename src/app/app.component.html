@@ -1,19 +1,17 @@
 <main class="main">
-  <div class="px-2 py-2 content flex flex-row  gap-3 items-start justify-start min-h-screen w-full max-h-dvh bg-blue-700 overflow-x-scroll scroll-config overflow-y-hidden">
-    <!--
-      <h1 class="text-red-500">Cards</h1>
-    @for (card of cardStore.cards(); track card.id) {
-      <app-card [data]="card"/>
-    }
+  <div 
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  [cdkDropListData]="lists()"
+  (cdkDropListDropped)="drop($event)"
+  class="px-2 py-2 flex gap-3 h-screen w-full max-h-dvh bg-blue-700 
+  overflow-x-auto overflow-y-hidden scroll-config">
 
-    <button (click)="addCard()">add card</button>
-    <app-open-form-button buttonText="Date" type="datetime"/>
-    <app-date-form (datetimeEvent)="handleDatetime($event)"/>
-    <app-label-create-form/>
-    -->
     @if (lists().length) {
       @for (list of lists(); track list.id) {
-        <app-list [listId]="list.id"/>
+        <div cdkDrag class="list-item">
+          <app-list [listId]="list.id" />
+        </div>
       }
     }
     <app-list-create-form 

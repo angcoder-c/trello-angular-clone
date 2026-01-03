@@ -1,5 +1,5 @@
-<div class="flex flex-col max-h-full w-[272px] bg-[#101204] text-white rounded-lg">
-    <div class="p-2 pr-4 box-content pb-0 cursor-pointer content-center max-h-20 h-auto">
+<div class="flex flex-col h-auto max-h-full w-[272px] bg-[#101204] text-white rounded-lg">
+    <div class="p-2 pr-4 pb-0 shrink-0 box-content cursor-pointer content-center max-h-20 h-auto">
         <app-title-editable 
         [title]="listData()?.name"
         (modifyTitleEvent)="onModifyListTitle($event)" 
@@ -7,13 +7,13 @@
     </div>
     @if (cards().length!==0) {
         <div 
-        class="flex flex-col gap-3 overflow-y-scroll p-2 scroll-config">
+        class="flex-1 min-h-0 overflow-y-auto p-2 gap-3 flex flex-col scroll-config">
             @for (card of cards(); track card.id) {
                 <app-card [cardId]="card.id"/>
             }
         </div>
     }
-    <div class="flex flex-row p-2 w-full">
+    <div class="flex flex-row p-2 w-full shrink-0">
         <app-create-card-form 
         [listId]="listId()"
         class="w-full"/>

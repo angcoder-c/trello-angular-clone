@@ -106,6 +106,12 @@ export class AppDB extends Dexie {
         return await this.list.get(id);
     }
 
+    async getListByPosition(board_id: string, position: number): Promise<List | undefined> {
+        return await this.list
+        .where({ board_id, position })
+        .first();
+    }
+
     async getListsByBoard(board_id: string): Promise<List[]> {
         return await this.list.where('board_id').equals(board_id).sortBy('position');
     }

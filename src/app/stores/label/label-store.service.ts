@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { db } from '../../db';
 import { Color, Label, LabelOption } from '../../types';
 import { defaultLabelOptions } from '../../colors';
+
 @Injectable({
   providedIn: 'root'
 })

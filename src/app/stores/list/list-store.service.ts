@@ -51,13 +51,47 @@ export class ListStore {
     });
   }
 
-  async updateListPosition(id: string, position: number) {
-    const list = await db.getList(id);
-    if (!list) return;
+  async updateListPosition(board_id: string, currentPosition: number, previousPosition: number) {
+    const listsDB = await db.getListsByBoard(board_id);
+    
+    if (!listsDB || listsDB.length === 0) return undefined;
 
-    await db.updateList(id, {
-      ...list,
-      position    
+    const movedList = listsDB.find(list => list.position === previousPosition);
+    const targetList = listsDB.find(list => list.position === currentPosition);
+    
+    if (!movedList) return undefined;
+
+    // direccion del movimiento
+    const movingForward = currentPosition > previousPosition;
+    
+    // actualizar las posiciones
+    const updatePromises = listsDB.map(async (list) => {
+      let newPosition = list.position;
+      
+      if (list.id === movedList.id) {
+        newPosition = currentPosition;
+      } else if (movingForward) {
+        // desplazar las listas intermedias hacia atras
+        if (list.position > previousPosition && list.position <= currentPosition) {
+          newPosition = list.position - 1;
+        }
+      } else {
+        // desplazar las listas intermedias hacia adelante
+        if (list.position >= currentPosition && list.position < previousPosition) {
+          newPosition = list.position + 1;
+        }
+      }
+      
+      if (newPosition !== list.position) {
+        await db.updateList(list.id, {
+          ...list,
+          position: newPosition
+        });
+      }
     });
+
+    await Promise.all(updatePromises);
+    
+    await this.loadListsByBoard(board_id);
   }
 }
