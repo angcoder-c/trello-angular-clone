@@ -31,7 +31,10 @@ export class CreateCardFormComponent {
 
     if(title) {
       await this.cardStore.createCard({
-        position: this.cardStore.cards().length,
+        position: this.cardStore.cards()
+        .filter(
+          card => card.list_id === this.listId()
+        ).length,
         list_id: this.listId() || '',
         title: title
       })

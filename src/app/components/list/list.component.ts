@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, HostListener, inject, input, signal, viewChild } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop'
+import { CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop'
 import { CardStore } from './../../stores/card/card-store.service'; 
 import { CardComponent } from './../../components/card/card.component';
 import { MatIcon } from '@angular/material/icon'
@@ -14,7 +14,9 @@ import { ListStore } from '../../stores/list/list-store.service';
   imports: [
     CardComponent,
     CreateCardFormComponent,
-    TitleEditableComponent
+    TitleEditableComponent,
+    CdkDrag, 
+    CdkDropList
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
@@ -47,5 +49,17 @@ export class ListComponent {
     const listId = this.listId()
     if (!listId) return;
     await this.listStore.updateListName(listId, newTitle)
+  }
+
+  drop(event: any) {
+    console.log('Card Drop event:', event);
+    const previousIndex = event.previousIndex;
+    const currentIndex = event.currentIndex;
+    moveItemInArray(this.cards(), previousIndex, currentIndex)
+    this.cardStore.moveCardInList(
+      this.listId() || '',
+      currentIndex, 
+      previousIndex
+    )
   }
 }
