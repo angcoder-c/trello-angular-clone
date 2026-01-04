@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, HostListener, inject, input, signal, viewChild } from '@angular/core';
-import { CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop'
+import { CdkDrag, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
 import { CardStore } from './../../stores/card/card-store.service'; 
 import { CardComponent } from './../../components/card/card.component';
 import { MatIcon } from '@angular/material/icon'
@@ -27,6 +27,11 @@ export class ListComponent {
   listStore = inject(ListStore)
   cardStore = inject(CardStore)
 
+  listsId = computed(()=>{
+    return this.listStore.lists()
+    .map(list => list.id)
+  })
+
   listData = computed(()=>{
     return this.listStore.lists()
     .find(list => list.id===this.listId())
@@ -52,14 +57,38 @@ export class ListComponent {
   }
 
   drop(event: any) {
-    console.log('Card Drop event:', event);
-    const previousIndex = event.previousIndex;
-    const currentIndex = event.currentIndex;
-    moveItemInArray(this.cards(), previousIndex, currentIndex)
-    this.cardStore.moveCardInList(
-      this.listId() || '',
-      currentIndex, 
-      previousIndex
-    )
+    const previousIndex = event.previousIndex
+    const currentIndex = event.currentIndex
+
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        this.cards(), 
+        previousIndex, 
+        currentIndex
+      )
+      this.cardStore.moveCardInList(
+        this.listId() || '',
+        currentIndex, 
+        previousIndex
+      )
+    } else {
+      const originListId = event.previousContainer.id
+      const targetListId = event.container.id
+      const card: Card = event.previousContainer.data[previousIndex]
+
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+
+      this.cardStore.moveCardToAnotherList(
+        originListId,
+        previousIndex,
+        targetListId,
+        currentIndex
+      )
+    }
   }
 }

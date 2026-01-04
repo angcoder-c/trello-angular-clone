@@ -5,21 +5,23 @@
         (modifyTitleEvent)="onModifyListTitle($event)" 
         />
     </div>
-    @if (cards().length!==0) {
-        <div 
-        cdkDropList
-        cdkDropListOrientation="vertical"
-        [cdkDropListData]="cards()"
-        (cdkDropListDropped)="drop($event)"
-        class="flex-1 min-h-0 overflow-y-auto p-2 gap-3 flex flex-col scroll-config">
-            @for (card of cards(); track card.id) {
-                <div cdkDrag class="card-item">
-                    <app-card 
-                    [cardId]="card.id"/>
-                </div>
-            }
-        </div>
-    }
+    <div 
+    cdkDropList
+    [id]="listData()?.id  || listId() || ''"
+    cdkDropListOrientation="vertical"
+    [cdkDropListData]="cards()"
+    [cdkDropListConnectedTo]="listsId()"
+    (cdkDropListDropped)="drop($event)"
+    class="flex-1 min-h-0 overflow-y-auto p-2 gap-3 flex flex-col scroll-config">
+        @for (card of cards(); track card.id) {
+            <div 
+            cdkDrag 
+            class="card-item">
+                <app-card 
+                [cardId]="card.id"/>
+            </div>
+        }
+    </div>
     <div class="flex flex-row p-2 w-full shrink-0">
         <app-create-card-form 
         [listId]="listId()"

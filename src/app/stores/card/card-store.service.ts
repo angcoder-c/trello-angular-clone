@@ -25,8 +25,11 @@ export class CardStore {
     const cardsByList = await db.getCardsByList(list_id)
     this.cards.update(cards =>{
       let updatedCards = [
-        ...cards.filter(card => card.list_id !== list_id), 
-        ...cardsByList]
+        ...cards.filter(
+          card => card.list_id !== list_id
+        ), 
+        ...cardsByList
+      ]
       return updatedCards
     })
   }
@@ -73,8 +76,29 @@ export class CardStore {
 
   // eliminar una card
   async deleteCard(cardId: string) {
+    const card = await db.getCard(cardId)
+    if (!card) return undefined
+
+    const listId = card.list_id
+    const position = card.position
+    
+    // eliminar la card de la db
     await db.deleteCard(cardId)
-    this.cards.update(cards => cards.filter(card => card.id !== cardId))
+
+    // actualiza las posiciones de las cards restantes
+    const cardsDb = await db.getCardsByList(listId)
+    const updatePromises = cardsDb.map(async (card, index) => {
+      if (card.position !== index) {
+        const updatedCard = {
+          ...card,
+          position: index
+        }
+        await db.updateCard(card.id, updatedCard)
+      }
+    });
+    await Promise.all(updatePromises)
+
+    this.loadCardsByList(listId)
   }
 
   // colocar descripcion
@@ -131,7 +155,7 @@ export class CardStore {
 
   async moveCardInList (list_id: string, currentIndex: number, previousIndex: number) {
     const cardsInList = this.cards().filter(card => card.list_id === list_id)
-    console.log(list_id, currentIndex, previousIndex, cardsInList);
+
     if (!cardsInList || cardsInList.length === 0) return undefined
 
     const movedCard = cardsInList.find(card => card.position === previousIndex)
@@ -168,6 +192,55 @@ export class CardStore {
     await Promise.all(updatePromises)
     
     await this.loadCardsByList(list_id)
+  }
+
+  async moveCardToAnotherList (
+    from_list_id: string,
+    from_position: number,
+    to_list_id: string,
+    to_position: number
+  ) {
+    const fromCard = this.cards().find(card => 
+      card.list_id === from_list_id && 
+      card.position === from_position
+    )
+    if (!fromCard || !fromCard.id) return undefined
+    const updatedCard = {
+      ...fromCard,
+      list_id: to_list_id,
+      position: to_position
+    }
+    await db.updateCard(fromCard.id, updatedCard)
+
+    // Actualizar posiciones en la lista origen
+    const fromCards = this.cards().filter(card => card.list_id === from_list_id)
+    const updateFromPromises = fromCards.map(async (card) => {
+      if (card.position > from_position) {
+        await db.updateCard(card.id, {
+          ...card,
+          position: card.position - 1
+        })
+      }
+    });
+
+    // Actualizar posiciones en la lista destino
+    const toCards = this.cards().filter(card => card.list_id === to_list_id)
+    const updateToPromises = toCards.map(async (card) => {
+      if (card.position >= to_position) {
+        await db.updateCard(card.id, {
+          ...card,
+          position: card.position + 1
+        })
+      }
+    });
+
+    await Promise.all(updateFromPromises)
+    await Promise.all(updateToPromises)
+    this.cards.update(cards => cards.map(card =>
+      card.id === fromCard.id
+      ? updatedCard
+      : card
+    ))
   }
 
   async setMaturity (card_id: string, maturity: string | null) {

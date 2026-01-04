@@ -7,7 +7,7 @@ import { LabelCreateFormComponent } from './components/label-create-form/label-c
 import { SetLabelFormComponentComponent } from './components/set-label-form-component/set-label-form-component.component';
 import { ListCreateFormComponent } from './components/list-create-form/list-create-form.component';
 import { ListStore } from './stores/list/list-store.service';
-import { CdkDrag, CdkDropList, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDropList, CdkDragDrop, moveItemInArray, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { List } from './types';
 @Component({
   selector: 'app-root',
@@ -16,6 +16,7 @@ import { List } from './types';
     ListComponent,
     ListCreateFormComponent,
     CdkDropList,
+    CdkDropListGroup,
     CdkDrag
 ],
   templateUrl: './app.component.html',
@@ -37,7 +38,6 @@ export class AppComponent {
   }
 
   drop(event: CdkDragDrop<List[]>) {
-    console.log('Drop event:', event);
     moveItemInArray(this.lists(), event.previousIndex, event.currentIndex)
     this.listStore.updateListPosition(
       'board-uuid-1234',

@@ -59,7 +59,6 @@ export class CreateCardFormComponent {
   }
 
   onInsertCardKeydown(event: KeyboardEvent) {
-    console.log(event.key)
     if (event.key === 'Enter') {
       if (this.insertForm.valid) this.addCard()
       this.insertForm.reset();
