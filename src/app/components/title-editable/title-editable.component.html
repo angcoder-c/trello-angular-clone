@@ -4,27 +4,29 @@
     class="invisible whitespace-pre-wrap break-words p-2 font-medium leading-snug max-h-20"
     [style.width.px]="width()"
     >
-        {{ modifyTitle() || ' ' }}
+        {{ modifyTitle }}
     </div>
     @if (editable()) {
-        <textarea
+        <input
+        type="text"
         #title
+        [(ngModel)]="modifyTitle"
         (blur)="onTitleBlur()"
         (keydown)="onTitleKeydown($event)"
         (input)="autoResize($event)"
         class="appearance-none absolute top-0 left-0 w-full p-2 resize-none rounded-md max-h-20
         bg-[#242528] scroll-config
-        font-medium leading-snug
+        font-medium leading-snug min-h-10
         outline-none border-2 border-[#669DF1]
         h-[-webkit-fill-available]:"
-        [rows]="1"
-        >{{ modifyTitle() }}</textarea>
+        [value]="modifyTitle"
+        />
     } @else {
         <h2 
         (click)="edit()" 
-        class="absolute top-0 left-0 w-full m-0 p-2 font-medium leading-snug max-h-20
+        class="absolute top-0 left-0 w-full m-0 p-2 min-h-10 font-medium leading-snug max-h-20
         overflow-hidden text-ellipsis text-nowrap
         border-2 border-transparent whitespace-pre-wrap break-words"
-        >{{ modifyTitle() }}</h2>
+        >{{ modifyTitle }}</h2>
     }
 </div>

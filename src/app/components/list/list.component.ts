@@ -51,6 +51,7 @@ export class ListComponent {
   }
 
   async onModifyListTitle(newTitle: string) {
+    console.log('modificando titulo de lista a:', newTitle);
     const listId = this.listId()
     if (!listId) return;
     await this.listStore.updateListName(listId, newTitle)

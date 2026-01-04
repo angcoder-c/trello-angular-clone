@@ -1,10 +1,13 @@
 import { Component, effect, ElementRef, HostListener, input, output, signal, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 // componente para titulo editable de una lista o card
 
 @Component({
   selector: 'app-title-editable',
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './title-editable.component.html',
   styleUrl: './title-editable.component.css'
 })
@@ -12,8 +15,8 @@ export class TitleEditableComponent {
   readonly title = input<string>()
   readonly modifyTitleEvent = output<string>()
   inputElementRef=viewChild<ElementRef>('title')
-
-  modifyTitle = signal<string>('')
+  
+  modifyTitle: string | undefined = ''
   editable = signal<boolean>(false)
 
   ghostRef = viewChild<ElementRef>('ghost')
@@ -21,17 +24,10 @@ export class TitleEditableComponent {
 
   width = signal<number>(0)
 
-  constructor () {
-    effect(() => {
-      const currentTitle = this.title();
-      if (currentTitle) {
-        this.modifyTitle.set(currentTitle);
-      }
-    });
-  }
+  constructor () {}
   
   ngOnInit() {
-    this.modifyTitle.set(this.title() || '')
+    this.modifyTitle = this.title()
   }
 
   edit() {
@@ -48,13 +44,20 @@ export class TitleEditableComponent {
 
   onTitleBlur() {
     this.editable.set(false);
+    if (this.modifyTitle !== this.title()) {
+      this.modifyTitleEvent.emit(
+        this.modifyTitle?.replaceAll('\n', '') || 
+        ''
+      );
+    }
   }
 
   onTitleKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
-      const input = event.target as HTMLInputElement;
-      this.modifyTitle.set(input.value);
-      this.modifyTitleEvent.emit(input.value)
+      this.modifyTitleEvent.emit(
+        this.modifyTitle?.replaceAll('\n', '') || 
+        ''
+      );
       this.editable.set(false);
     } else if (event.key === 'Escape') {
       this.editable.set(false);
@@ -64,6 +67,7 @@ export class TitleEditableComponent {
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
     const form = this.inputElementRef()?.nativeElement;
+    
     if (!form) return;
     if (!form.contains(event.target as Node)) {
       this.onTitleBlur();
