@@ -70,6 +70,7 @@ export class AppDB extends Dexie {
 
     async deleteBoard(id: string): Promise<void> {
         await this.board.delete(id);
+        await this.deleteListsByBoard(id);
     }
 
     async updateBoardLastVisit(id: string): Promise<number> {
@@ -127,6 +128,18 @@ export class AppDB extends Dexie {
 
     async deleteList(id: string): Promise<void> {
         await this.list.delete(id);
+        await this.deleteCardsByList(id);
+    }
+
+    async deleteListsByBoard(board_id: string): Promise<void> {
+        const lists = await this.list.where('board_id').equals(board_id).toArray();
+        const deletePromises = lists.map(
+            list => {
+                this.list.delete(list.id)
+                this.deleteCardsByList(list.id)
+            }
+        );
+        await Promise.all(deletePromises);
     }
 
     // card crud
@@ -174,6 +187,23 @@ export class AppDB extends Dexie {
 
     async deleteCard(id: string): Promise<void> {
         await this.card.delete(id);
+        await this.deleteCommentsByCard(id);
+        await this.deleteChecklistsByCard(id);
+        await this.deleteLabelsByCard(id);
+        await this.deleteLabelOptionsByCard(id);
+    }
+
+    async deleteCardsByList(list_id: string): Promise<void> {
+        const cards = await this.card.where('list_id').equals(list_id).toArray();
+        const deletePromises = cards.map(
+            card => {
+                this.card.delete(card.id)
+                this.deleteCommentsByCard(card.id);
+                this.deleteChecklistsByCard(card.id);
+                this.deleteLabelsByCard(card.id);
+                this.deleteLabelOptionsByCard(card.id);
+            });
+        await Promise.all(deletePromises);
     }
 
     // label crud
@@ -217,6 +247,12 @@ export class AppDB extends Dexie {
         await this.label.delete(id);
     }
 
+    async deleteLabelsByCard(card_id: string): Promise<void> {
+        const labels = await this.label.where('card_id').equals(card_id).toArray();
+        const deletePromises = labels.map(label => this.label.delete(label.id));
+        await Promise.all(deletePromises);
+    }
+
     // label option crud
     async addLabelOption(data: Omit<
             LabelOption, 
@@ -256,6 +292,13 @@ export class AppDB extends Dexie {
 
     async deleteLabelOption(id: string): Promise<void> {
         await this.labelOption.delete(id);
+    }
+
+    async deleteLabelOptionsByCard(card_id: string): Promise<void> {
+        const labels = await this.label.where('card_id').equals(card_id).toArray();
+        const labelOptionIds = labels.map(label => label.label_option_id);
+        const deletePromises = labelOptionIds.map(id => this.labelOption.delete(id));
+        await Promise.all(deletePromises);
     }
 
     // checklist crud
@@ -301,6 +344,17 @@ export class AppDB extends Dexie {
 
     async deleteChecklist(id: string): Promise<void> {
         await this.checklist.delete(id);
+        await this.deleteChecklistItemsByChecklist(id);
+    }
+
+    async deleteChecklistsByCard(card_id: string): Promise<void> {
+        const checklists = await this.checklist.where('card_id').equals(card_id).toArray();
+        const deletePromises = checklists.map(
+            checklist =>{
+                this.checklist.delete(checklist.id);
+                this.deleteChecklistItemsByChecklist(checklist.id);
+            });
+        await Promise.all(deletePromises);
     }
 
     // checklist item crud
@@ -346,6 +400,12 @@ export class AppDB extends Dexie {
 
     async deleteChecklistItem(id: string): Promise<void> {
         await this.checklistItem.delete(id);
+    }
+
+    async deleteChecklistItemsByChecklist(checklist_id: string): Promise<void> {
+        const items = await this.checklistItem.where('checklist_id').equals(checklist_id).toArray();
+        const deletePromises = items.map(item => this.checklistItem.delete(item.id));
+        await Promise.all(deletePromises);
     }
 
     async toggleChecklistItem(id: string): Promise<number> {
@@ -403,6 +463,12 @@ export class AppDB extends Dexie {
 
     async deleteComment(id: string): Promise<void> {
         await this.comment.delete(id);
+    }
+
+    async deleteCommentsByCard(card_id: string): Promise<void> {
+        const comments = await this.comment.where('card_id').equals(card_id).toArray();
+        const deletePromises = comments.map(comment => this.comment.delete(comment.id));
+        await Promise.all(deletePromises);
     }
 }
 

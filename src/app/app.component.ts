@@ -9,6 +9,8 @@ import { ListCreateFormComponent } from './components/list-create-form/list-crea
 import { ListStore } from './stores/list/list-store.service';
 import { CdkDrag, CdkDropList, CdkDragDrop, moveItemInArray, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { List } from './types';
+import { DragScrollDirective } from './directives/drag-scroll/drag-scroll.directive';
+
 @Component({
   selector: 'app-root',
   imports: [
@@ -17,7 +19,8 @@ import { List } from './types';
     ListCreateFormComponent,
     CdkDropList,
     CdkDropListGroup,
-    CdkDrag
+    CdkDrag,
+    DragScrollDirective
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

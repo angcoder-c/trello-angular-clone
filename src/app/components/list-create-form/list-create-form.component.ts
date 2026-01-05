@@ -1,10 +1,12 @@
 import { Component, ElementRef, HostListener, output, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-list-create-form',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIcon
   ],
   templateUrl: './list-create-form.component.html',
   styleUrl: './list-create-form.component.css'

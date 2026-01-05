@@ -2,21 +2,24 @@
     <button 
     #button
     type="button"
-    class="px-2 py-1 w-[272px] text-gray-300 duration-200 
-    bg-[#E3E4F21F] hover:bg-[#ffffff32] rounded-md"
+    class="p-2 w-[272px] text-gray-300 duration-200 
+    bg-[#ffffff3d] hover:bg-[#ffffff20] rounded-md"
     (click)="open()">
-        Add an another list
+        <span class="align-middle mr-2">
+            <mat-icon class="align-middle text-gray-300">add</mat-icon>
+            Add an another list
+        </span>
     </button>
 } @else {
     <form
     #form
     [formGroup]="titleGroup" 
     (ngSubmit)="submit()"
-    class="grid grid-rows-2 gap-3 min-w-[272px]">
+    class="grid grid-rows-2 gap-3 min-w-[272px] bg-[#101204] p-3 rounded-md">
         <input
-        class="appearance-none w-full px-3 py-2 border-gray-500 
+        class="appearance-none w-full px-3 py-2 border-gray-500 text-white
         rounded-md shadow-sm placeholder-gray-400 focus:outline-none 
-        focus:ring-[#669DF1] focus:border-[#669DF1] 
+        focus:ring-[#669DF1] focus:border-[#669DF1] bg-[#18191b]
         border-2 sm:text-sm duration-75"
         formControlName="title"
         type="text" 

@@ -2,17 +2,18 @@
 class="main"
 >
   <div 
+  appDragScroll
   cdkDropList
   cdkDropListGroup
   cdkDropListOrientation="horizontal"
   [cdkDropListData]="lists()"
   (cdkDropListDropped)="drop($event)"
-  class="px-2 py-2 flex gap-3 h-screen w-full max-h-dvh bg-blue-700 
-  overflow-x-auto overflow-y-hidden scroll-config">
+  class="px-2 py-2 flex gap-3 h-screen w-full max-h-dvh bg-[#083b82] 
+  overflow-x-auto overflow-y-hidden scroll-config z-10">
 
     @if (lists().length) {
       @for (list of lists(); track list.id) {
-        <div cdkDrag class="list-item">
+        <div cdkDrag class="list-none self-start max-h-full z-20">
           <app-list [listId]="list.id" />
         </div>
       }

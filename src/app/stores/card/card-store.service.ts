@@ -236,11 +236,8 @@ export class CardStore {
 
     await Promise.all(updateFromPromises)
     await Promise.all(updateToPromises)
-    this.cards.update(cards => cards.map(card =>
-      card.id === fromCard.id
-      ? updatedCard
-      : card
-    ))
+    this.loadCardsByList(from_list_id)
+    this.loadCardsByList(to_list_id)
   }
 
   async setMaturity (card_id: string, maturity: string | null) {

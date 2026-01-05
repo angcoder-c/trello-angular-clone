@@ -36,7 +36,7 @@ export class ListStore {
     return list;
   }
 
-  async deleteCard(id: string) {
+  async deleteList(id: string) {
     await db.deleteList(id);
     this.lists.update(lists => lists.filter(list => list.id !== id));
   }

@@ -13,17 +13,3 @@
   opacity: 0.35;
   filter: grayscale(0.8) blur(1px);
 }
-
-/* Animación del elemento al soltar */
-.lists-container.cdk-drop-list-dragging
-.list-item:not(.cdk-drag-placeholder) {
-  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.list-item {
-  list-style: none;
-}
-
-.list-item::marker {
-  content: none;
-}
