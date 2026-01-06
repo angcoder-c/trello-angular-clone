@@ -2,17 +2,21 @@
     <div class="p-2 pr-4 pb-0 shrink-0 box-content cursor-pointer content-center max-h-20 h-auto">
         <app-title-editable 
         [title]="listData()?.name"
+        [expandable]="false"
         (modifyTitleEvent)="onModifyListTitle($event)" 
         />
     </div>
     <div 
+    #scrollContainer
     cdkDropList
     [id]="listData()?.id  || listId() || ''"
     cdkDropListOrientation="vertical"
     [cdkDropListData]="cards()"
     [cdkDropListConnectedTo]="listsId()"
     (cdkDropListDropped)="drop($event)"
-    class="overflow-y-auto p-2 gap-3 flex flex-col scroll-config max-h-[calc(100vh-15rem)]">
+    class="overflow-y-auto p-2 gap-3 flex flex-col scroll-config flex-1"
+    [class.max-h-[calc(100vh-15rem)]]="!insertCard()"
+    [class.max-h-[calc(100vh-12rem)]]="insertCard()">
         @for (card of cards(); track card.id) {
             <div 
             cdkDrag 
@@ -21,10 +25,25 @@
                 [cardId]="card.id"/>
             </div>
         }
+        @if (insertCard()) {
+            <app-create-card-form 
+            #insertFormRef 
+            [listId]="listId()"
+            (onCloseEvent)="closeInsertCard()"
+            class="w-full"/>
+        }
     </div>
-    <div class="flex flex-row p-2 w-full shrink-0">
-        <app-create-card-form 
-        [listId]="listId()"
-        class="w-full"/>
+
+    <div 
+    class="flex flex-row p-2 w-full shrink-0"
+    [class.hidden]="insertCard()"
+    [class.pointer-events-none]="insertCard()">
+        <button 
+        class="flex content-center gap-2 p-2 w-full rounded-md cursor-pointer justify-start duration-200 hover:bg-[rgba(55,71,31,0.50)] active:bg-[#37471f]"
+        (click)="changeInsertCard()">
+            <mat-icon>add</mat-icon>
+            <span class=""> Add a card </span>
+        </button>
     </div>
+
 </div>

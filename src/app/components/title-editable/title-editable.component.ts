@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class TitleEditableComponent {
   readonly title = input<string>()
+  readonly expandable = input<boolean | undefined>(true)
+  readonly maxWidth = input<number | undefined>(undefined)
   readonly modifyTitleEvent = output<string>()
   inputElementRef=viewChild<ElementRef>('title')
   
@@ -75,6 +77,7 @@ export class TitleEditableComponent {
   }
 
   autoResize(e: Event) {
+    if (!this.expandable()) return;
     const t = e.target as HTMLTextAreaElement;
     t.style.height = 'auto';
     t.style.height = `${t.scrollHeight}px`;

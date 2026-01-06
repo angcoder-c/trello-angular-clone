@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, input, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, input, output, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardStore } from '../../stores/card/card-store.service';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,8 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class CreateCardFormComponent {
   insertCard = signal<boolean>(false)
   formElementRef=viewChild<ElementRef>('insertFormRef')
-  cardTitleInputRef = viewChild<ElementRef>('cardFormInput')
   cardStore = inject(CardStore)
+  onCloseEvent = output<void>()
   readonly listId = input<string>()
 
   insertForm = new FormGroup({
@@ -42,19 +42,9 @@ export class CreateCardFormComponent {
     this.insertForm.reset()
   }
 
-  changeInsertCard() {
-    this.insertCard.set(true);
-
-    setTimeout(() => {
-      const input = this.cardTitleInputRef()?.nativeElement;
-      if (input) {
-        input.focus();
-      }
-    });
-  }
-
+  
   onInsertBlur() {
-    this.insertCard.set(false);
+    this.onCloseEvent.emit();
     this.insertForm.reset();
   }
 

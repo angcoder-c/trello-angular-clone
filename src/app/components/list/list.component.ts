@@ -16,12 +16,16 @@ import { ListStore } from '../../stores/list/list-store.service';
     CreateCardFormComponent,
     TitleEditableComponent,
     CdkDrag, 
-    CdkDropList
+    CdkDropList,
+    MatIcon
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
 export class ListComponent {
+  insertCard = signal<boolean>(false)
+  cardTitleInputRef = viewChild<ElementRef>('cardFormInput')
+  scrollContainer=viewChild<ElementRef>('scrollContainer')
   readonly listId = input<string>()
   
   listStore = inject(ListStore)
@@ -51,10 +55,34 @@ export class ListComponent {
   }
 
   async onModifyListTitle(newTitle: string) {
-    console.log('modificando titulo de lista a:', newTitle);
     const listId = this.listId()
     if (!listId) return;
     await this.listStore.updateListName(listId, newTitle)
+  }
+
+  changeInsertCard() {
+    this.insertCard.set(true);
+
+    setTimeout(() => {
+      const input = this.cardTitleInputRef()?.nativeElement;
+
+      if (input) {
+        input.focus();
+      }
+    }, 0);
+
+    setTimeout(() => {
+      const scrollContainer = this.scrollContainer()?.nativeElement;
+      if (scrollContainer) {
+        scrollContainer.scrollTop = 
+          scrollContainer.scrollHeight;
+      }
+    }, 0);
+  }
+
+  closeInsertCard() {
+    console.log('cerrando insert card');
+    this.insertCard.set(false);
   }
 
   drop(event: any) {

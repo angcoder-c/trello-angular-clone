@@ -1,0 +1,59 @@
+<div class="flex flex-col pb-10 h-screen max-h-dvh bg-[#083b82] box-border">
+  <header class="flex flex-row h-auto justify-between items-center text-white bg-[#0000006b] px-5 py-1 shadow-md">
+    <div class="flex flex-row items-center justify-start gap-2">
+      <app-title-editable
+      [title]="'Board'"
+      [expandable]="false"
+      [maxWidth]="200"
+      />
+      <button class="flex flex-row items-center gap-1 justify-center bg-[#DCDFE4] hover:bg-gray-100 duration-100 rounded-sm p-1 text-sm text-[#172B4D]">
+        <mat-icon>
+          view_kanban
+        </mat-icon>
+        <mat-icon>
+          arrow_drop_down
+        </mat-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-row items-center justify-end gap-2">
+      <button class="flex flex-row items-center gap-1 justify-center duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm">
+        <!--icono amarillo de estrella-->
+        <mat-icon
+        class="text-md!"
+        [style.color]="'#FBC828'"
+          >star
+        </mat-icon>
+      </button>
+      <button class="flex flex-row items-center gap-1 justify-center duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm">
+        <mat-icon>
+          more_horiz
+        </mat-icon>
+      </button>
+    </div>
+  </header>
+  <div 
+    appDragScroll
+    cdkDropList
+    cdkDropListGroup
+    cdkDropListOrientation="horizontal"
+    [cdkDropListData]="lists()"
+    (cdkDropListDropped)="drop($event)"
+    class="px-5 py-2 flex gap-3 h-full w-full max-h-dvh bg-transparent
+    overflow-x-auto overflow-y-hidden scroll-config z-10">
+    
+    @if (lists().length) {
+      @for (list of lists(); track list.id) {
+          <div cdkDrag class="list-none self-start max-h-full z-20">
+              <app-list 
+              [listId]="list.id" 
+              />
+          </div>
+      }
+    }
+    
+    <app-list-create-form 
+    (createListEvent)="createList($event)"
+    />
+  </div>
+</div>
