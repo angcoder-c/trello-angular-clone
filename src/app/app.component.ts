@@ -1,19 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { ListComponent } from './components/list/list.component';
-import { ListCreateFormComponent } from './components/list-create-form/list-create-form.component';
-import { ListStore } from './stores/list/list-store.service';
-import { CdkDrag, CdkDropList, CdkDragDrop, moveItemInArray, CdkDropListGroup } from '@angular/cdk/drag-drop';
-import { List } from './types';
-import { DragScrollDirective } from './directives/drag-scroll/drag-scroll.directive';
-import { BoardComponent } from './components/board/board.component';
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    BoardComponent
-],
+    RouterLink
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 
 // list 
 import { ListStore } from '../../stores/list/list-store.service';
@@ -17,6 +17,8 @@ import {
 import { DragScrollDirective } from '../../directives/drag-scroll/drag-scroll.directive';
 import { MatIcon } from '@angular/material/icon';
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-board',
@@ -28,6 +30,8 @@ import { TitleEditableComponent } from '../title-editable/title-editable.compone
     CdkDrag,
     DragScrollDirective,
     MatIcon,
+    MatButtonModule,
+    MatMenuModule,
     TitleEditableComponent
   ],
   templateUrl: './board.component.html',
@@ -35,15 +39,16 @@ import { TitleEditableComponent } from '../title-editable/title-editable.compone
 })
 export class BoardComponent {
   listStore = inject(ListStore)
+  readonly boardId = input<string>()
 
   lists = this.listStore.lists
 
   ngOnInit() {
-    this.listStore.loadListsByBoard('board-uuid-1234')
+    this.listStore.loadListsByBoard(this.boardId() ?? '')
   }
 
   createList(name: string) {
-    this.listStore.createList('board-uuid-1234', name)
+    this.listStore.createList(this.boardId() ?? '', name)
   }
 
   drop(event: CdkDragDrop<List[]>) {

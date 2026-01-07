@@ -1,12 +1,12 @@
 // ============== BOARD =============
 export interface Board {
     id: string  // UUID 
+    user_id: string | null
     title: string
     description: string | null
     backgroundColor: Color[]
     isFavorite: boolean
     isPublic: boolean
-    position: number 
     created_at: string
     updated_at: string
     last_visit: string

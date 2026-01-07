@@ -37,8 +37,29 @@ export class ListStore {
   }
 
   async deleteList(id: string) {
-    await db.deleteList(id);
-    this.lists.update(lists => lists.filter(list => list.id !== id));
+    const list = await db.getList(id)
+    if (!list) return undefined
+
+    const listId = list.board_id
+    const position = list.position
+    
+    // eliminar la list de la db
+    await db.deleteList(id)
+
+    // actualiza las posiciones de las listas restantes
+    const listsDb = await db.getListsByBoard(listId)
+    const updatePromises = listsDb.map(async (list, index) => {
+      if (list.position !== index) {
+        const updatedList = {
+          ...list,
+          position: index
+        }
+        await db.updateList(list.id, updatedList)
+      }
+    });
+    await Promise.all(updatePromises)
+
+    this.loadListsByBoard(listId)
   }
 
   async updateListName(id: string, name: string) {

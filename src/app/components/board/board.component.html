@@ -6,14 +6,40 @@
       [expandable]="false"
       [maxWidth]="200"
       />
-      <button class="flex flex-row items-center gap-1 justify-center bg-[#DCDFE4] hover:bg-gray-100 duration-100 rounded-sm p-1 text-sm text-[#172B4D]">
-        <mat-icon>
-          view_kanban
-        </mat-icon>
-        <mat-icon>
-          arrow_drop_down
-        </mat-icon>
-      </button>
+      <div>
+        <button 
+        matButton [matMenuTriggerFor]="menu" 
+        class="flex flex-row items-center gap-1 justify-center bg-[#DCDFE4] hover:bg-gray-100 duration-100 rounded-sm p-1 text-sm text-[#172B4D]">
+          <mat-icon>
+            view_kanban
+          </mat-icon>
+          <mat-icon>
+            arrow_drop_down
+          </mat-icon>
+        </button>
+        <mat-menu 
+            #menu="matMenu"
+            class="bg-[#242528]! text-white min-w-[150px]! absolute! top-0! 
+            px-1.5 shadow-lg! rounded-md border border-[rgba(255,255,255,0.10)]">
+                <div>
+                    <span class="px-4 py-2 text-sm text-[#A9ABAF] block border-b border-[rgba(255,255,255,0.10)]">
+                        Change view
+                    </span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <button 
+                    mat-menu-item
+                    class="items-center align-middle p-1 rounded-sm w-full text-white!
+                    hover:bg-[#dcdfe42e]! active:bg-[#dcdfe42e]! duration-100">
+                      <mat-icon class="items-center align-middle text-white!">
+                        view_kanban
+                      </mat-icon>
+                        Board
+                    </button>                
+                </div>
+            </mat-menu>
+      </div>
+
     </div>
 
     <div class="flex flex-row items-center justify-end gap-2">
@@ -51,9 +77,11 @@
           </div>
       }
     }
+    <div class="list-none self-start max-h-full z-20">
+      <app-list-create-form 
+      (createListEvent)="createList($event)"
+      />
+    </div>
     
-    <app-list-create-form 
-    (createListEvent)="createList($event)"
-    />
   </div>
 </div>

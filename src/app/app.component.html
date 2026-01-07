@@ -1,17 +1,25 @@
 <main 
-class="flex flex-col  bg-[#820808]"
+class="flex flex-col min-h-screen text-white bg-[#1f1f21]"
 >
   <!-- write a header -->
-   <header>
+   <header class="flex flex-row gap-3">
     <h1 
-      class="text-3xl font-bold text-white text-center"
+      class="font-bold text-white text-center"
     >
       Trello Angular Clone
     </h1>
+
+      <a routerLink="/">Home</a>
+      <a routerLink="/board/84938506-5806-4a82-999b-840263205981">Board</a>
    </header>
-   <app-board/>
+   <router-outlet />
+
+   <!--
+   <app-board
+   [boardId]="'board-uuid-1234'"
+   />
+  -->
 
 
 </main>
 
-<router-outlet />

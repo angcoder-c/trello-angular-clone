@@ -8,6 +8,8 @@ import { TitleEditableComponent } from '../title-editable/title-editable.compone
 import { CreateCardFormComponent } from '../create-card-form/create-card-form.component';
 import { Card } from '../../types';
 import { ListStore } from '../../stores/list/list-store.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-list',
@@ -17,7 +19,9 @@ import { ListStore } from '../../stores/list/list-store.service';
     TitleEditableComponent,
     CdkDrag, 
     CdkDropList,
-    MatIcon
+    MatIcon,
+    MatButtonModule,
+    MatMenuModule
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
@@ -119,5 +123,11 @@ export class ListComponent {
         currentIndex
       )
     }
+  }
+
+  async deleteList() {
+    const listId = this.listId()
+    if (!listId) return;
+    await this.listStore.deleteList(listId)
   }
 }
