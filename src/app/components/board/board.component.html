@@ -8,17 +8,23 @@
       />
       <div>
         <button 
-        matButton [matMenuTriggerFor]="menu" 
+        matButton 
+        #viewButtonTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="viewMenu" 
         class="flex flex-row items-center gap-1 justify-center bg-[#DCDFE4] hover:bg-gray-100 duration-100 rounded-sm p-1 text-sm text-[#172B4D]">
           <mat-icon>
             view_kanban
           </mat-icon>
           <mat-icon>
-            arrow_drop_down
+            @if(viewButtonTrigger.menuOpen) {
+              arrow_drop_up 
+            } @else {
+              arrow_drop_down
+            }
           </mat-icon>
         </button>
         <mat-menu 
-            #menu="matMenu"
+            #viewMenu="matMenu"
             class="bg-[#242528]! text-white min-w-[150px]! absolute! top-0! 
             px-1.5 shadow-lg! rounded-md border border-[rgba(255,255,255,0.10)]">
                 <div>

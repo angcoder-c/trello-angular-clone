@@ -54,7 +54,7 @@ export class BoardComponent {
   drop(event: CdkDragDrop<List[]>) {
     moveItemInArray(this.lists(), event.previousIndex, event.currentIndex)
     this.listStore.updateListPosition(
-      'board-uuid-1234',
+      this.boardId() ?? '',
       event.currentIndex,
       event.previousIndex
     )

@@ -3,11 +3,11 @@ import { BoardStore } from '../../stores/board/board-store.service';
 import { db } from '../../db';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-home-view',
   imports: [],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeViewComponent {
   private boardStore = inject(BoardStore)
 }
