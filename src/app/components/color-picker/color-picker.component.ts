@@ -18,8 +18,7 @@ export class ColorPickerComponent {
       return this.currentColor() as Color
     } 
     return { 
-      hex: '#CECED912', 
-      opacity: null 
+      hex: '#CECED912'
     }
   })
 
@@ -35,15 +34,7 @@ export class ColorPickerComponent {
 
   toRgba(color: Color): string {
     if (color) {
-      if (color.opacity !== null && color.hex.length === 7) {
-        const r = parseInt(color.hex.slice(1, 3), 16)
-        const g = parseInt(color.hex.slice(3, 5), 16)
-        const b = parseInt(color.hex.slice(5, 7), 16)
-        console.log(`rgba(${r}, ${g}, ${b}, ${color.opacity})`)
-        return `rgba(${r}, ${g}, ${b}, ${color.opacity})`
-      } else {
-        return color.hex
-      }
+      return color.hex
     } else {
       return 'transparent'
     }

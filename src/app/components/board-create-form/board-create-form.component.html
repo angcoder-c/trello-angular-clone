@@ -1,0 +1,65 @@
+<button 
+mat-button 
+#trigger
+(click)="toggleMenu()">
+    Create Board
+</button>
+
+<ng-template
+cdkConnectedOverlay
+[cdkConnectedOverlayOrigin]="trigger"
+[cdkConnectedOverlayOpen]="isOpen"
+(backdropClick)="isOpen = false"
+cdkConnectedOverlayHasBackdrop
+cdkConnectedOverlayBackdropClass="bg-transparent"
+>
+    <div
+    class="bg-[#2b2c2f] p-4 rounded-lg shadow-md
+    flex flex-col gap-4 w-80 text-white overflow-y-scroll
+    scroll-config max-h-[calc(100vh-3rem)]"
+    >
+        <header
+        class="flex flex-row items-center justify-center relative min-h-10"
+        >
+            <h2 class="font-medium">
+                Create Board
+            </h2>
+            <button
+            mat-icon-button
+            (click)="close()"
+            class="absolute right-0 top-0 flex flex-col justify-center 
+            items-center p-2 rounded-md bg-[#383a3e] 
+            hover:bg-[#5a5b5d] duration-150"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </header>
+        <!--line-->
+        <hr class="border-[#3c3d40]" />
+
+        <form 
+        [formGroup]="boardForm" 
+        (ngSubmit)="onSubmit()"
+        >
+            <div>
+                <label for="boardName" class="flex flex-row gap-1">
+                    <span class="text-gray-400 text-sm">Title</span>
+                    <span class="text-red-500">*</span>
+                </label>
+                <input id="boardName" formControlName="title" />
+                @if (boardForm.get('title')?.invalid && boardForm.get('title')?.touched) {
+                    <div>
+                        Board name is required.
+                    </div>
+                }
+            </div>
+                
+            <div>
+                <label for="boardDescription">Description:</label>
+                <textarea id="boardDescription" formControlName="description"></textarea>
+            </div>
+                
+            <button type="submit" [disabled]="boardForm.invalid">Create Board</button>
+        </form>
+    </div>
+</ng-template>

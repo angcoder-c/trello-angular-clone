@@ -107,5 +107,4 @@ export interface Comment {
 // ============ COLOR =============
 export interface Color {
     hex: string
-    opacity: number | null
 }

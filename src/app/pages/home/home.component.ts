@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { BoardStore } from '../../stores/board/board-store.service';
-import { db } from '../../db';
 
 @Component({
   selector: 'app-home-view',

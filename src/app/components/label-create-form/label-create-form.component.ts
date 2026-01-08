@@ -15,7 +15,7 @@ import { Color, Label } from '../../types';
   styleUrl: './label-create-form.component.css'
 })
 export class LabelCreateFormComponent {
-  defaultColor: Color = { hex: '#CECED912', opacity: null }
+  defaultColor: Color = { hex: '#CECED912' }
   editMode = input<boolean>(false)
   labelData = input<Partial<Label>>()
   
