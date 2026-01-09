@@ -1,17 +1,23 @@
-<div class="flex flex-col pb-10 h-screen max-h-dvh bg-[#083b82] box-border">
+<div 
+class="flex flex-col pb-10 h-screen max-h-dvh box-border"
+[style.background]="boardBgColor()">
   <header class="flex flex-row h-auto justify-between items-center text-white bg-[#0000006b] px-5 py-1 shadow-md">
     <div class="flex flex-row items-center justify-start gap-2">
       <app-title-editable
-      [title]="'Board'"
+      [title]="board()?.title"
       [expandable]="false"
       [maxWidth]="200"
+      (modifyTitleEvent)="onModifyBoardTitle($event)"
       />
       <div>
         <button 
         matButton 
         #viewButtonTrigger="matMenuTrigger"
         [matMenuTriggerFor]="viewMenu" 
-        class="flex flex-row items-center gap-1 justify-center bg-[#DCDFE4] hover:bg-gray-100 duration-100 rounded-sm p-1 text-sm text-[#172B4D]">
+        [style.background]="viewButtonTrigger.menuOpen ? '#DCDFE4' : 'transparent'"
+        [style.color]="viewButtonTrigger.menuOpen ? '#172B4D' : '#FFFFFF'"
+        class="flex flex-row items-center gap-1 justify-center duration-100 
+        rounded-sm p-1 text-sm hover:opacity-50">
           <mat-icon>
             view_kanban
           </mat-icon>
@@ -49,12 +55,20 @@
     </div>
 
     <div class="flex flex-row items-center justify-end gap-2">
-      <button class="flex flex-row items-center gap-1 justify-center duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm">
+      <button 
+      (click)="toggleBoardFavorite()"
+      class="flex flex-row items-center gap-1 justify-center duration-100
+       hover:bg-[#dcdfe42e] p-1 rounded-sm"
+       [style.color]="board()?.isFavorite ? '#FBC828' : '#ffffff'"
+       >
         <!--icono amarillo de estrella-->
         <mat-icon
-        class="text-md!"
-        [style.color]="'#FBC828'"
-          >star
+        class="text-md!">
+          @if (board()?.isFavorite) {
+            star
+          } @else {
+            star_border
+          }
         </mat-icon>
       </button>
       <button class="flex flex-row items-center gap-1 justify-center duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm">

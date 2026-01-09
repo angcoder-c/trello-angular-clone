@@ -138,3 +138,117 @@ export const defaultLabelOptions = [
         }
     }
 ]
+
+export const defaultBoardBackgroundColors: Color[][] = [
+    // row 1
+    [
+        {
+            hex: '#0067a3'
+        }
+    ],
+    [
+        {
+            hex: '#d29034'
+        }
+    ],
+    [
+        {
+            hex: '#519839'
+        }
+    ],
+
+    // row 2
+    [
+        {
+            hex: '#b04632'
+        }
+    ],
+    [
+        {
+            hex: '#89609e'
+        }
+    ],
+    [
+        {
+            hex: '#cd5a91'
+        }
+    ],
+
+
+    // row 3
+    [
+        {
+            hex: '#4bbf6b'
+        }
+    ],
+    [
+        {
+            hex: '#00aecc'
+        }
+    ],
+    [
+        {
+            hex: '#838c91'
+        }
+    ]
+]
+
+export const defaultBoardBackgroundGradientColors: Color[][] = [
+    // row 1
+    [
+        { hex: '#1b2b44' },
+        { hex: '#123161' }
+    ],
+    [
+        { hex: '#0d68e2'},
+        { hex: '#35b0c5' }
+    ],
+    [
+        { hex: '#0c63de'},
+        { hex: '#093574' }
+    ],
+
+    // row 2
+    [
+        { hex: '#0d336d'},
+        { hex: '#c14f9a' }
+    ],
+    [
+        { hex: '#725ec6'},
+        { hex: '#de72bb' }
+    ],
+    [
+        { hex: '#e34a35'},
+        { hex: '#f89f3c' }
+    ],
+
+
+    // row 3
+    [
+        { hex: '#e774b9'},
+        { hex: '#f77468' }
+    ],
+    [
+        { hex: '#20855d'},
+        { hex: '#5dc3cb' }
+    ],
+    [
+        { hex: '#505f79'},
+        { hex: '#1b2e50' }
+    ],
+
+
+    // row 4
+    [
+        { hex: '#44290f'},
+        { hex: '#a72a18' }
+    ],
+    [
+        { hex: '#B3934D'},
+        { hex: '#FF0000' }
+    ],
+    [
+        { hex: '#A7FF4F'},
+        { hex: '#F0781D' }
+    ]
+]

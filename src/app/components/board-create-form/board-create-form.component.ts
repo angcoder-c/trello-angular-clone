@@ -1,23 +1,26 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { BoardStore } from '../../stores/board/board-store.service';
 import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { MatIconModule } from '@angular/material/icon';
+import { BoardColorPickerComponent } from '../board-color-picker/board-color-picker.component';
+import { Color } from '../../types';
 
 @Component({
   selector: 'app-board-create-form',
   imports: [
     ReactiveFormsModule,
     CdkConnectedOverlay,
-    MatIconModule
+    MatIconModule,
+    BoardColorPickerComponent
   ],
   templateUrl: './board-create-form.component.html',
   styleUrl: './board-create-form.component.css'
 })
 export class BoardCreateFormComponent {
   private boardStore = inject(BoardStore);
+  testColor = signal<Color[] | null>(null);
   isOpen = false;
-  testColor = '#040a29';
   
   boardForm = new FormGroup({
     title: new FormControl('', [
@@ -33,17 +36,13 @@ export class BoardCreateFormComponent {
   });
   
   async onSubmit() {
-    if (this.boardForm.valid) {
+    if (this.boardForm.valid && this.testColor()) {
       console.log('Form Submitted!', this.boardForm.value);
       await this.boardStore.createBoard({
         title: this.boardForm.value.title as string,
         description: this.boardForm.value.description,
-        backgroundColor: [
-          {
-            hex: this.boardForm.value.color as string
-          }
-        ],
-        isPublic: this.boardForm.value.isPublic as boolean,
+        backgroundColor: this.testColor() as Color[],
+        isPublic: this.boardForm.value.isPublic || false,
         user_id: null
       });
     }
@@ -56,5 +55,10 @@ export class BoardCreateFormComponent {
   
   toggleMenu() {
     this.isOpen = !this.isOpen;
+  }
+
+  onColorSelected(color: Color[] | null) {
+    console.log('Color selected in form:', color);
+    this.testColor.set(color);
   }
 }

@@ -73,3 +73,7 @@ body {
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
+.cdk-overlay-pane {
+  top: 29px !important;
+}

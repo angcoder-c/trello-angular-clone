@@ -1,3 +1,9 @@
 <div>
-    Home
+    @for (board of boards(); track board.id) {
+        <p>
+            {{ board.title }}
+
+            <a [routerLink]="`/board/${ board.id }`">View Board</a>
+        </p>
+    }
 </div>

@@ -56,6 +56,24 @@ export class BoardStore {
     );
   }
 
+  async updateBoardFavorite(id: string) {
+    const board = await db.getBoard(id)
+    if (!board) return undefined
+    
+    const updatedBoard = {
+      ...board,
+      isFavorite: !board.isFavorite
+    }
+    await db.updateBoard(id, updatedBoard)
+    this.boards.update(
+      boards => boards
+      .map(
+        board => board.id === id ?
+        updatedBoard : 
+        board
+      ));
+  }
+
   async updateBoardDescription(
     id: string, 
     description: string | null

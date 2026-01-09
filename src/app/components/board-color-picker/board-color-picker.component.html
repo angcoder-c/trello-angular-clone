@@ -1,0 +1,79 @@
+<div class="flex flex-col gap-2">
+    <div class="w-full h-auto rounded-md overflow-hidden">
+        <div
+        class="w-full h-full p-4 align-middle flex flex-col justify-center items-center"
+        [style.background]="styleForColorOption(colorSelected() || [])"
+        >
+            <icon-board-preview/>
+        </div>
+    </div>
+    <label class="text-gray-400 text-sm">Background</label>
+    <div class="flex flex-row gap-1 justify-between">
+        @for (background of defaultBackgroundOptions(); track background.id) {
+            <button 
+            type="button"
+            class="w-full h-10 rounded-md cursor-pointer border-2 border-transparent overflow-hidden hover:border-white duration-75"
+            [class.border-white]="isColorOptionSelected(background.colors)"
+            (click)="selectColorOption(background.colors)"
+            >
+                <div
+                class="w-full h-full"
+                [style.background]="styleForColorOption(background.colors)"
+                ></div>
+            </button>
+        }
+        <button
+        mat-button
+        cdkOverlayOrigin
+        #triggerPicker="cdkOverlayOrigin"
+        (click)="toggleMenu()"
+        class="bg-[#383a3e] hover:bg-[#5a5b5d] duration-150 flex 
+        flex-col justify-center items-center w-full h-10 rounded-md"
+        >
+            <mat-icon class="text-white">more_horiz</mat-icon>
+        </button>
+
+        <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="triggerPicker"
+        [cdkConnectedOverlayOpen]="isOpen"
+        (backdropClick)="closePicker()"
+        cdkConnectedOverlayHasBackdrop
+        cdkConnectedOverlayBackdropClass="bg-transparent"
+        >
+        <div class="p-2 flex flex-row gap-2 flex-wrap max-w-72 bg-[#2b2c2f] rounded-md shadow-md">
+            <header class="w-full relative">
+                <h2 class="font-medium text-white mb-2">
+                    Board background
+                </h2>
+                <button 
+                class="text-white absolute right-0 top-0
+                flex flex-col justify-center items-center p-1 
+                rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150"
+                (click)="closePicker()">
+                    <mat-icon>
+                        close
+                    </mat-icon>
+                </button>
+            </header>
+
+            <div class="grid grid-cols-3 gap-2 w-full">
+                @for (background of allBackgroundOptions(); track background.id) {
+                    <button 
+                    type="button"
+                    class="p-0 m-0 w-12 h-12 rounded-md border-2 border-transparent 
+                    hover:border-white duration-75"
+                    [class.border-white]="isColorOptionSelected(background.colors)"
+                    (click)="selectColorOption(background.colors); closePicker()"
+                    >
+                        <div
+                        class="w-full h-full rounded-md"
+                        [style.background]="styleForColorOption(background.colors)"
+                        ></div>
+                    </button>
+                }
+            </div>
+        </div>
+        </ng-template>
+    </div>
+</div>

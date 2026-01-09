@@ -9,17 +9,18 @@ mat-button
 cdkConnectedOverlay
 [cdkConnectedOverlayOrigin]="trigger"
 [cdkConnectedOverlayOpen]="isOpen"
-(backdropClick)="isOpen = false"
+(backdropClick)="close()"
 cdkConnectedOverlayHasBackdrop
 cdkConnectedOverlayBackdropClass="bg-transparent"
 >
     <div
-    class="bg-[#2b2c2f] p-4 rounded-lg shadow-md
-    flex flex-col gap-4 w-80 text-white overflow-y-scroll
-    scroll-config max-h-[calc(100vh-3rem)]"
+    class="bg-[#2b2c2f] rounded-lg shadow-md
+    flex flex-col gap-4 w-75 min-w-75 text-white overflow-hidden
+     max-h-[calc(100vh-3rem)]"
     >
         <header
-        class="flex flex-row items-center justify-center relative min-h-10"
+        class="flex flex-row items-center justify-center relative min-h-12 p-2
+        border-b-2 border-[#3c3d40]"
         >
             <h2 class="font-medium">
                 Create Board
@@ -27,39 +28,85 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
             <button
             mat-icon-button
             (click)="close()"
-            class="absolute right-0 top-0 flex flex-col justify-center 
-            items-center p-2 rounded-md bg-[#383a3e] 
+            class="absolute right-0 top-0 mt-2 mr-2 flex flex-col justify-center 
+            items-center p-1 rounded-md bg-[#383a3e] 
             hover:bg-[#5a5b5d] duration-150"
             >
                 <mat-icon>close</mat-icon>
             </button>
         </header>
-        <!--line-->
-        <hr class="border-[#3c3d40]" />
 
         <form 
         [formGroup]="boardForm" 
         (ngSubmit)="onSubmit()"
+        class="overflow-y-scroll scroll-config px-2"
         >
             <div>
+                <app-board-color-picker
+                (colorSelectedEvent)="onColorSelected($event)"
+                />
+            </div>
+            <div class="flex flex-col gap-2 mt-4">
                 <label for="boardName" class="flex flex-row gap-1">
                     <span class="text-gray-400 text-sm">Title</span>
                     <span class="text-red-500">*</span>
                 </label>
-                <input id="boardName" formControlName="title" />
+                <input 
+                id="boardName" 
+                formControlName="title" 
+                class="appearance-none w-full px-3 py-2 border-gray-500 text-white
+                rounded-md shadow-sm placeholder-gray-400 focus:outline-none 
+                focus:ring-[#669DF1] focus:border-[#669DF1] bg-[#18191b]
+                border-2 sm:text-sm duration-75"
+                placeholder="e.g. Project Roadmap"
+                />
                 @if (boardForm.get('title')?.invalid && boardForm.get('title')?.touched) {
-                    <div>
-                        Board name is required.
-                    </div>
+                    <span class="text-gray-400 text-sm">
+                        👋 Board title is required
+                    </span>
                 }
             </div>
                 
-            <div>
-                <label for="boardDescription">Description:</label>
-                <textarea id="boardDescription" formControlName="description"></textarea>
+            <div class="flex flex-col gap-2 mt-4">
+                <label 
+                for="boardDescription"
+                class="text-gray-400 text-sm">
+                    Description:
+                </label>
+                <textarea 
+                id="boardDescription" 
+                formControlName="description"
+                class="max-h-20 resize-none bg-[#18191b] border-2 
+                border-gray-500 rounded-md p-2 text-white 
+                placeholder-gray-400 focus:outline-none 
+                focus:ring-[#669DF1] focus:border-[#669DF1] 
+                sm:text-sm duration-75 scroll-config"
+                placeholder="e.g. This board is for planning the project roadmap."
+                ></textarea>
+            </div>
+
+            <div class="flex flex-row gap-1 mt-4">
+                <label 
+                for="boardPublic"
+                class="text-gray-400 text-sm flex flex-row items-center gap-2"
+                >
+                    <input 
+                    type="checkbox" 
+                    id="boardPublic" 
+                    formControlName="isPublic"
+                    class="appearance-none w-5 h-5 border-2 border-gray-400 rounded-md
+                    checked:bg-blue-500 checked:border-blue-500 focus:outline-none 
+                    focus:ring-2 focus:ring-blue-400 checked:before:content-['✔']
+                    checked:before:text-white flex flex-col justify-center items-center"
+                    />
+                    Make board public
+                </label>
             </div>
                 
-            <button type="submit" [disabled]="boardForm.invalid">Create Board</button>
+            <button type="submit" 
+            [disabled]="boardForm.invalid">
+                Create Board
+            </button>
         </form>
     </div>
 </ng-template>
