@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { BoardStore } from '../../stores/board/board-store.service';
 import { RouterLink } from "@angular/router";
+import { backgroundColorToStyle } from '../../colors';
+import { Color } from '../../types';
 
 @Component({
   selector: 'app-home-view',
@@ -17,5 +19,9 @@ export class HomeViewComponent {
 
   async ngOnInit() {
     await this.boardStore.loadBoards();
+  }
+
+  getBackgroundStyle(backgroundColor: Color[]): string {
+    return backgroundColorToStyle(backgroundColor);
   }
 }

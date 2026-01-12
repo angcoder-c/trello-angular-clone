@@ -252,3 +252,17 @@ export const defaultBoardBackgroundGradientColors: Color[][] = [
         { hex: '#F0781D' }
     ]
 ]
+
+export function backgroundColorToStyle (colors: Color[]): string {
+    if (colors.length===0) return '#083b82'
+    if (colors.length===1) return colors[0].hex
+    const initPorcentageGradient = 100 / colors.length
+
+    const bgColorsGradient = colors.map((color, index) => {
+      if (!color.hex) return '#083b82'
+      return `${color.hex} ${initPorcentageGradient * (index)}%`
+    })
+    
+    return `linear-gradient(145deg, ${bgColorsGradient.join(', ')})`
+
+} 

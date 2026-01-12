@@ -44,6 +44,7 @@ export class BoardCreateFormComponent {
         isPublic: this.isPublic(),
         user_id: null
       });
+      this.close()
     } else {
       this.onError.set(true);
     }

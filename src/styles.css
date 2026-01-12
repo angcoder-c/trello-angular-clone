@@ -71,7 +71,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /*Body*/
 body {
   overflow-x: hidden;
-  overflow-y: hidden;
 }
 
 .cdk-overlay-pane {
