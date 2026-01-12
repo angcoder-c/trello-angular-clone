@@ -41,14 +41,24 @@
         cdkConnectedOverlayHasBackdrop
         cdkConnectedOverlayBackdropClass="bg-transparent"
         >
-        <div class="p-2 flex flex-row gap-2 flex-wrap max-w-72 bg-[#2b2c2f] rounded-md shadow-md">
-            <header class="w-full relative">
-                <h2 class="font-medium text-white mb-2">
+        <div class="flex flex-row gap-2 flex-wrap max-w-60 
+        bg-[#2b2c2f] rounded-md shadow-md border border-[#3a3b3e]
+        overflow-hidden max-h-[calc(100vh-3rem)]">
+            <header class="w-full flex flex-row justify-between items-center mb-2
+            border-b border-b-[#3a3b3e] p-2">
+                <button 
+                (click)="closePicker()"
+                class="text-white flex flex-col justify-center items-center p-1 
+                rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150">
+                    <mat-icon>
+                        arrow_back
+                    </mat-icon>
+                </button>
+                <h2 class="font-medium text-white align-middle">
                     Board background
                 </h2>
                 <button 
-                class="text-white absolute right-0 top-0
-                flex flex-col justify-center items-center p-1 
+                class="text-white flex flex-col justify-center items-center p-1 
                 rounded-md bg-[#383a3e] hover:bg-[#5a5b5d] duration-150"
                 (click)="closePicker()">
                     <mat-icon>
@@ -57,21 +67,43 @@
                 </button>
             </header>
 
-            <div class="grid grid-cols-3 gap-2 w-full">
-                @for (background of allBackgroundOptions(); track background.id) {
-                    <button 
-                    type="button"
-                    class="p-0 m-0 w-12 h-12 rounded-md border-2 border-transparent 
-                    hover:border-white duration-75"
-                    [class.border-white]="isColorOptionSelected(background.colors)"
-                    (click)="selectColorOption(background.colors); closePicker()"
-                    >
-                        <div
-                        class="w-full h-full rounded-md"
-                        [style.background]="styleForColorOption(background.colors)"
-                        ></div>
-                    </button>
-                }
+            <div class="flex flex-col gap-2 w-full overflow-y-scroll scroll-config">
+                <div class="grid grid-cols-3 gap-2 w-full">
+                    @for (background of solidColors(); track background.id) {
+                        <button 
+                        type="button"
+                        class="p-0 m-0 w-full h-12 rounded-md border-2 border-transparent 
+                        hover:border-white duration-75"
+                        [class.border-white]="isColorOptionSelected(background.colors)"
+                        (click)="selectColorOption(background.colors); closePicker()"
+                        >
+                            <div
+                            class="w-full h-full rounded-md"
+                            [style.background]="styleForColorOption(background.colors)"
+                            ></div>
+                        </button>
+                    }
+                </div>
+
+                <!-- Horizontal line -->
+                 <hr class="border-t border-t-[#3a3b3e] my-2"/>
+
+                 <div class="grid grid-cols-3 gap-2 w-full">
+                    @for (background of gradientColors(); track background.id) {
+                        <button 
+                        type="button"
+                        class="p-0 m-0 w-full h-12 rounded-md border-2 border-transparent 
+                        hover:border-white duration-75"
+                        [class.border-white]="isColorOptionSelected(background.colors)"
+                        (click)="selectColorOption(background.colors); closePicker()"
+                        >
+                            <div
+                            class="w-full h-full rounded-md"
+                            [style.background]="styleForColorOption(background.colors)"
+                            ></div>
+                        </button>
+                    }
+                </div>
             </div>
         </div>
         </ng-template>

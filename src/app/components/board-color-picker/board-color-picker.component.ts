@@ -9,6 +9,11 @@ import { Color } from '../../types';
 import { BoardPreviewIcon } from '../../icons/board-preview/board-preview.component';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 
+type BackgroundOption = {
+  id: string;
+  colors: Color[];
+}
+
 @Component({
   selector: 'app-board-color-picker',
   imports: [
@@ -22,35 +27,35 @@ import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 })
 export class BoardColorPickerComponent {
   isOpen = false;
-  solidColors = defaultBoardBackgroundColors;
-  gradientColors = defaultBoardBackgroundGradientColors;
 
-  defaultBackgroundOptions = computed(() => {
+  solidColors = signal<BackgroundOption[]>([
+    ...defaultBoardBackgroundColors.map(colors => {
+      return { 
+        id: colors.map(c => c.hex).join('-'), 
+        colors 
+      };
+    })
+  ])
+
+  gradientColors = signal<BackgroundOption[]>([
+    ...defaultBoardBackgroundGradientColors.map(colors => {
+      return {
+        id: colors.map(c => c.hex).join('-'),
+        colors
+      }
+    })
+    ]
+  )
+
+  defaultBackgroundOptions = computed<BackgroundOption[]>(() => {
     return [
-      ...this.gradientColors.slice(0, 5).map(colors => {
+      ...defaultBoardBackgroundGradientColors.slice(0, 5).map(colors => {
         return { 
           id: colors.map(c => c.hex).join('-'), 
           colors 
         };
       }),
     ]
-  });
-
-  allBackgroundOptions = computed(() => {
-    return [
-      ...this.solidColors.map(colors => {
-        return { 
-          id: colors.map(c => c.hex).join('-'), 
-          colors
-        };
-      }),
-      ...this.gradientColors.map(colors => {
-        return { 
-          id: colors.map(c => c.hex).join('-'), 
-          colors 
-        };
-      }),
-    ];
   });
 
   colorSelected = signal<Color[] | null>(null);
