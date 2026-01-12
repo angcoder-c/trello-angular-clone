@@ -1,9 +1,13 @@
-<div>
+<div class="w-full grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-4">
     @for (board of boards(); track board.id) {
-        <p>
-            {{ board.title }}
-
-            <a [routerLink]="`/board/${ board.id }`">View Board</a>
-        </p>
+        <div class="w-full h-fit flex flex-col rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200">
+            <div class="w-full h-24 bg-amber-500"></div>
+            <div class="p-4 bg-white">
+                <h2 class="text-xl font-bold text-gray-800">{{board.title}}</h2>
+                @if (board.description) {
+                    <p class="text-sm text-gray-600">{{board.description}}</p>
+                }
+            </div>
+        </div>
     }
 </div>

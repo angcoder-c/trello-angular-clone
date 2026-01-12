@@ -39,7 +39,7 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
         <form 
         [formGroup]="boardForm" 
         (ngSubmit)="onSubmit()"
-        class="overflow-y-scroll scroll-config px-2"
+        class="overflow-y-scroll scroll-config px-2 pb-2"
         >
             <div>
                 <app-board-color-picker
@@ -54,14 +54,17 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
                 <input 
                 id="boardName" 
                 formControlName="title" 
+                (change)="showError(false)"
                 class="appearance-none w-full px-3 py-2 border-gray-500 text-white
                 rounded-md shadow-sm placeholder-gray-400 focus:outline-none 
                 focus:ring-[#669DF1] focus:border-[#669DF1] bg-[#18191b]
                 border-2 sm:text-sm duration-75"
+                (click)="showError()"
+                [style.borderColor]="onError() ? '#f87171' : ''"
                 placeholder="e.g. Project Roadmap"
                 />
-                @if (boardForm.get('title')?.invalid && boardForm.get('title')?.touched) {
-                    <span class="text-gray-400 text-sm">
+                @if (onError()) {
+                    <span class="text-red-400 text-sm">
                         👋 Board title is required
                     </span>
                 }
@@ -93,7 +96,8 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
                     <input 
                     type="checkbox" 
                     id="boardPublic" 
-                    formControlName="isPublic"
+                    [checked]="isPublic()"
+                    (change)="togglePublic()"
                     class="appearance-none w-5 h-5 border-2 border-gray-400 rounded-md
                     checked:bg-blue-500 checked:border-blue-500 focus:outline-none 
                     focus:ring-2 focus:ring-blue-400 checked:before:content-['✔']
@@ -103,8 +107,11 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
                 </label>
             </div>
                 
-            <button type="submit" 
-            [disabled]="boardForm.invalid">
+            <button 
+            type="submit"
+            [disabled]="boardForm.invalid"
+            class="mt-6 w-full bg-[#669DF1] hover:bg-[#4a7bd1]
+            text-[#18191b] font-medium py-2 px-4 rounded-md">
                 Create Board
             </button>
         </form>

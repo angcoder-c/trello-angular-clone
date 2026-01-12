@@ -19,7 +19,9 @@ import { Color } from '../../types';
 })
 export class BoardCreateFormComponent {
   private boardStore = inject(BoardStore);
-  testColor = signal<Color[] | null>(null);
+  color = signal<Color[] | null>(null);
+  isPublic = signal<boolean>(true);
+  onError = signal(false);
   isOpen = false;
   
   boardForm = new FormGroup({
@@ -30,27 +32,28 @@ export class BoardCreateFormComponent {
     ]),
     description: new FormControl('', [
       Validators.maxLength(200)
-    ]),
-    color: new FormControl(this.testColor),
-    isPublic: new FormControl(true)
+    ])
   });
   
   async onSubmit() {
-    if (this.boardForm.valid && this.testColor()) {
-      console.log('Form Submitted!', this.boardForm.value);
+    if (this.boardForm.valid && this.color()) {
       await this.boardStore.createBoard({
         title: this.boardForm.value.title as string,
         description: this.boardForm.value.description,
-        backgroundColor: this.testColor() as Color[],
-        isPublic: this.boardForm.value.isPublic || false,
+        backgroundColor: this.color() as Color[],
+        isPublic: this.isPublic(),
         user_id: null
       });
+    } else {
+      this.onError.set(true);
     }
   }
   
   close () {
     this.isOpen = false;
     this.boardForm.reset();
+    this.color.set(null);
+    this.onError.set(false);
   }
   
   toggleMenu() {
@@ -58,7 +61,22 @@ export class BoardCreateFormComponent {
   }
 
   onColorSelected(color: Color[] | null) {
-    console.log('Color selected in form:', color);
-    this.testColor.set(color);
+    this.color.set(color);
+  }
+
+  togglePublic() {
+    this.isPublic.set(!this.isPublic());
+  }
+
+  showError(detectTouch = true){
+    this.onError.set(
+      (
+        this.boardForm.get('title')?.invalid && 
+        (
+          detectTouch ? this.boardForm.get('title')?.touched : true
+        )
+      ) || 
+      false
+    );
   }
 }
