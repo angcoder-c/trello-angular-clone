@@ -15,7 +15,7 @@ cdkConnectedOverlayHasBackdrop
 cdkConnectedOverlayBackdropClass="bg-transparent"
 >
     <div
-    class="bg-[#2b2c2f] rounded-lg shadow-md
+    class="bg-[#2b2c2f] rounded-lg shadow-lg shadow-black/40
     flex flex-col gap-4 w-75 min-w-75 text-white overflow-hidden
      max-h-[calc(100vh-3rem)]"
     >
@@ -29,8 +29,9 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
             <button
             mat-icon-button
             (click)="close()"
-            class="absolute right-0 top-0 mt-2 mr-2 flex flex-col justify-center 
-            items-center p-1 rounded-md bg-[#383a3e] 
+            class="absolute right-0 top-0 mt-2 mr-2 flex 
+            flex-col justify-center items-center 
+            p-1 rounded-md bg-[#383a3e] 
             hover:bg-[#5a5b5d] duration-150"
             >
                 <mat-icon>close</mat-icon>

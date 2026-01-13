@@ -2,6 +2,9 @@ import { Component, computed, inject, input } from '@angular/core';
 import { Board } from '../../types';
 import { JsonPipe } from '@angular/common';
 import { BoardComponent } from '../../components/board/board.component';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-board-view',

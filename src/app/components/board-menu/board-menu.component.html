@@ -1,0 +1,118 @@
+<button
+mat-button 
+#trigger
+class="flex flex-row items-center gap-1 justify-center 
+duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm"
+(click)="toggleMenu()">
+    <mat-icon>more_horiz</mat-icon>
+</button>
+
+<ng-template
+cdkConnectedOverlay
+[cdkConnectedOverlayOrigin]="trigger"
+[cdkConnectedOverlayOpen]="isOpen"
+(backdropClick)="close()"
+cdkConnectedOverlayHasBackdrop
+cdkConnectedOverlayBackdropClass="bg-transparent"
+>
+    <div
+    class="bg-[#2b2c2f] rounded-lg shadow-lg shadow-black/40
+    flex flex-col gap-4 w-60 min-w-60 text-white
+     max-h-[calc(100vh-3rem)]"
+    >
+        <header
+        class="flex flex-row items-center justify-center relative min-h-12 p-2
+        border-b-2 border-[#3c3d40]"
+        >
+            <h2 class="font-medium">
+                Menu
+            </h2>
+            <button
+            mat-icon-button
+            (click)="close()"
+            class="absolute right-0 top-0 mt-2 mr-2 flex 
+            flex-col justify-center items-center 
+            p-1 rounded-md bg-[#383a3e] 
+            hover:bg-[#5a5b5d] duration-150"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </header>
+
+        <div class="px-2 pb-2">
+            <button
+            mat-menu-item
+            class="w-full z-10 flex flex-row items-center gap-2 p-2
+            rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!"
+            >
+                <mat-icon class="text-white!">
+                    info
+                </mat-icon>
+                About this board
+            </button>
+
+            <div class="relative">
+                <button
+                mat-menu-item
+                matButton
+                (click)="toggleVisibilitySubmenu($event)"
+                class="w-full z-10 flex flex-row items-center justify-between gap-2 p-2 
+                rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!"
+                >
+                    <div class="flex flex-row items-center gap-2">
+                        <mat-icon class="text-white!">
+                            person_add
+                        </mat-icon>
+                        Visibility
+                    </div>
+                </button>
+
+                @if (isVisibilitySubmenuOpen) {
+                    <div class="absolute z-20 left-0 top-full mt-1 bg-[#2b2c2f] rounded-lg shadow-lg shadow-black/40 w-56 text-white border border-[#3c3d40]">
+                        <div class="p-3 flex flex-col">
+                            <button
+                            mat-menu-item
+                            class="w-full z-10 flex flex-row items-center justify-between gap-2 p-2 
+                            rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!">
+                                <div class="flex flex-row items-center justify-start gap-2">
+                                    <mat-icon class="text-green-400!">
+                                        public
+                                    </mat-icon>
+                                    <div class="flex flex-col justify-center">
+                                        <p class="font-medium text-white">Public</p>
+                                    </div>
+                                </div>
+                            </button>
+                            <button
+                            mat-menu-item
+                            class="w-full z-10 flex flex-row items-center justify-between gap-2 p-2 
+                            rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!">
+                                <div class="flex flex-row items-center gap-2">
+                                    <mat-icon class="text-red-400!">
+                                        lock
+                                    </mat-icon>
+                                    <div>
+                                        <p class="font-medium">Private</p>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <button
+            mat-menu-item
+            class="w-full z-10 flex! flex-row! items-center gap-2 p-2
+            rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!"
+            >
+                <div class="flex flex-row items-center gap-2">
+                    <div class="w-7 h-5 rounded-sm"
+                    [style.background]="currentBackground()"></div>
+                    Change background
+                </div>
+            </button>
+        </div>
+    </div>
+</ng-template>

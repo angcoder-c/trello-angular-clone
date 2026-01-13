@@ -1,10 +1,10 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 
 // list 
 import { ListStore } from '../../stores/list/list-store.service';
 import { ListComponent } from '../list/list.component';
 import { ListCreateFormComponent } from '../list-create-form/list-create-form.component';
-import { List } from '../../types';
+import { Board, List } from '../../types';
 
 // drag and drop
 import { 
@@ -20,6 +20,7 @@ import { TitleEditableComponent } from '../title-editable/title-editable.compone
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { BoardStore } from '../../stores/board/board-store.service';
+import { BoardMenuComponent } from '../board-menu/board-menu.component';
 
 @Component({
   selector: 'app-board',
@@ -34,6 +35,7 @@ import { BoardStore } from '../../stores/board/board-store.service';
     MatButtonModule,
     MatMenuModule,
     TitleEditableComponent,
+    BoardMenuComponent
 ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css'
@@ -41,12 +43,16 @@ import { BoardStore } from '../../stores/board/board-store.service';
 export class BoardComponent {
   listStore = inject(ListStore)
   boardStore = inject(BoardStore)
-  readonly boardId = input<string>()
+  readonly boardId = input.required<string | undefined>()
+  readonly boardInput = input.required<Board | null>()
 
   lists = this.listStore.lists
-  board = computed(()=>{
-    return this.boardStore.boards()
-    .find(board => board.id===this.boardId())
+  board = computed<Board | null | undefined>(() => {
+    const boardFromStore = this.boardStore.boards()
+      .find(board => board.id === this.boardId())
+    
+    // Si existe en el store, úsalo; si no, usa el del input
+    return boardFromStore ?? this.boardInput()
   })
 
   boardBgColor = computed(()=>{
@@ -65,8 +71,14 @@ export class BoardComponent {
 
   constructor() {}
 
-  ngOnInit() {
-    this.listStore.loadListsByBoard(this.boardId() ?? '')
+  async ngOnInit() {
+    const boardId = this.boardId()
+    if (!boardId) return
+
+    await Promise.all([
+      this.listStore.loadListsByBoard(boardId),
+      this.boardStore.loadBoards()
+    ])
   }
 
   createList(name: string) {
