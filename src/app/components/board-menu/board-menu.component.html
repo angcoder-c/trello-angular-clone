@@ -1,3 +1,153 @@
+<button 
+#moreBtn 
+(click)="toggleMainMenu(moreBtn)"
+class="flex flex-row items-center gap-1 justify-center 
+duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm"
+>
+    <mat-icon>
+        more_horiz
+    </mat-icon>
+</button>
+
+<!-- MENÚ PRINCIPAL -->
+<ng-template #mainMenuTpl>
+    <div
+    class="bg-[#2b2c2f] rounded-lg shadow-lg shadow-black/40
+    flex flex-col gap-4 w-60 min-w-60 text-white
+     max-h-[calc(100vh-3rem)] mr-5">
+        <header
+        class="flex flex-row items-center justify-center relative min-h-12 p-2
+        border-b-2 border-[#3c3d40]">
+            <h2 class="font-medium">
+                Menu
+            </h2>
+            <button
+            (click)="closeMainMenu()"
+            class="absolute right-0 top-0 mt-2 mr-2 flex 
+            flex-col justify-center items-center 
+            p-1 rounded-md bg-[#383a3e] 
+            hover:bg-[#5a5b5d] duration-150"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </header>
+
+        <div 
+        class="px-2 pb-2 board-menu"
+        (click)="$event.stopPropagation()">
+            <button
+            class="w-full z-10 flex flex-row items-center gap-2 p-2
+            rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!"
+            >
+                <div class="flex flex-row items-center gap-2">
+                    <mat-icon class="text-white!">
+                        info
+                    </mat-icon>
+                    About this board
+                </div>
+            </button>
+            
+            <!-- VISIBILITY (MAT-MENU) -->
+            <button
+            [matMenuTriggerFor]="visibilityMenu"
+            class="w-full z-10 flex flex-row items-center justify-between gap-2 p-2 
+            rounded-sm! hover:bg-[#dcdfe42e]! duration-100 text-white!">
+                <div class="flex flex-row items-center gap-2">
+                    <mat-icon class="text-white!">
+                        person_add
+                    </mat-icon>
+                    Visibility
+                </div>
+            </button>
+            <mat-menu 
+            #visibilityMenu="matMenu"
+            class="bg-[#2b2c2f]! text-white! rounded-lg shadow-lg shadow-black/40
+            w-70! border border-[#3c3d40]!">
+                <button 
+                mat-menu-item 
+                (click)="setVisibility('public')"
+                class="w-full z-10 flex flex-row items-center justify-between gap-2 px-2 py-3 
+                rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!">
+                    <div class="flex flex-row items-center justify-start gap-2">
+                        <mat-icon class="text-green-400!">
+                            public
+                        </mat-icon>
+                        <div class="flex flex-col justify-center">
+                            <p class="font-medium text-white">Public</p>
+                            <p class="text-gray-400 text-sm">Anyone can see this board</p>
+                        </div>
+                    </div>
+                </button>
+                <button 
+                mat-menu-item 
+                (click)="setVisibility('private')"
+                class="w-full z-10 flex flex-row items-center justify-between gap-2 px-2 py-3 
+                rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!">
+                    <div class="flex flex-row items-center justify-start gap-2">
+                        <mat-icon
+                        class="text-red-400!">
+                            lock
+                        </mat-icon>
+                        <div class="flex flex-col justify-center">
+                            <p class="font-medium text-white">Private</p>
+                            <p class="text-gray-400 text-sm">Only you can see this board</p>
+                        </div>
+                    </div>
+                </button>
+
+            </mat-menu>
+            <!-- VISIBILITY (CUSTOM SUBMENU) -->
+
+            <button
+            #colorBtn
+            (click)="toggleColorMenu(colorBtn)"
+            class="w-full z-10 flex! flex-row! items-center gap-2 p-2
+            rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!"
+            >
+                <div class="flex flex-row items-center gap-2">
+                    <div class="w-7 h-5 rounded-sm"
+                    [style.background]="currentBackground()"></div>
+                    Change background
+                </div>
+            </button>
+            <!-- SUBMENU COLOR PICKER -->
+        </div>
+    </div>
+</ng-template>
+
+<ng-template 
+#colorMenuTpl>
+    <div 
+    (click)="$event.stopPropagation()"
+    class="bg-[#2b2c2f] rounded-lg shadow-lg shadow-black/40
+    flex flex-col gap-4 w-70 min-w-60 text-white
+    max-h-[calc(100vh-3rem)] mr-5"
+    >
+        <header
+        class="flex flex-row items-center justify-center relative min-h-12 p-2
+        border-b-2 border-[#3c3d40]">
+            <h2 class="font-medium">
+                Background
+            </h2>
+            <button
+            (click)="closeColorMenu()"
+            class="absolute right-0 top-0 mt-2 mr-2 flex 
+            flex-col justify-center items-center 
+            p-1 rounded-md bg-[#383a3e] 
+            hover:bg-[#5a5b5d] duration-150"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </header>
+        <div class="p-2">
+            <app-board-color-picker
+            (colorSelectedEvent)="onBackgroundSelected($event)"
+            />
+        </div>
+    </div>
+</ng-template>
+
+<!--    
 <button
 mat-button 
 #trigger
@@ -104,6 +254,8 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
 
             <button
             mat-menu-item
+            (click)="isChangingBackground = !isChangingBackground"
+            #trigger
             class="w-full z-10 flex! flex-row! items-center gap-2 p-2
             rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!"
             >
@@ -113,6 +265,18 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
                     Change background
                 </div>
             </button>
+
+            @if (isChangingBackground) {
+                <div 
+                class="fixed inset-0 z-20"
+                >
+                <app-board-color-picker
+                (colorSelectedEvent)="onBackgroundSelected($event)"
+                />
+                </div>
+            }
         </div>
     </div>
 </ng-template>
+
+-->
