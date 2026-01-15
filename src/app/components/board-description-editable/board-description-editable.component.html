@@ -1,0 +1,49 @@
+<div>
+    @if (!isEditing()) {
+        <p 
+            class="bg-[#ceced929] text-white cursor-pointer 
+            hover:bg-[#b0b0b029] p-2 rounded transition-colors
+            max-h-20 overflow-hidden text-ellipsis"
+            (click)="enableEditing()"
+        >
+            @if (!descriptionComputed()) {
+                Add a description to let your teammates know what this board is used for. You’ll get bonus points if you add instructions for how to collaborate!
+            } @else {
+                {{ descriptionComputed() }}
+            }
+        </p>
+    } @else {
+        <form 
+            (ngSubmit)="saveDescription()" 
+            class="space-y-2"
+            (clickOutside)="onClickOutside()"
+        >
+            <textarea 
+                class="w-full outline-0 resize-none min-h-30 border-2 border-gray-500 
+                focus:border-[#669DF1] rounded-md py-3 px-4 scroll-config"
+                [ngModel]="currentDescription()"
+                (ngModelChange)="currentDescription.set($event)"
+                name="description"
+                placeholder="Write a description for this board..."
+                autofocus
+            ></textarea>
+            <div class="flex gap-2">
+                <button
+                type="submit"
+                class="bg-[#669DF1] text-[#242528] font-medium px-2 py-1 
+                rounded-md hover:bg-[#8FB8F6] disabled:bg-[#669ef1b8] min-w-15"
+                >
+                    Save
+                </button>
+                <button
+                type="button"
+                (click)="cancelEditing()"
+                class="font-medium px-2 py-1 bg-[#CECED912]
+                rounded-md hover:bg-[#E3E4F21F] min-w-15 disabled:opacity-45"
+                >
+                    Cancel
+                </button>
+            </div>
+        </form>
+    }
+</div>

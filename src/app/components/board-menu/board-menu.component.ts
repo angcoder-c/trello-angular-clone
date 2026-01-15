@@ -1,4 +1,4 @@
-import { Component, input, output, TemplateRef, viewChild, ViewChild } from '@angular/core';
+import { Component, input, output, signal, TemplateRef, viewChild, ViewChild } from '@angular/core';
 import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuItem } from "@angular/material/menu";
@@ -13,6 +13,8 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { BoardDescriptionEditableComponent } from '../board-description-editable/board-description-editable.component';
+
 @Component({
   selector: 'app-board-menu',
   imports: [
@@ -23,18 +25,24 @@ import { MatButtonModule } from '@angular/material/button';
     OverlayModule,
     PortalModule,
     BoardColorPickerComponent,
-    MatButtonModule
+    MatButtonModule,
+    BoardDescriptionEditableComponent
 ],
   templateUrl: './board-menu.component.html',
   styleUrl: './board-menu.component.css'
 })
 export class BoardMenuComponent {
   readonly currentBackground = input.required<string>();
+  @ViewChild('moreBtn') moreBtn!: ElementRef<HTMLElement>;
   @ViewChild('mainMenuTpl') mainMenuTpl!: TemplateRef<any>;
   @ViewChild('colorMenuTpl') colorMenuTpl!: TemplateRef<any>;
+  @ViewChild('aboutBoardMenuTpl') aboutBoardMenuTpl!: TemplateRef<any>;
 
   private mainMenuRef?: OverlayRef;
   private colorMenuRef?: OverlayRef;
+  private aboutBoardMenuRef?: OverlayRef;
+  isPublic = signal<boolean>(true);
+
   selectedBackgroundEvent = output<Color[]>();
 
   constructor(
@@ -42,35 +50,8 @@ export class BoardMenuComponent {
     private vcr: ViewContainerRef
   ) {}
 
-  /*
-  isOpen = false;
-  isVisibilitySubmenuOpen = false;
-  isChangingBackground = false;
-
-  close () {
-    this.isOpen = false;
-    this.isVisibilitySubmenuOpen = false;
-  }
-
-  toggleMenu() {
-    this.isOpen = !this.isOpen;
-  }
-
-  toggleVisibilitySubmenu(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.isVisibilitySubmenuOpen = !this.isVisibilitySubmenuOpen;
-  }
-  toggleVisibilitySubmenu(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.isVisibilitySubmenuOpen = !this.isVisibilitySubmenuOpen;
-  }
-  */
-
-
   setVisibility(value: 'public' | 'private') {
-    console.log('Visibility:', value);
+    this.isPublic.set(value === 'public');
   }
 
   /* ===== MENÚ PRINCIPAL ===== */
@@ -159,11 +140,61 @@ export class BoardMenuComponent {
     // this.closeColorMenu();
     // this.closeMainMenu();
   }
-  
+
+  // about board menu
+  toggleAboutBoardMenu(origin: HTMLElement) {
+    if (this.aboutBoardMenuRef) {
+      this.closeAboutBoardMenu();
+      return;
+    }
+
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(origin)
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+          offsetY: 6
+        }
+      ]);
+
+    this.aboutBoardMenuRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop'
+    });
+
+    this.aboutBoardMenuRef.backdropClick().subscribe(() => {
+      this.closeAboutBoardMenu();
+    });
+
+    this.aboutBoardMenuRef.attach(
+      new TemplatePortal(this.aboutBoardMenuTpl, this.vcr)
+    );
+  }
+
+  closeAboutBoardMenu() {
+    this.aboutBoardMenuRef?.dispose();
+    this.aboutBoardMenuRef = undefined;
+    this.closeMainMenu();
+  }
+
+  backToMainMenu() {
+    this.closeColorMenu();
+    this.closeAboutBoardMenu();
+    this.toggleMainMenu(this.moreBtn.nativeElement);
+  }
 
   onBackgroundSelected(colors: Color[] | null) {
     if (!colors) return;
     this.selectedBackgroundEvent.emit(colors);
     // this.isChangingBackground = false;
+  }
+
+  onDescriptionChange(newDescription: string) {
+    console.log('New Board Description:', newDescription);
   }
 }
