@@ -1,4 +1,4 @@
-import { Component, input, output, signal, TemplateRef, viewChild, ViewChild } from '@angular/core';
+import { Component, computed, input, output, signal, TemplateRef, viewChild, ViewChild } from '@angular/core';
 import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuItem } from "@angular/material/menu";
@@ -14,6 +14,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BoardDescriptionEditableComponent } from '../board-description-editable/board-description-editable.component';
+import { backgroundColorToStyle } from '../../colors';
 
 @Component({
   selector: 'app-board-menu',
@@ -32,17 +33,33 @@ import { BoardDescriptionEditableComponent } from '../board-description-editable
   styleUrl: './board-menu.component.css'
 })
 export class BoardMenuComponent {
-  readonly currentBackground = input.required<string>();
-  @ViewChild('moreBtn') moreBtn!: ElementRef<HTMLElement>;
-  @ViewChild('mainMenuTpl') mainMenuTpl!: TemplateRef<any>;
-  @ViewChild('colorMenuTpl') colorMenuTpl!: TemplateRef<any>;
-  @ViewChild('aboutBoardMenuTpl') aboutBoardMenuTpl!: TemplateRef<any>;
+  // viewChild references for menu templates and buttons
+  moreBtn = viewChild.required<ElementRef<HTMLElement>>('moreBtn')
+  mainMenuTpl = viewChild.required<TemplateRef<any>>('mainMenuTpl')
+  colorMenuTpl = viewChild.required<TemplateRef<any>>('colorMenuTpl')
+  aboutBoardMenuTpl = viewChild.required<TemplateRef<any>>('aboutBoardMenuTpl')
 
   private mainMenuRef?: OverlayRef;
   private colorMenuRef?: OverlayRef;
   private aboutBoardMenuRef?: OverlayRef;
+
+  // background handling
+  readonly currentBackground = input.required<Color[]>();
+  boardBgColor = computed(()=>{
+    const backgroundColor = this.currentBackground()
+    if (!backgroundColor) return '#083b82'
+    return backgroundColorToStyle(backgroundColor)
+  })
+  
+  // board visibility
   isPublic = signal<boolean>(true);
 
+  // about board
+  readonly description = input.required<string | null>();
+  
+  // event
+  descriptionChangedEvent = output<string>();
+  isPublicChangedEvent = output<boolean>();
   selectedBackgroundEvent = output<Color[]>();
 
   constructor(
@@ -50,30 +67,27 @@ export class BoardMenuComponent {
     private vcr: ViewContainerRef
   ) {}
 
-  setVisibility(value: 'public' | 'private') {
-    this.isPublic.set(value === 'public');
-  }
+  // TOGGLE MENUS
 
-  /* ===== MENÚ PRINCIPAL ===== */
-
+  // main menu
   toggleMainMenu(origin: HTMLElement) {
     if (this.mainMenuRef) {
       this.closeMainMenu();
-      return;
+      return undefined;
     }
 
     const positionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo(origin)
-      .withPositions([
-        {
-          originX: 'start',
-          originY: 'bottom',
-          overlayX: 'start',
-          overlayY: 'top',
-          offsetY: 6
-        }
-      ]);
+    .position()
+    .flexibleConnectedTo(origin)
+    .withPositions([
+      {
+        originX: 'start',
+        originY: 'bottom',
+        overlayX: 'start',
+        overlayY: 'top',
+        offsetY: 6
+      }
+    ]);
 
     this.mainMenuRef = this.overlay.create({
       positionStrategy,
@@ -86,22 +100,15 @@ export class BoardMenuComponent {
     });
 
     this.mainMenuRef.attach(
-      new TemplatePortal(this.mainMenuTpl, this.vcr)
+      new TemplatePortal(this.mainMenuTpl(), this.vcr)
     );
   }
 
-  closeMainMenu() {
-    this.closeColorMenu();
-    this.mainMenuRef?.dispose();
-    this.mainMenuRef = undefined;
-  }
-
-  /* ===== SUBMENU COLOR ===== */
-
+  // color menu
   toggleColorMenu(origin: HTMLElement) {
     if (this.colorMenuRef) {
       this.closeColorMenu();
-      return;
+      return undefined;
     }
 
     const positionStrategy = this.overlay
@@ -124,28 +131,15 @@ export class BoardMenuComponent {
     });
     
     this.colorMenuRef.attach(
-      new TemplatePortal(this.colorMenuTpl, this.vcr)
+      new TemplatePortal(this.colorMenuTpl(), this.vcr)
     );
-
-  }
-
-  closeColorMenu() {
-    this.colorMenuRef?.dispose();
-    this.colorMenuRef = undefined;
-  }
-
-  onColorSelected(color: string) {
-    console.log('Color:', color);
-    // opcional:
-    // this.closeColorMenu();
-    // this.closeMainMenu();
   }
 
   // about board menu
   toggleAboutBoardMenu(origin: HTMLElement) {
     if (this.aboutBoardMenuRef) {
       this.closeAboutBoardMenu();
-      return;
+      return undefined;
     }
 
     const positionStrategy = this.overlay
@@ -172,29 +166,49 @@ export class BoardMenuComponent {
     });
 
     this.aboutBoardMenuRef.attach(
-      new TemplatePortal(this.aboutBoardMenuTpl, this.vcr)
+      new TemplatePortal(this.aboutBoardMenuTpl(), this.vcr)
     );
   }
 
+  // CLOSE MENUS
+
+  closeMainMenu() {
+    this.closeColorMenu();
+    this.mainMenuRef?.dispose();
+    this.mainMenuRef = undefined;
+  }
+
+  closeColorMenu() {
+    this.colorMenuRef?.dispose();
+    this.colorMenuRef = undefined;
+  }
+  
   closeAboutBoardMenu() {
     this.aboutBoardMenuRef?.dispose();
     this.aboutBoardMenuRef = undefined;
     this.closeMainMenu();
   }
-
+  
   backToMainMenu() {
     this.closeColorMenu();
     this.closeAboutBoardMenu();
-    this.toggleMainMenu(this.moreBtn.nativeElement);
+    this.toggleMainMenu(this.moreBtn().nativeElement);
   }
 
+  // visibility menu
+  setVisibility(isPublic: boolean) {
+    this.isPublic.set(isPublic);
+    this.isPublicChangedEvent.emit(isPublic);
+  }
+
+  // color menu
   onBackgroundSelected(colors: Color[] | null) {
     if (!colors) return;
     this.selectedBackgroundEvent.emit(colors);
-    // this.isChangingBackground = false;
   }
 
+  // about board menu
   onDescriptionChange(newDescription: string) {
-    console.log('New Board Description:', newDescription);
+    this.descriptionChangedEvent.emit(newDescription);
   }
 }

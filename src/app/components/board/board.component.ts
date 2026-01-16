@@ -4,7 +4,7 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { ListStore } from '../../stores/list/list-store.service';
 import { ListComponent } from '../list/list.component';
 import { ListCreateFormComponent } from '../list-create-form/list-create-form.component';
-import { Board, List } from '../../types';
+import { Board, Color, List } from '../../types';
 
 // drag and drop
 import { 
@@ -21,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { BoardStore } from '../../stores/board/board-store.service';
 import { BoardMenuComponent } from '../board-menu/board-menu.component';
+import { backgroundColorToStyle } from '../../colors';
 
 @Component({
   selector: 'app-board',
@@ -58,15 +59,8 @@ export class BoardComponent {
   boardBgColor = computed(()=>{
     const board = this.board()
     const backgroundColor = board?.backgroundColor
-    if (!backgroundColor || backgroundColor.length===0) return '#083b82'
-    const initPorcentageGradient = 100 / backgroundColor.length
-
-    const bgColorsGradient = backgroundColor.map((color, index) => {
-      if (!color.hex) return '#083b82'
-      return `${color.hex} ${initPorcentageGradient * (index)}%`
-    })
-    
-    return `linear-gradient(135deg, ${bgColorsGradient.join(', ')})`
+    if (!backgroundColor) return '#083b82'
+    return backgroundColorToStyle(backgroundColor)
   })
 
   constructor() {}
@@ -108,6 +102,36 @@ export class BoardComponent {
     await this.boardStore.updateBoardTitle(
       board.id,
       newTitle
+    )
+  }
+
+  // change background
+  onBackgroundChange(newBackground: Color[]) {
+    const board = this.board()
+    if (!board) return
+    this.boardStore.updateBoardBackgroundColor(
+      board.id,
+      newBackground
+    )
+  }
+
+  // change visibility
+  onVisibilityChange(isPublic: boolean) {
+    const board = this.board()
+    if (!board) return
+    this.boardStore.updateBoardPublicStatus(
+      board.id,
+      isPublic
+    )
+  }
+
+  // change description
+  onDescriptionChange(newDescription: string) {
+    const board = this.board()
+    if (!board) return
+    this.boardStore.updateBoardDescription(
+      board.id,
+      newDescription
     )
   }
 }

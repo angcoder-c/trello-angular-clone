@@ -67,7 +67,7 @@ duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm"
             w-70! border border-[#3c3d40]!">
                 <button 
                 mat-menu-item 
-                (click)="setVisibility('public')"
+                (click)="setVisibility(true)"
                 class="w-full z-10 flex flex-row items-center justify-between gap-2 px-2 py-3 
                 rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!"
                 [style.backgroundColor]="isPublic() ? '#dcdfe42e' : 'transparent'">
@@ -83,7 +83,7 @@ duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm"
                 </button>
                 <button 
                 mat-menu-item 
-                (click)="setVisibility('private')"
+                (click)="setVisibility(false)"
                 class="w-full z-10 flex flex-row items-center justify-between gap-2 px-2 py-3 
                 rounded-sm hover:bg-[#dcdfe42e]! duration-100 text-white!"
                 [style.backgroundColor]="!isPublic() ? '#dcdfe42e' : 'transparent'">
@@ -110,7 +110,7 @@ duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm"
             >
                 <div class="flex flex-row items-center gap-2">
                     <div class="w-7 h-5 rounded-sm"
-                    [style.background]="currentBackground()"></div>
+                    [style.background]="boardBgColor()"></div>
                     Change background
                 </div>
             </button>
@@ -145,6 +145,7 @@ duration-100 hover:bg-[#dcdfe42e] p-1 rounded-sm"
         </header>
         <div class="p-2">
             <app-board-color-picker
+            [initBackground]="currentBackground()"
             (colorSelectedEvent)="onBackgroundSelected($event)"
             />
         </div>
@@ -159,7 +160,7 @@ MENU ABOUT THIS BOARD
 <ng-template #aboutBoardMenuTpl>
     <div    
     class="bg-[#2b2c2f] rounded-lg shadow-lg shadow-black/40
-    flex flex-col gap-4 w-80 min-w-80 text-white
+    flex flex-col gap-4 w-60 min-w-60 text-white
     max-h-[calc(100vh-3rem)] mr-5">
             <header
             class="flex flex-row items-center justify-between min-h-12 p-2
@@ -193,7 +194,7 @@ MENU ABOUT THIS BOARD
                     Description
                 </h3>
                 <app-board-description-editable
-                [description]="null"
+                [description]="description()"
                 (descriptionChanged)="onDescriptionChange($event)"
                 />
             </div>

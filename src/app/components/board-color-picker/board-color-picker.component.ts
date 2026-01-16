@@ -1,4 +1,4 @@
-import { Component, computed, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { 
   defaultBoardBackgroundColors, 
   defaultBoardBackgroundGradientColors 
@@ -27,6 +27,7 @@ type BackgroundOption = {
 })
 export class BoardColorPickerComponent {
   isOpen = false;
+  initBackground = input<Color[]>();
 
   solidColors = signal<BackgroundOption[]>([
     ...defaultBoardBackgroundColors.map(colors => {
@@ -62,7 +63,10 @@ export class BoardColorPickerComponent {
   colorSelectedEvent= output<Color[] | null>();
 
   ngOnInit() {
-    this.colorSelected.set(this.defaultBackgroundOptions()[0].colors);
+    this.colorSelected.set(
+      this.initBackground() ?? 
+      this.defaultBackgroundOptions()[0].colors
+    );
     this.colorSelectedEvent.emit(this.colorSelected());
   }
 
