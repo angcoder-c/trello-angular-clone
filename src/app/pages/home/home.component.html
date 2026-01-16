@@ -1,26 +1,33 @@
-<main class="flex-1 w-full p-4">
-    <div class="w-full grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-4">
-        @for (board of boards(); track board.id) {
-            <div class="w-full h-25 flex flex-col rounded-md overflow-hidden 
-            shadow-md hover:shadow-lg transition-shadow duration-200
-            border border-[rgba(255,255,255,0.10)] group"
-            [routerLink]="`/board/${board.id}`">
-                <div 
-                class="w-full h-full group-hover:opacity-50 transition-opacity 
-                duration-200 cursor-pointer" 
-                [style.background]="getBackgroundStyle(board.backgroundColor)">
-                </div>
-
-                <div class="sm:text-sm md:text-md lg:text-lg xl:text-xl">
-                    <a 
-                    [routerLink]="`/board/${board.id}`"
-                    class="block px-2 py-3 bg-[#2a2a2c] text-white 
-                    text-sm font-medium truncate hover:underline"
-                    >
-                        {{ board.title }}
-                    </a>
-                </div>
-            </div>
-        }
-    </div>
-</main>
+<div class="flex flex-row h-full">
+    <nav class="w-[30%] max-w-60 sticky hidden md:flex min-h-[calc(100vh-1.5rem)] p-4 border-r border-gray-300 items-center justify-between bg-red-100">
+        header fixed
+    </nav>
+    <main class="flex-1 w-[70%] p-4 overflow-y-auto">
+        <div class="w-full grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-4">
+            @for (board of recentBoards(); track board.id) {
+                <app-board-card 
+                [board]="board"
+                (isFavoriteEvent)="toggleBoardFavorite($event)"
+                />
+            }
+        </div>
+    
+        <div class="w-full grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-4 mt-8">
+            @for (board of boards(); track board.id) {
+                <app-board-card 
+                [board]="board"
+                (isFavoriteEvent)="toggleBoardFavorite($event)"
+                />
+            }
+        </div>
+    
+        <div class="w-full grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-4 mt-8">
+            @for (board of favoriteBoards(); track board.id) {
+                <app-board-card 
+                [board]="board"
+                (isFavoriteEvent)="toggleBoardFavorite($event)"
+                />
+            }
+        </div>
+    </main>
+</div>

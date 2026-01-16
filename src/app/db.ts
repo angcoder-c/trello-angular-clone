@@ -55,6 +55,14 @@ export class AppDB extends Dexie {
         return await this.board.get(id);
     }
 
+    async getRecentBoards(limit: number = 4): Promise<Board[]> {
+        return await this.board
+        .orderBy('last_visit')
+        .reverse()
+        .limit(limit)
+        .toArray();
+    }
+
     async getAllBoards(): Promise<Board[]> {
         return await this.board.toArray();
     }

@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Board, Color } from '../../types';
 import { db } from '../../db';
 
@@ -7,6 +7,7 @@ import { db } from '../../db';
 })
 export class BoardStore {
   boards = signal<Board[]>([]);
+  
   constructor() { }
 
   async loadBoards() {
@@ -172,5 +173,22 @@ export class BoardStore {
           updatedBoard : 
           board
       ));
+    }
+
+    async getAllBoards() {
+      const allBoards = await db.getAllBoards();
+      return allBoards;
+    }
+
+    async getRecentBoards () {
+      const recentBoards = await db.getRecentBoards();
+      return recentBoards;
+    }
+
+    async markBoardAsVisited(id: string) {
+      const board = await db.getBoard(id)
+      if (!board) return undefined
+      board.last_visit = new Date().toISOString();
+      await db.updateBoard(id, board);
     }
   }

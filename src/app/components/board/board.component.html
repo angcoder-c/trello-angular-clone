@@ -58,16 +58,15 @@ class="flex flex-col h-[calc(100vh-1.5rem)] overflow-hidden box-border"
       <button 
       (click)="toggleBoardFavorite()"
       class="flex flex-row items-center gap-1 justify-center duration-100
-       hover:bg-[#dcdfe42e] p-1 rounded-sm"
-       [style.color]="board()?.isFavorite ? '#FBC828' : '#ffffff'"
+       hover:bg-[#dcdfe42e] p-1 rounded-sm text-white"
        >
         <!--icono amarillo de estrella-->
         <mat-icon
         class="text-md!">
           @if (board()?.isFavorite) {
-            star
+            <app-star-icon/>
           } @else {
-            star_border
+            <app-star-border-icon/>
           }
         </mat-icon>
       </button>

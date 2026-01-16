@@ -22,6 +22,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BoardStore } from '../../stores/board/board-store.service';
 import { BoardMenuComponent } from '../board-menu/board-menu.component';
 import { backgroundColorToStyle } from '../../colors';
+import { StarBorderIcon } from '../../icons/star-border/star-border.component';
+import { StarIcon } from '../../icons/star/star.component';
 
 @Component({
   selector: 'app-board',
@@ -36,7 +38,9 @@ import { backgroundColorToStyle } from '../../colors';
     MatButtonModule,
     MatMenuModule,
     TitleEditableComponent,
-    BoardMenuComponent
+    BoardMenuComponent,
+    StarIcon,
+    StarBorderIcon
 ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css'
@@ -71,6 +75,7 @@ export class BoardComponent {
 
     await Promise.all([
       this.listStore.loadListsByBoard(boardId),
+      this.boardStore.markBoardAsVisited(boardId),
       this.boardStore.loadBoards()
     ])
   }

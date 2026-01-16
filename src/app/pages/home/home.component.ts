@@ -1,13 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { BoardStore } from '../../stores/board/board-store.service';
 import { RouterLink } from "@angular/router";
 import { backgroundColorToStyle } from '../../colors';
 import { Color } from '../../types';
+import { BoardCardComponent } from '../../components/board-card/board-card.component';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home-view',
   imports: [
-    RouterLink
+    RouterLink,
+    BoardCardComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -15,7 +18,29 @@ import { Color } from '../../types';
 export class HomeViewComponent {
   private boardStore = inject(BoardStore)
 
-  boards = this.boardStore.boards;
+  boards = computed(() => {
+      const currentBoards = this.boardStore.boards()
+      return [...currentBoards]
+      .sort((a, b) => 
+        new Date(a.created_at).getTime() -
+        new Date(b.created_at).getTime()
+      )
+    }
+  );
+
+  recentBoards = computed(()=>{
+    const currentBoards = this.boardStore.boards()
+    return [...currentBoards]
+    .sort((a, b) => 
+      new Date(b.last_visit).getTime() - 
+      new Date(a.last_visit).getTime()
+    )
+    .slice(0, 5);
+  })
+
+  favoriteBoards = computed(() =>
+    this.boards().filter(board => board.isFavorite)
+  );
 
   async ngOnInit() {
     await this.boardStore.loadBoards();
@@ -23,5 +48,13 @@ export class HomeViewComponent {
 
   getBackgroundStyle(backgroundColor: Color[]): string {
     return backgroundColorToStyle(backgroundColor);
+  }
+
+  async toggleBoardFavorite(boardId: string) {
+    const board = await this.boardStore.getBoard(boardId);
+    if (!board) return
+    await this.boardStore.updateBoardFavorite(
+      board.id
+    )
   }
 }
