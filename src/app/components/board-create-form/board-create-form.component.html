@@ -38,84 +38,84 @@ cdkConnectedOverlayBackdropClass="bg-transparent"
             </button>
         </header>
 
-        <form 
-        [formGroup]="boardForm" 
-        (ngSubmit)="onSubmit()"
-        class="overflow-y-scroll scroll-config px-2 pb-2"
-        >
+        <div class="overflow-y-scroll scroll-config px-2 pb-2">
             <div>
                 <app-board-color-picker
                 (colorSelectedEvent)="onColorSelected($event)"
                 />
             </div>
-            <div class="flex flex-col gap-2 mt-4">
-                <label for="boardName" class="flex flex-row gap-1">
-                    <span class="text-gray-400 text-sm">Title</span>
-                    <span class="text-red-500">*</span>
-                </label>
-                <input 
-                id="boardName" 
-                formControlName="title" 
-                (change)="showError(false)"
-                class="appearance-none w-full px-3 py-2 border-gray-500 text-white
-                rounded-md shadow-sm placeholder-gray-400 focus:outline-none 
-                focus:ring-[#669DF1] focus:border-[#669DF1] bg-[#18191b]
-                border-2 sm:text-sm duration-75"
-                (click)="showError()"
-                [style.borderColor]="onError() ? '#f87171' : ''"
-                placeholder="e.g. Project Roadmap"
-                />
-                @if (onError()) {
-                    <span class="text-red-400 text-sm">
-                        👋 Board title is required
-                    </span>
-                }
-            </div>
-                
-            <div class="flex flex-col gap-2 mt-4">
-                <label 
-                for="boardDescription"
-                class="text-gray-400 text-sm">
-                    Description:
-                </label>
-                <textarea 
-                id="boardDescription" 
-                formControlName="description"
-                class="max-h-20 resize-none bg-[#18191b] border-2 
-                border-gray-500 rounded-md p-2 text-white 
-                placeholder-gray-400 focus:outline-none 
-                focus:ring-[#669DF1] focus:border-[#669DF1] 
-                sm:text-sm duration-75 scroll-config"
-                placeholder="e.g. This board is for planning the project roadmap."
-                ></textarea>
-            </div>
-
-            <div class="flex flex-row gap-1 mt-4">
-                <label 
-                for="boardPublic"
-                class="text-gray-400 text-sm flex flex-row items-center gap-2"
-                >
+            <form 
+            [formGroup]="boardForm" 
+            (ngSubmit)="onSubmit()"
+            >
+                <div class="flex flex-col gap-2 mt-4">
+                    <label for="boardName" class="flex flex-row gap-1">
+                        <span class="text-gray-400 text-sm">Title</span>
+                        <span class="text-red-500">*</span>
+                    </label>
                     <input 
-                    type="checkbox" 
-                    id="boardPublic" 
-                    [checked]="isPublic()"
-                    (change)="togglePublic()"
-                    class="appearance-none w-5 h-5 border-2 border-gray-400 rounded-md
-                    checked:bg-blue-500 checked:border-blue-500 focus:outline-none 
-                    focus:ring-2 focus:ring-blue-400 checked:before:content-['✔']
-                    checked:before:text-white flex flex-col justify-center items-center"
+                    id="boardName" 
+                    formControlName="title" 
+                    class="appearance-none w-full px-3 py-2 border-gray-500 text-white
+                    rounded-md shadow-sm placeholder-gray-400 focus:outline-none 
+                    focus:ring-[#669DF1] focus:border-[#669DF1] bg-[#18191b]
+                    border-2 sm:text-sm duration-75"
+                    (click)="showError()"
+                    [style.borderColor]="onError() ? '#f87171' : ''"
+                    placeholder="e.g. Project Roadmap"
                     />
-                    Make board public
-                </label>
-            </div>
-                
-            <button 
-            type="submit"
-            [disabled]="boardForm.invalid"
-            class="mt-6 w-full bg-[#669DF1] hover:bg-[#4a7bd1]
-            text-[#18191b] font-medium py-2 px-4 rounded-md">
-                Create Board
-            </button>
-        </form>
+                    @if (onError()) {
+                        <span class="text-red-400 text-sm">
+                            👋 Board title is required
+                        </span>
+                    }
+                </div>
+                    
+                <div class="flex flex-col gap-2 mt-4">
+                    <label 
+                    for="boardDescription"
+                    class="text-gray-400 text-sm">
+                        Description:
+                    </label>
+                    <textarea 
+                    id="boardDescription" 
+                    formControlName="description"
+                    class="max-h-20 resize-none bg-[#18191b] border-2 
+                    border-gray-500 rounded-md p-2 text-white 
+                    placeholder-gray-400 focus:outline-none 
+                    focus:ring-[#669DF1] focus:border-[#669DF1] 
+                    sm:text-sm duration-75 scroll-config"
+                    placeholder="e.g. This board is for planning the project roadmap."
+                    ></textarea>
+                </div>
+    
+                <div class="flex flex-row gap-1 mt-4">
+                    <label 
+                    for="boardPublic"
+                    class="text-gray-400 text-sm flex flex-row items-center gap-2"
+                    >
+                        <input 
+                        type="checkbox" 
+                        id="boardPublic" 
+                        [checked]="isPublic()"
+                        (change)="togglePublic()"
+                        class="appearance-none w-5 h-5 border-2 border-gray-400 rounded-md
+                        checked:bg-blue-500 checked:border-blue-500 focus:outline-none 
+                        focus:ring-2 focus:ring-blue-400 checked:before:content-['✔']
+                        checked:before:text-white flex flex-col justify-center items-center"
+                        />
+                        Make board public
+                    </label>
+                </div>
+                    
+                <button 
+                type="submit"
+                [disabled]="boardForm.invalid"
+                class="mt-6 w-full bg-[#669DF1] hover:bg-[#4a7bd1]
+                text-[#18191b] font-medium py-2 px-4 rounded-md">
+                    Create Board
+                </button>
+            </form>
+        </div>
     </div>
 </ng-template>
