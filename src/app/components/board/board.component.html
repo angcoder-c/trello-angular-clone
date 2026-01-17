@@ -73,6 +73,7 @@ class="flex flex-col h-[calc(100vh-1.5rem)] overflow-hidden box-border"
       <app-board-menu
       [description]="board()?.description || null"
       [currentBackground]="board()?.backgroundColor || []"
+      [isPublicInput]="board()?.isPublic || false"
       (descriptionChangedEvent)="onDescriptionChange($event)"
       (selectedBackgroundEvent)="onBackgroundChange($event)"
       (isPublicChangedEvent)="onVisibilityChange($event)"

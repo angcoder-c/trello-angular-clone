@@ -24,6 +24,7 @@ import { BoardMenuComponent } from '../board-menu/board-menu.component';
 import { backgroundColorToStyle } from '../../colors';
 import { StarBorderIcon } from '../../icons/star-border/star-border.component';
 import { StarIcon } from '../../icons/star/star.component';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-board',
@@ -40,7 +41,8 @@ import { StarIcon } from '../../icons/star/star.component';
     TitleEditableComponent,
     BoardMenuComponent,
     StarIcon,
-    StarBorderIcon
+    StarBorderIcon,
+    JsonPipe
 ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css'
@@ -111,30 +113,30 @@ export class BoardComponent {
   }
 
   // change background
-  onBackgroundChange(newBackground: Color[]) {
+  async onBackgroundChange(newBackground: Color[]) {
     const board = this.board()
     if (!board) return
-    this.boardStore.updateBoardBackgroundColor(
+    await this.boardStore.updateBoardBackgroundColor(
       board.id,
       newBackground
     )
   }
 
   // change visibility
-  onVisibilityChange(isPublic: boolean) {
+  async onVisibilityChange(isPublic: boolean) {
     const board = this.board()
     if (!board) return
-    this.boardStore.updateBoardPublicStatus(
+    await this.boardStore.updateBoardPublicStatus(
       board.id,
       isPublic
     )
   }
 
   // change description
-  onDescriptionChange(newDescription: string) {
+  async onDescriptionChange(newDescription: string) {
     const board = this.board()
     if (!board) return
-    this.boardStore.updateBoardDescription(
+    await this.boardStore.updateBoardDescription(
       board.id,
       newDescription
     )

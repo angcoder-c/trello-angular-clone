@@ -56,6 +56,7 @@ export class BoardMenuComponent {
 
   // about board
   readonly description = input.required<string | null>();
+  readonly isPublicInput = input.required<boolean>();
   
   // event
   descriptionChangedEvent = output<string>();
@@ -66,6 +67,10 @@ export class BoardMenuComponent {
     private overlay: Overlay,
     private vcr: ViewContainerRef
   ) {}
+
+  ngOnInit() {
+    this.isPublic.set(this.isPublicInput());
+  }
 
   // TOGGLE MENUS
 
