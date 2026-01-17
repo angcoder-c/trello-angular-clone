@@ -5,12 +5,16 @@ import { backgroundColorToStyle } from '../../colors';
 import { Color } from '../../types';
 import { BoardCardComponent } from '../../components/board-card/board-card.component';
 import { JsonPipe } from '@angular/common';
+import { RecentIcon } from '../../icons/recent-icon/recent-icon.component';
+import { StarBorderIcon } from '../../icons/star-border/star-border.component';
 
 @Component({
   selector: 'app-home-view',
   imports: [
     RouterLink,
-    BoardCardComponent
+    BoardCardComponent,
+    RecentIcon,
+    StarBorderIcon
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -30,7 +34,9 @@ export class HomeViewComponent {
 
   recentBoards = computed(()=>{
     const currentBoards = this.boardStore.boards()
+    console.log('Current Boards:', currentBoards); // Debug
     return [...currentBoards]
+    .filter(board => board.last_visit)
     .sort((a, b) => 
       new Date(b.last_visit).getTime() - 
       new Date(a.last_visit).getTime()

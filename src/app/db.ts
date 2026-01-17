@@ -43,7 +43,7 @@ export class AppDB extends Dexie {
             ...data,
             created_at: now,
             updated_at: now,
-            last_visit: now,
+            last_visit: '',
             synced: false,
             edited: false
         };

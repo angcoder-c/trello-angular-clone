@@ -1,8 +1,8 @@
 <div 
-class="flex flex-col min-h-screen text-white bg-[#1f1f21]"
+class="flex flex-col h-screen max-h-screen text-white bg-[#1f1f21]"
 >
   <!-- write a header -->
-   <header class="flex flex-row gap-3">
+   <header class="flex flex-row gap-3 shadow-lg shadow-black/20">
     <h1 
       class="font-bold text-white text-center min-w-max whitespace-nowrap"
     >
@@ -15,13 +15,5 @@ class="flex flex-col min-h-screen text-white bg-[#1f1f21]"
       
    </header>
    <router-outlet />
-
-   <!--
-   <app-board
-   [boardId]="'board-uuid-1234'"
-   />
-  -->
-
-
   </div>
 
