@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { BoardStore } from '../../stores/board/board-store.service';
 import { CdkConnectedOverlay } from '@angular/cdk/overlay';
@@ -19,6 +19,7 @@ import { Color } from '../../types';
 })
 export class BoardCreateFormComponent {
   private boardStore = inject(BoardStore);
+  typeButton = input.required<'board' | 'nav'>();
   color = signal<Color[] | null>(null);
   isPublic = signal<boolean>(true);
   onError = signal(false);

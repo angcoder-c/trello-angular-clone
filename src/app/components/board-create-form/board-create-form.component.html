@@ -1,9 +1,23 @@
-<button 
+<button
 mat-button 
 #trigger
-class="w-max"
-(click)="toggleMenu()">
-    Create Board
+(click)="toggleMenu()"
+[class]="
+    typeButton() === 'nav' ? 
+    'w-max' : 
+    'w-full h-25 flex flex-col justify-center items-center rounded-md overflow-hidden shadow-md bg-[#CECED912] text-sm hover:bg-[#E3E4F21F] hover:shadow-lg transition-shadow duration-200 border border-[rgba(255,255,255,0.10)]'
+">
+    @if (typeButton() === 'nav') {
+        Create 🎉
+    }
+
+    @if (typeButton() === 'board') {
+        <div class="flex flex-col items-center gap-2">
+            <mat-icon class="text-4xl">add</mat-icon>
+            <span>Create new board</span>
+        </div>
+    }
+
 </button>
 
 <ng-template

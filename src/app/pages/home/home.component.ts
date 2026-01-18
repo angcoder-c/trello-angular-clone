@@ -7,6 +7,7 @@ import { BoardCardComponent } from '../../components/board-card/board-card.compo
 import { JsonPipe } from '@angular/common';
 import { RecentIcon } from '../../icons/recent-icon/recent-icon.component';
 import { StarBorderIcon } from '../../icons/star-border/star-border.component';
+import { BoardCreateFormComponent } from '../../components/board-create-form/board-create-form.component';
 
 @Component({
   selector: 'app-home-view',
@@ -14,7 +15,8 @@ import { StarBorderIcon } from '../../icons/star-border/star-border.component';
     RouterLink,
     BoardCardComponent,
     RecentIcon,
-    StarBorderIcon
+    StarBorderIcon,
+    BoardCreateFormComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

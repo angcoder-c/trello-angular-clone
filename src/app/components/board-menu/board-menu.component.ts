@@ -62,6 +62,7 @@ export class BoardMenuComponent {
   descriptionChangedEvent = output<string>();
   isPublicChangedEvent = output<boolean>();
   selectedBackgroundEvent = output<Color[]>();
+  deleteBoardEvent = output<void>();
 
   constructor(
     private overlay: Overlay,
@@ -215,5 +216,12 @@ export class BoardMenuComponent {
   // about board menu
   onDescriptionChange(newDescription: string) {
     this.descriptionChangedEvent.emit(newDescription);
+  }
+
+  // delete board
+  deleteBoard() {
+    this.closeAboutBoardMenu();
+    this.closeMainMenu();
+    this.deleteBoardEvent.emit();
   }
 }

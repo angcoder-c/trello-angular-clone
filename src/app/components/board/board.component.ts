@@ -25,6 +25,7 @@ import { backgroundColorToStyle } from '../../colors';
 import { StarBorderIcon } from '../../icons/star-border/star-border.component';
 import { StarIcon } from '../../icons/star/star.component';
 import { JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-board',
@@ -50,6 +51,7 @@ import { JsonPipe } from '@angular/common';
 export class BoardComponent {
   listStore = inject(ListStore)
   boardStore = inject(BoardStore)
+  router = inject(Router)
   readonly boardId = input.required<string | undefined>()
   readonly boardInput = input.required<Board | null>()
 
@@ -140,5 +142,12 @@ export class BoardComponent {
       board.id,
       newDescription
     )
+  }
+
+  async onDeleteBoard() {
+    const board = this.board()
+    if (!board) return
+    await this.boardStore.deleteBoard(board.id)
+    this.router.navigate(['/'])
   }
 }

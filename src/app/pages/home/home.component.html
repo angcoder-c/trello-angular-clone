@@ -49,30 +49,32 @@
             </div>
         }
 
-        @if (boards().length !== 0) {
-            <div class="flex flex-col gap-2 justify-center">
-                <div class="flex flex-row items-center gap-2">
-                    <div
-                    class="w-[1rem] h-[1rem] flex 
-                    items-center justify-center font-bold 
-                    rounded-sm text-[#1F1F21] p-3
-                    bg-[linear-gradient(176deg,rgba(229,114,185,1)_0%,rgba(194,92,155,1)_50%,rgba(154,65,120,1)_100%)]"
-                    >   
-                        B
-                    </div>
-                    <h2 class="font-bold text-gray-400 text-lg">
-                        YOUR BOARDS
-                    </h2>
+        <!-- All boards -->
+        <div class="flex flex-col gap-2 justify-center">
+            <div class="flex flex-row items-center gap-2">
+                <div
+                class="w-[1rem] h-[1rem] flex 
+                items-center justify-center font-bold 
+                rounded-sm text-[#1F1F21] p-3
+                bg-[linear-gradient(176deg,rgba(229,114,185,1)_0%,rgba(194,92,155,1)_50%,rgba(154,65,120,1)_100%)]"
+                >   
+                    B
                 </div>
-                <div class="w-full grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-4">
-                    @for (board of boards(); track board.id) {
-                        <app-board-card 
-                        [board]="board"
-                        (isFavoriteEvent)="toggleBoardFavorite($event)"
-                        />
-                    }
-                </div>
+                <h2 class="font-bold text-gray-400 text-lg">
+                    YOUR BOARDS
+                </h2>
             </div>
-        }
+            <div class="w-full grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-4">
+                @for (board of boards(); track board.id) {
+                    <app-board-card 
+                    [board]="board"
+                    (isFavoriteEvent)="toggleBoardFavorite($event)"
+                    />
+                }
+                <app-board-create-form
+                typeButton="board"
+                />
+            </div>
+        </div>
     </main>
 </div>

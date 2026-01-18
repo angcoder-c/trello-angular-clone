@@ -188,15 +188,24 @@ MENU ABOUT THIS BOARD
             </header>
     
             <div 
-            class="px-4 pb-4"
+            class="px-4 pb-4 flex flex-col gap-2"
             (click)="$event.stopPropagation()">
-                <h3 class="font-medium mb-2">
-                    Description
-                </h3>
-                <app-board-description-editable
-                [description]="description()"
-                (descriptionChanged)="onDescriptionChange($event)"
-                />
+                <div>
+                    <h3 class="font-medium mb-2">
+                        Description
+                    </h3>
+                    <app-board-description-editable
+                    [description]="description()"
+                    (descriptionChanged)="onDescriptionChange($event)"
+                    />
+                </div>
+
+                <button 
+                (click)="deleteBoard()"
+                class="p-2 bg-[#5a5b5d55] text-white w-full rounded-md
+                hover:bg-[#400000] hover:text-white duration-150">
+                    Delete this board
+                </button>
             </div>
     </div>
 </ng-template>
