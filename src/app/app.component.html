@@ -2,18 +2,40 @@
 class="flex flex-col h-screen max-h-screen text-white bg-[#1f1f21]"
 >
   <!-- write a header -->
-   <header class="flex flex-row gap-3 shadow-lg shadow-black/20">
-    <h1 
-      class="font-bold text-white text-center min-w-max whitespace-nowrap"
-    >
-      Trello Angular Clone
-    </h1>
-
-      <a routerLink="/">Home</a>
-
-    <app-board-create-form
-    [typeButton]="'nav'"/>
-      
+   <header class="flex flex-row gap-3 p-3 border-b border-b-[#464649] 
+   items-center justify-between">
+    <div class="flex flex-row gap-3 items-center">
+        <button 
+        [matMenuTriggerFor]="menu"
+        class="flex md:hidden p-1 hover:bg-[#E3E4F21F] rounded-md border border-[#464649]">
+          <app-more-icon
+          class="w-6 h-6 text-white"
+          />
+        </button>
+        <mat-menu 
+        #menu="matMenu"
+        class="bg-[#1f1f21]! border! border-[#464649]! px-2! min-w-30!
+        flex! flex-col!">
+          <app-header/>
+        </mat-menu>
+        <div 
+        routerLink="/"
+        class="flex flex-row gap-2 items-center cursor-pointer">
+          <app-trello-logo 
+          class="w-7.5 h-7.5"
+          />
+          <span class="hidden md:flex font-medium text-gray-200 text-center 
+          min-w-max font-sans whitespace-nowrap">
+            Trello Clone
+          </span>
+        </div>
+    
+        <app-board-create-form
+        [typeButton]="'nav'"/>
+    </div>
+    <div>
+      user
+    </div>
    </header>
    <router-outlet />
   </div>

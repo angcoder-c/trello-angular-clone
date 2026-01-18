@@ -4,8 +4,8 @@ mat-button
 (click)="toggleMenu()"
 [class]="
     typeButton() === 'nav' ? 
-    'w-max' : 
-    'w-full h-25 flex flex-col justify-center items-center rounded-md overflow-hidden shadow-md bg-[#CECED912] text-sm hover:bg-[#E3E4F21F] hover:shadow-lg transition-shadow duration-200 border border-[rgba(255,255,255,0.10)]'
+    'w-max h-full bg-[#669DF1] text-sm text-[#18191b] font-medium px-2 py-[0.41rem] rounded-md hover:bg-[#4a7bd1] transition-colors duration-200  shadow-md cursor-pointer' : 
+    'w-full h-25 flex flex-col justify-center items-center rounded-md overflow-hidden shadow-md bg-[#CECED912] text-sm hover:bg-[#E3E4F21F] hover:shadow-lg transition-shadow cursor-pointer duration-200 border border-[rgba(255,255,255,0.10)]'
 ">
     @if (typeButton() === 'nav') {
         Create 🎉

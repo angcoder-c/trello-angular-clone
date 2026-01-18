@@ -1,0 +1,21 @@
+<header class="flex flex-col gap-2 w-full">
+    <button 
+    routerLink="/boards" 
+    routerLinkActive="bg-[#1C2B42] text-[#669DF1]! hover:bg-[#243754]!"
+    [routerLinkActiveOptions]="{ exact: true }" 
+    class="p-2 rounded w-full flex flex-row items-center
+    justify-start gap-2 text-sm text-white hover:bg-[#E3E4F21F] cursor-pointer">
+        <app-board-icon />
+        Boards
+    </button>
+
+    <button 
+    routerLink="/about" 
+    routerLinkActive="bg-[#1C2B42] text-[#669DF1]! hover:bg-[#243754]!" 
+    class="p-2 rounded w-full flex flex-row items-center
+    justify-start gap-2 text-sm text-white hover:bg-[#E3E4F21F] 
+    cursor-pointer">
+        <mat-icon>info</mat-icon>
+        About
+    </button>
+</header>

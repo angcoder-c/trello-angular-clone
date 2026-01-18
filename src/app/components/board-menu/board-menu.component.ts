@@ -19,7 +19,6 @@ import { backgroundColorToStyle } from '../../colors';
 @Component({
   selector: 'app-board-menu',
   imports: [
-    CdkConnectedOverlay,
     MatIconModule,
     MatMenuItem,
     MatMenuModule,
