@@ -35,6 +35,14 @@ class="flex flex-col h-screen max-h-screen text-white bg-[#1f1f21]"
     </div>
     <div>
       user
+
+      @if (!userProfile){
+        <span>{{ userProfile | json }}</span>
+        <button (click)="login()">Login with Google</button>
+      } @else {
+        <span>{{ userProfile | json }}</span>
+        <button (click)="logout()">Logout</button>
+      }
     </div>
    </header>
    <router-outlet />

@@ -4,8 +4,14 @@ import { BoardViewComponent } from './pages/board/board.component';
 import { boardResolver } from './routing/resolvers';
 import { BoardsComponent } from './pages/boards/boards.component';
 import { AboutComponent } from './pages/about/about.component';
+import { AuthCallbackComponent } from './auth/auth-callback/auth-callback.component';
 
 export const routes: Routes = [
+    {
+    path: 'auth/callback',
+    component: AuthCallbackComponent,
+    title: 'Authenticating...'
+    },
     {
         path: '',
         title: 'Home | Trello Angular Clone',

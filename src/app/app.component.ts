@@ -5,6 +5,8 @@ import { TrelloLogo } from './icons/trello-logo/trello-logo.component';
 import { MoreIcon } from './icons/more-icon/more-icon.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeaderComponent } from './components/header/header.component';
+import { AuthService } from './services/auth/auth.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -15,11 +17,25 @@ import { HeaderComponent } from './components/header/header.component';
     TrelloLogo,
     MoreIcon,
     MatMenuModule,
-    HeaderComponent
+    HeaderComponent,
+    JsonPipe
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'trello-angular-clone';
+  authService = inject(AuthService);
+
+  login () {
+    this.authService.login();
+  }
+
+  logout () {
+    this.authService.logout();
+  }
+
+  get userProfile() {
+    return this.authService.getUserProfile;
+  }
 }
