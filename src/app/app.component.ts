@@ -26,15 +26,7 @@ import { JsonPipe } from '@angular/common';
 export class AppComponent {
   title = 'trello-angular-clone';
   authService = inject(AuthService);
-
-  login () {
-    this.authService.login();
-  }
-
-  logout () {
-    this.authService.logout();
-  }
-
+  
   get userProfile() {
     return this.authService.getUserProfile;
   }

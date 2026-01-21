@@ -58,6 +58,25 @@ export class ListComponent {
     await this.cardStore.loadCardsByList(this.listId() || '')
   }
 
+  async addCard(title: string) {
+    await this.cardStore.createCard({
+      position: this.cardStore.cards()
+      .filter(
+        card => card.list_id === this.listId()
+      ).length,
+      list_id: this.listId() || '',
+      title: title
+    })
+
+    setTimeout(() => {
+      const scrollContainer = this.scrollContainer()?.nativeElement;
+      if (scrollContainer) {
+        scrollContainer.scrollTop = 
+          scrollContainer.scrollHeight;
+      }
+    }, 0);
+  }
+
   async onModifyListTitle(newTitle: string) {
     const listId = this.listId()
     if (!listId) return;

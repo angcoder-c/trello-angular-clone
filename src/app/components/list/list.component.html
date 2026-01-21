@@ -1,4 +1,4 @@
-<div class="flex flex-col h-auto max-h-full w-[272px] bg-[#101204] text-white rounded-lg">
+<div class="flex flex-col h-auto max-h-[calc(100vh-10rem)] w-[272px] bg-[#101204] text-white rounded-lg">
     <div class="p-2 pr-4 pb-0 shrink-0 w-full overflow-hidden gap-2 flex flex-row justify-between box-border cursor-pointer content-center max-h-20 h-auto">
         <app-title-editable 
         [title]="listData()?.name"
@@ -52,7 +52,7 @@
     [cdkDropListData]="cards()"
     [cdkDropListConnectedTo]="listsId()"
     (cdkDropListDropped)="drop($event)"
-    class="overflow-y-auto p-2 gap-3 flex flex-col scroll-config flex-1"
+    class="overflow-y-auto p-2 gap-3 flex flex-col scroll-config flex-1 max-h-[calc(100vh-15rem)]"
     [class.max-h-[calc(100vh-15rem)]]="!insertCard()"
     [class.max-h-[calc(100vh-12rem)]]="insertCard()">
         @for (card of cards(); track card.id) {
@@ -68,6 +68,7 @@
             #insertFormRef 
             [listId]="listId()"
             (onCloseEvent)="closeInsertCard()"
+            (onAddCardEvent)="addCard($event)"
             class="w-full"/>
         }
     </div>

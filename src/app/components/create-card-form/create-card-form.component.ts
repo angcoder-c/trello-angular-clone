@@ -15,8 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class CreateCardFormComponent {
   insertCard = signal<boolean>(false)
   formElementRef=viewChild<ElementRef>('insertFormRef')
-  cardStore = inject(CardStore)
   onCloseEvent = output<void>()
+  onAddCardEvent = output<string>()
   readonly listId = input<string>()
 
   insertForm = new FormGroup({
@@ -30,14 +30,7 @@ export class CreateCardFormComponent {
     }
 
     if(title) {
-      await this.cardStore.createCard({
-        position: this.cardStore.cards()
-        .filter(
-          card => card.list_id === this.listId()
-        ).length,
-        list_id: this.listId() || '',
-        title: title
-      })
+      this.onAddCardEvent.emit(title);
     }
     this.insertForm.reset()
   }
