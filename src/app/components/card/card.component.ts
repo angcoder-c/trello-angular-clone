@@ -5,6 +5,8 @@ import { Card } from '../../types';
 import { Dialog, DialogModule } from '@angular/cdk/dialog'
 import { CardModalComponent } from '../card-modal/card-modal.component';
 import { Subject, takeUntil } from 'rxjs';
+import { ListStore } from '../../stores/list/list-store.service';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, computed, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
-import { Card, Color, Comment, Label, CheckList, CheckListItem, CheckListExtended } from '../../types';
+import { Card, Color, Comment, Label, CheckList, CheckListItem, CheckListExtended, List } from '../../types';
 import { CardStore } from '../../stores/card/card-store.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { TitleEditableComponent } from '../title-editable/title-editable.component';
@@ -13,6 +13,7 @@ import { LabelStore } from '../../stores/label/label-store.service';
 import { ChecklistStore } from '../../stores/checklist/checklist-store.service';
 import { ChecklistItemCreateFormComponent } from '../checklist-item-create-form/checklist-item-create-form.component';
 import { ChecklistComponent } from '../checklist/checklist.component'
+import { ListStore } from '../../stores/list/list-store.service';
 
 @Component({
   selector: 'app-card-modal',
@@ -30,6 +31,7 @@ import { ChecklistComponent } from '../checklist/checklist.component'
 })
 export class CardModalComponent {
   private cardStore = inject(CardStore)
+  private listStore = inject(ListStore)
   private commentStore = inject(CommentStore)
   private labelStore = inject(LabelStore)
   private checklistStore = inject(ChecklistStore)
@@ -47,6 +49,13 @@ export class CardModalComponent {
     return this.cardStore.cards()
     .filter(
       card => card.id === this.data.id
+    )[0]
+  })
+
+  list = computed<List | undefined>(()=>{
+    return this.listStore.lists()
+    .filter(
+      list => list.id === this.card()?.list_id
     )[0]
   })
 

@@ -7,6 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HeaderComponent } from './components/header/header.component';
 import { AuthService } from './services/auth/auth.service';
 import { JsonPipe } from '@angular/common';
+import { GoogleIcon } from './icons/google-icon/google-icon.component';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +20,9 @@ import { JsonPipe } from '@angular/common';
     MoreIcon,
     MatMenuModule,
     HeaderComponent,
-    JsonPipe
+    JsonPipe,
+    GoogleIcon,
+    MatIcon
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -26,6 +30,14 @@ import { JsonPipe } from '@angular/common';
 export class AppComponent {
   title = 'trello-angular-clone';
   authService = inject(AuthService);
+
+  login () {
+    this.authService.login();
+  }
+
+  logout () {
+    this.authService.logout();
+  }
   
   get userProfile() {
     return this.authService.getUserProfile;

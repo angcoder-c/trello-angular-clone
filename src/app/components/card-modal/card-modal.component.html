@@ -5,8 +5,9 @@ flex flex-col overflow-hidden text-white z-1">
     flex flex-row justify-between items-center
     border-b-2 border-[#E3E4F21F]">
         <span 
-        class="bg-[#4B4D51] px-3 py-1.5 font-medium rounded-md cursor-pointer hover:bg-[#63666B]">
-            List title
+        class="bg-[#4B4D51] px-3 py-1.5 font-medium rounded-md cursor-pointer 
+        hover:bg-[#63666B] max-w-[60%] overflow-hidden text-ellipsis whitespace-nowrap">
+            {{ list()?.name }}
         </span>
         <div class="flex flex-row gap-5">
             <button

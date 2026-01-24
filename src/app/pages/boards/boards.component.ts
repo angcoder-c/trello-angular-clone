@@ -7,6 +7,7 @@ import { RecentIcon } from '../../icons/recent-icon/recent-icon.component';
 import { BoardCreateFormComponent } from '../../components/board-create-form/board-create-form.component';
 import { backgroundColorToStyle } from '../../colors';
 import { Color } from '../../types';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-boards',
@@ -21,10 +22,21 @@ import { Color } from '../../types';
 })
 export class BoardsComponent {
   private boardStore = inject(BoardStore)
+  private authStore = inject(AuthService)
 
   boards = computed(() => {
-      const currentBoards = this.boardStore.boards()
-      return [...currentBoards]
+      const currentBoards = [...this.boardStore.boards()]
+      const user = this.authStore.user()
+      console.log('User in boards component:', user);
+      console.log('Current Boards:', currentBoards);
+      return user ? 
+      currentBoards
+      .filter(
+        board => board.user_email === user['email']
+      ) : 
+      currentBoards.filter(
+        board => board.user_email === null
+      ) 
       .sort((a, b) => 
         new Date(a.created_at).getTime() -
         new Date(b.created_at).getTime()
@@ -33,9 +45,16 @@ export class BoardsComponent {
   );
 
   recentBoards = computed(()=>{
-    const currentBoards = this.boardStore.boards()
-    console.log('Current Boards:', currentBoards); // Debug
-    return [...currentBoards]
+    const currentBoards = [...this.boardStore.boards()]
+    const user = this.authStore.user()
+    return user ? 
+      currentBoards
+      .filter(
+        board => board.user_email === user['email']
+      ) : 
+      currentBoards.filter(
+        board => board.user_email === null
+      ) 
     .filter(board => board.last_visit)
     .sort((a, b) => 
       new Date(b.last_visit).getTime() - 

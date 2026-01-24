@@ -25,12 +25,12 @@ export class BoardStore {
     description?: string | null,
     backgroundColor?: Color[],
     isPublic?: boolean,
-    user_id?: string | null
+    user_email?: string | null
   }) {
     if (!board.title.trim()) return undefined
     const boardId: string = await db.addBoard({ 
       title: board.title,
-      user_id: board.user_id ?? null,
+      user_email: board.user_email ?? null,
       description: board.description ?? null,
       backgroundColor: board.backgroundColor ?? [],
       isFavorite: false,
