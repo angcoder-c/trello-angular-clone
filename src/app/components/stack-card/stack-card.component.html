@@ -2,10 +2,10 @@
     border border-white/10 shadow-xl hover:bg-white/10 
     transition-all duration-300 max-w-60 w-auto h-full flex flex-col 
     items-center text-center">
-        <ng-content select="[icon]"></ng-content>
+        <ng-content select="[icon]" [routerLink]="cardUrl()"></ng-content>
         <a 
         class="text-lg font-medium text-white whitespace-nowrap"
-        [href]="cardUrl()"
+        [routerLink]="cardUrl()"
         target="_blank"
         rel="noopener noreferrer"
         >

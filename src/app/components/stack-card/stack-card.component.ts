@@ -1,8 +1,9 @@
 import { Component, input } from '@angular/core';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-stack-card',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './stack-card.component.html',
   styleUrl: './stack-card.component.css'
 })
