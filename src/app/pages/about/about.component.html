@@ -16,17 +16,17 @@ px-4 sm:px-8 lg:px-16 flex flex-col gap-6">
         </span>
     </h1>
     <p class="text-gray-300">
-        This project is a Trello clone built using Angular and 
-        Tailwind CSS. It aims to replicate the core functionalities 
-        of Trello, providing users with a seamless experience 
-        for managing tasks and projects.        
+        This project is a Trello clone developed with Angular, TailwindCSS, and Dexie. It is a web application designed to be 
+        <span class="font-bold text-white">
+            local-first
+        </span>
+        , with the option to sync your boards in future versions. Its goal is to replicate Trello’s core features while providing users with a smooth and efficient task and project management experience.      
     </p>
     <p class="text-gray-300">
-        Key features include creating boards, lists, and cards, 
-        drag-and-drop functionality, real-time updates, and user 
-        authentication. The application is designed to be responsive 
-        and user-friendly, making it easy for teams to collaborate 
-        and stay organized.
+        The purpose of building this clone is to understand and learn modern Angular, making use of Signals, standalone components, services, and related concepts.
+    </p>
+    <p class="text-gray-300">
+        The main features include creating boards, lists, and cards, drag-and-drop functionality, real-time updates, and user authentication. The application is designed to be responsive and intuitive.
     </p>
 
     <!-- Cards  -->
@@ -37,14 +37,15 @@ px-4 sm:px-8 lg:px-16 flex flex-col gap-6">
             <div class="w-12 h-12 rounded-xl bg-gradient-to-br 
             from-blue-600 to-cyan-800 
             flex items-center justify-center mb-4">
-                <mat-icon>group</mat-icon>
+                <mat-icon>
+                    tune
+                </mat-icon>
             </div>  
             <h3 class="text-lg font-medium text-white mb-2">
-                Collaborate
+                Customize
             </h3>  
             <p class="text-blue-200/60 text-sm">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Vel explicabo neque veniam aliquam!
+                Easily adapt boards and workflows to fit your personal or team needs.
             </p>
         </div>
         <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-md border 
@@ -59,8 +60,7 @@ px-4 sm:px-8 lg:px-16 flex flex-col gap-6">
                 Organize
             </h3>
             <p class="text-blue-200/60 text-sm">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Vel explicabo neque veniam aliquam!
+                Designed to manage tasks in a friendly, responsive Kanban-style view.
             </p>
         </div>
         <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-md border 
@@ -69,16 +69,102 @@ px-4 sm:px-8 lg:px-16 flex flex-col gap-6">
             <div class="w-12 h-12 rounded-xl bg-gradient-to-br 
             from-green-600 to-green-800 
             flex items-center justify-center mb-4">
-                <mat-icon>timeline</mat-icon>
+                <mat-icon>
+                    school
+                </mat-icon>
             </div>
             <h3 class="text-lg font-medium text-white mb-2">
-                Track process
+                Learn
             </h3>
             <p class="text-blue-200/60 text-sm">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Vel explicabo neque veniam aliquam!
+                Built to explore and understand modern Angular concepts such as Signals, standalone components, services, and best practices through a real-world project.
             </p>
         </div>
+    </div>
+    <!--Stack-->
+    <div class="flex flex-row items-center text-white text-2xl font-semibold gap-4">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br 
+            from-orange-600 to-orange-800 
+            flex items-center justify-center">
+            <mat-icon>
+                code
+            </mat-icon>
+        </div>
+        <h3>Tech Stack</h3>
+    </div>
+    <div class="flex flex-row gap-4 pb-3 overflow-x-scroll scroll-config max-w-full shadow-inner-[-10px_0_10px_-10px_rgba(0,0,0,0.1)] shadow-inner-[10px_0_10px_-10px_rgba(0,0,0,0.1)]">
+        <app-stack-card
+        cardUrl="https://angular.dev/"
+        cardName="Angular"
+        >
+            <div icon class="p-3.5">
+                <app-angular-icon/>
+            </div>
+        </app-stack-card>
+        <app-stack-card
+        cardUrl="https://angular.material.io/"
+        cardName="Angular Material"
+        >
+            <div icon class="p-3.5">
+                <app-angular-icon/>
+            </div>
+        </app-stack-card>
+        <app-stack-card
+        cardUrl="https://material.angular.io/cdk/categories"
+        cardName="Angular CDK"
+        >
+            <div icon class="p-3.5">
+                <app-angular-icon/>
+            </div>
+        </app-stack-card>
+        <app-stack-card
+        cardUrl="https://dexie.org/"
+        cardName="Dexie"
+        >
+            <div icon>
+                <app-dexie-icon/>
+            </div>
+        </app-stack-card>
+        <app-stack-card
+        cardUrl="https://tailwindcss.com/"
+        cardName="TailwindCSS"
+        >
+            <div icon>
+                <app-tailwind-icon class="h-20 w-20"/>
+            </div>
+        </app-stack-card>
+        <app-stack-card
+        cardUrl="https://www.typescriptlang.org/"
+        cardName="TypeScript"
+        >
+            <div icon>
+                <app-typescript-icon/>
+            </div>
+        </app-stack-card>
+        <app-stack-card
+        cardUrl="https://rxjs.dev/"
+        cardName="RxJS"
+        >
+            <div icon>
+                <app-rxjs-icon/>
+            </div>
+        </app-stack-card>
+        <app-stack-card
+        cardUrl="https://github.com/manfredsteyer/angular-oauth2-oidc"
+        cardName="OAuth2 OIDC"
+        >
+            <div icon>
+                <app-oauth-icon/>
+            </div>
+        </app-stack-card>
+        <app-stack-card
+        cardUrl="https://postcss.org/"
+        cardName="PostCSS"
+        >
+            <div icon>
+                <app-postcss-icon/>
+            </div>
+        </app-stack-card>
     </div>
 
     <div class="flex gap-4 mt-10 justify-center">
