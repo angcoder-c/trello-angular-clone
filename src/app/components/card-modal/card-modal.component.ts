@@ -14,6 +14,7 @@ import { ChecklistStore } from '../../stores/checklist/checklist-store.service';
 import { ChecklistItemCreateFormComponent } from '../checklist-item-create-form/checklist-item-create-form.component';
 import { ChecklistComponent } from '../checklist/checklist.component'
 import { ListStore } from '../../stores/list/list-store.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-card-modal',
@@ -34,6 +35,7 @@ export class CardModalComponent {
   private listStore = inject(ListStore)
   private commentStore = inject(CommentStore)
   private labelStore = inject(LabelStore)
+  private authStore = inject(AuthService)
   private checklistStore = inject(ChecklistStore)
   readonly data = inject(DIALOG_DATA)
   private dialogRef = inject(DialogRef)
@@ -117,7 +119,7 @@ export class CardModalComponent {
     await this.commentStore.createComment({
       card_id: this.card()?.id as string,
       content: content,
-      user: null
+      user: this.authStore.getUserProfile['email'] || null
     })
   }
 
