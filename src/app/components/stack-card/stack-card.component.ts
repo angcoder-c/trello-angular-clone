@@ -3,7 +3,7 @@ import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-stack-card',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './stack-card.component.html',
   styleUrl: './stack-card.component.css'
 })
