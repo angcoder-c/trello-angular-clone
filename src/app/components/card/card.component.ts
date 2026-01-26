@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { CardStore } from '../../stores/card/card-store.service';
-import { FormsModule } from '@angular/forms'
-import { Card } from '../../types';
+import { Card, Label, Comment } from '../../types';
 import { Dialog, DialogModule } from '@angular/cdk/dialog'
 import { CardModalComponent } from '../card-modal/card-modal.component';
-import { Subject, takeUntil } from 'rxjs';
-import { ListStore } from '../../stores/list/list-store.service';
-import { Title } from '@angular/platform-browser';
+import { LabelStore } from '../../stores/label/label-store.service';
+import { CommentStore } from '../../stores/comment/comment-store.service';
 
 
 @Component({
@@ -20,13 +18,32 @@ import { Title } from '@angular/platform-browser';
 })
 export class CardComponent {
   dialog = inject(Dialog)
+
   cardStore = inject(CardStore)
+  labelStore = inject(LabelStore)
+  commentStore = inject(CommentStore)
+
   readonly cardId = input<string>()
+
   cardData = computed<Card | undefined>(()=>{
     return this.cardStore.cards()
     .filter(
       card => card.id === this.cardId()
     )[0]
+  })
+
+  labels = computed<Label[]>(()=>{
+      return this.labelStore.labels()
+      .filter(
+        label => label.card_id === this.cardData()?.id
+      )
+    })
+
+  comments = computed<Comment[]>(()=>{
+    return this.commentStore.comments()
+    .filter(
+      comment => comment.card_id === this.cardData()?.id
+    )
   })
 
   openDialog () {

@@ -10,6 +10,8 @@ import { Card } from '../../types';
 import { ListStore } from '../../stores/list/list-store.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { CommentStore } from '../../stores/comment/comment-store.service';
+import { LabelStore } from '../../stores/label/label-store.service';
 
 @Component({
   selector: 'app-list',
@@ -34,6 +36,8 @@ export class ListComponent {
   
   listStore = inject(ListStore)
   cardStore = inject(CardStore)
+  labelStore = inject(LabelStore)
+  commentStore = inject(CommentStore)
 
   listsId = computed(()=>{
     return this.listStore.lists()
@@ -56,6 +60,8 @@ export class ListComponent {
 
   async ngOnInit() {
     await this.cardStore.loadCardsByList(this.listId() || '')
+    await this.labelStore.loadLabelsForBoard(this.listData()?.board_id || '')
+    await this.commentStore.loadCommentsByBoard(this.listData()?.board_id || '')
   }
 
   async addCard(title: string) {

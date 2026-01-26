@@ -282,6 +282,14 @@ export class AppDB extends Dexie {
         return label.id;
     }
 
+    async getLabelsByBoard(board_id: string): Promise<Label[]> {
+        const lists = await this.list.where('board_id').equals(board_id).toArray();
+        const listIds = lists.map(list => list.id);
+        return await this.label.where('card_id').anyOf(
+            await this.card.where('list_id').anyOf(listIds).primaryKeys()
+        ).toArray();
+    }
+
     async getLabelOption(id: string): Promise<LabelOption | undefined> {
         return await this.labelOption.get(id);
     }
@@ -449,6 +457,14 @@ export class AppDB extends Dexie {
 
     async getCommentsByCard(card_id: string): Promise<Comment[]> {
         return await this.comment.where('card_id').equals(card_id).sortBy('created_at');
+    }
+
+    async getCommentsByBoard(board_id: string): Promise<Comment[]> {
+        const lists = await this.list.where('board_id').equals(board_id).toArray();
+        const listIds = lists.map(list => list.id);
+        return await this.comment.where('card_id').anyOf(
+            await this.card.where('list_id').anyOf(listIds).primaryKeys()
+        ).toArray();
     }
 
     async updateCommentContent(id: string, content: string): Promise<number> {
