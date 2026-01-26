@@ -2,6 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { Board } from '../../types';
 import { BoardComponent } from '../../components/board/board.component';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-board-view',
@@ -14,10 +15,13 @@ import { Router } from '@angular/router';
 export class BoardViewComponent {
   board = input.required<Board | null>();
   router = inject(Router);
+  titleService = inject(Title);
 
   ngOnInit() {
     if (!this.board()) {
       this.router.navigate(['/not-found']);
+    } else {
+      this.titleService.setTitle(`${this.board()?.title} | Trello Angular Clone`);
     }
   }
 }

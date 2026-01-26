@@ -20,14 +20,17 @@ export const routes: Routes = [
         children: [
             { 
                 path: '', 
+                title: 'Boards | Trello Angular Clone',
                 redirectTo: 'boards', 
                 pathMatch: 'full' 
             },
             { 
+                title: 'Boards | Trello Angular Clone',
                 path: 'boards', 
                 component: BoardsComponent 
             },
             { 
+                title: 'About | Trello Angular Clone',
                 path: 'about', 
                 component: AboutComponent 
             }
@@ -35,11 +38,11 @@ export const routes: Routes = [
     },
     {
         path: 'board/:boardId',
-        title: 'Board | Trello Angular Clone',
         component: BoardViewComponent,
         resolve: {
             board: boardResolver
-        }
+        },
+        title: 'Board | Trello Angular Clone'
     },
     {
         path: '**',

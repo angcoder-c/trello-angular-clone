@@ -27,8 +27,7 @@ export class BoardsComponent {
   boards = computed(() => {
       const currentBoards = [...this.boardStore.boards()]
       const user = this.authStore.user()
-      console.log('User in boards component:', user);
-      console.log('Current Boards:', currentBoards);
+      
       return user ? 
       currentBoards
       .filter(
