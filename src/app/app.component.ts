@@ -20,7 +20,6 @@ import { MatIcon } from '@angular/material/icon';
     MoreIcon,
     MatMenuModule,
     HeaderComponent,
-    JsonPipe,
     GoogleIcon,
     MatIcon
   ],
