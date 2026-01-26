@@ -7,7 +7,6 @@ import { CleanTextValidator } from '../../validators/clean-text.validator';
 @Component({
   selector: 'app-description-form',
   imports: [
-    MatIcon,
     ReactiveFormsModule
   ],
   templateUrl: './description-form.component.html',

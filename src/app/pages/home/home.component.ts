@@ -19,13 +19,8 @@ import { GoogleIcon } from '../../icons/google-icon/google-icon.component';
 @Component({
   selector: 'app-home-view',
   imports: [
-    RouterLink,
-    RouterLinkActive,
     RouterOutlet,
-    BoardsComponent,
-    AboutComponent,
     MatIcon,
-    BoardIcon,
     HeaderComponent,
     GoogleIcon
 ],
