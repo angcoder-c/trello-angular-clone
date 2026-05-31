@@ -15,8 +15,18 @@ export class CommentStore {
   constructor() { }
 
   async loadCommentsByCard (card_id: string) {
-    const commentsByCard = await db.getCommentsByCard(card_id)
-    this.comments.set(commentsByCard)
+    const newCommentsByCard = await db.getCommentsByCard(card_id)
+
+    this.comments.update(comments => {
+      const existingIds = new Set(comments.map(l => l.id));
+      const uniqueNewComments = newCommentsByCard.filter(comment => !existingIds.has(comment.id));
+      return [...comments, ...uniqueNewComments]
+    })
+  }
+
+  async loadCommentsByBoard (board_id: string) {
+    const commentsByBoard = await db.getCommentsByBoard(board_id)
+    this.comments.set(commentsByBoard)
   }
 
   async createComment(comment: {

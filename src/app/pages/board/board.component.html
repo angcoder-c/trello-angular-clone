@@ -1,12 +1,5 @@
-@if (board()) {
-    <app-board 
-    [boardId]="board()?.id"
-    [boardInput]="board()"
-    />
-} @else {
-    <div class="text-white p-5">
-        Board not found or you don't have access to it.
-        {{ board() |json}}
-    </div>
-}
+<app-board 
+[boardId]="board()?.id"
+[boardInput]="board()"
+/>
 

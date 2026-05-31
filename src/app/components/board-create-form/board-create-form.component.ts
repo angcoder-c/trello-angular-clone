@@ -5,6 +5,7 @@ import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { MatIconModule } from '@angular/material/icon';
 import { BoardColorPickerComponent } from '../board-color-picker/board-color-picker.component';
 import { Color } from '../../types';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-board-create-form',
@@ -19,6 +20,7 @@ import { Color } from '../../types';
 })
 export class BoardCreateFormComponent {
   private boardStore = inject(BoardStore);
+  private authStore = inject(AuthService);
   typeButton = input.required<'board' | 'nav'>();
   color = signal<Color[] | null>(null);
   isPublic = signal<boolean>(true);
@@ -43,7 +45,9 @@ export class BoardCreateFormComponent {
         description: this.boardForm.value.description,
         backgroundColor: this.color() as Color[],
         isPublic: this.isPublic(),
-        user_id: null
+        user_email: this.authStore.getUserProfile ? 
+          this.authStore.getUserProfile['email'] : 
+          null
       });
       this.close()
     } else {

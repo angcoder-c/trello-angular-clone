@@ -42,8 +42,7 @@ import { Router } from '@angular/router';
     TitleEditableComponent,
     BoardMenuComponent,
     StarIcon,
-    StarBorderIcon,
-    JsonPipe
+    StarBorderIcon
 ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css'

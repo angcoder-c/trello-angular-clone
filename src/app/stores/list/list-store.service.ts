@@ -70,6 +70,12 @@ export class ListStore {
       ...list,
       name    
     });
+
+    this.lists.update(value => 
+      value.map(list => 
+        list.id === id ? { ...list, name } : list
+      )
+    );
   }
 
   async updateListPosition(board_id: string, currentPosition: number, previousPosition: number) {

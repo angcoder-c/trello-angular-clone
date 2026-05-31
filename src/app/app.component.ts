@@ -7,6 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HeaderComponent } from './components/header/header.component';
 import { AuthService } from './services/auth/auth.service';
 import { JsonPipe } from '@angular/common';
+import { GoogleIcon } from './icons/google-icon/google-icon.component';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +20,8 @@ import { JsonPipe } from '@angular/common';
     MoreIcon,
     MatMenuModule,
     HeaderComponent,
-    JsonPipe
+    GoogleIcon,
+    MatIcon
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -34,7 +37,7 @@ export class AppComponent {
   logout () {
     this.authService.logout();
   }
-
+  
   get userProfile() {
     return this.authService.getUserProfile;
   }

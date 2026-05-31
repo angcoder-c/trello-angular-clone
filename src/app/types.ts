@@ -1,7 +1,7 @@
 // ============== BOARD =============
 export interface Board {
     id: string  // UUID 
-    user_id: string | null
+    user_email: string | null
     title: string
     description: string | null
     backgroundColor: Color[]
